@@ -1,0 +1,17 @@
+.dropdown-menu {
+    background-color: #1D1F24;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    /* position: fixed; */
+    /* Sayfa üzerinde sabitlenmiş */
+    /* top: 50%; */
+    /* Yükseklik olarak sayfanın tam ortasına yerleştirir */
+    /* transform: translate(-50%, -50%); */
+    /* Menüyü tam olarak ortalar */
+    width: 200px;
+    /* Genişlik */
+    /* padding: 10px 0; */
+    z-index: 9999;
+    /* Diğer öğelerin üstünde görünmesi için */
+}

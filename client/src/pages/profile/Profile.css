@@ -1,0 +1,75 @@
+.profile-and-posts-container {
+  margin-top: 44px;
+  margin-bottom: 44px;
+}
+
+.profile-container {
+  display: flex;
+  border-bottom: 1px solid rgb(50, 50, 50);
+  padding: 1rem;
+}
+
+.profile-left {
+  display: flex;
+  flex-direction: column;
+  margin-right: 1rem;
+  row-gap: 10px;
+}
+
+.profile-left-top{
+position: relative;
+}
+
+.profile-left-top .profile-left-top-icon {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.profile-left-top .profile-photo {
+  height: 9rem;
+  width: 9rem;
+}
+
+.profile-left-mid {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-left-bottom {
+  display: flex;
+  justify-content: center;
+}
+
+.profile-left-bottom button {
+  width: 9rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 0;
+  border-color: rgb(50, 50, 50);
+}
+
+.profile-right {
+  padding-left: 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 1px solid rgb(50, 50, 50);
+  row-gap: 10px;
+}
+
+/* .profile-right-top {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+} */
+
+.profile-right .bio-div {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgb(50, 50, 50);
+}

@@ -1,0 +1,81 @@
+.update-profile-container{
+  margin-top: 44px;
+  padding-top: 1rem;
+}
+.update-profile-container .close-back-icon {
+  display: flex;
+  justify-content: space-between;
+}
+.update-profile-container .close-back-icon span {
+  margin-right: 2rem;
+}
+
+
+.update-profile-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1rem;
+}
+
+/* Select */
+.select-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.select-label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: block;
+  color: gray;
+}
+
+.select-box {
+  width: 50%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #1D1F24;
+
+  border-radius: 5px;
+  background-color: #1D1F24;
+
+  color: gray;
+  cursor: pointer;
+}
+
+.select-options {
+  position: absolute;
+  width: 100%;
+  top: 100%;
+  left: 0;
+  background-color: #1D1F24;
+  
+
+
+
+
+
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 100;
+  display: none;
+}
+
+.select-box.open+.select-options {
+  display: block;
+  
+}
+
+.select-item {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: gray;
+}

@@ -1,0 +1,17 @@
+.notifications-container {
+  margin-top: 44px;
+  margin-bottom: 44px;
+}
+
+.notification {
+  color: gray;
+  display: flex;
+  padding: 1rem;
+  border-bottom: 1px solid rgb(50, 50, 50);
+  align-items: center;
+  gap: 1rem;
+}
+
+.notification.unread {
+  color: white;
+}

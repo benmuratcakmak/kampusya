@@ -1,0 +1,57 @@
+.quote-container {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+}
+
+.quote-top {
+    display: flex;
+    margin: 5px 0 5px 5px;
+}
+.quote-top-right{
+    
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box; /* İçerik taşmasını engeller */
+  overflow: hidden; /* Taşan içerik görünmez olur */
+}
+
+.quote-right-top-text {
+    width: 100%;
+    word-wrap: break-word;
+}
+
+.quote-top-left {
+    margin-right: 10px;
+    width: 32px;
+}
+
+.quote-top-left .avatar {
+    width: 2rem;
+    height: 2rem;
+}
+
+.quote-top-right-info{
+    display: flex;
+    gap: 7px;
+}
+
+.quote-top-right-info small:nth-child(2) {
+    color: grey; /* İkinci elemanı gri yapar */
+  }
+
+.quote-container img {
+    width: 230px;
+}
+
+.quote-container .quote-top .quote-top-right p {
+    margin: 0;
+}
+
+.quote-container .quote-bottom img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+}

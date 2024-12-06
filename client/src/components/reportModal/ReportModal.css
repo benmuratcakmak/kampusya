@@ -1,0 +1,131 @@
+body.no-scroll {
+  overflow: hidden;
+}
+
+.report-modal-container {
+  margin-top: 44px;
+  padding-top: 1rem;
+  background-color: #141416;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  color: #f1f1f1; /* Metin rengini daha okunur yapmak için */
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+  display: flex;
+}
+.report-modal-container h2{
+  text-align: start;
+  padding: 0rem 1rem;
+  margin: 0;
+}
+.report-modal-container h3{
+  color: orangered;
+  text-align: start;
+  padding: 0rem 1rem;
+  margin: 0;
+}
+.report-modal-container textarea{
+  margin: 1rem;
+}
+
+/* İkon alanı */
+.modal-icons {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+
+/* .other-contacts{
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  border-top: 1px solid gray;
+  margin: 0 1rem;
+  padding: 1rem 0;
+} */
+
+/* ///// */
+
+.media-preview-container {
+  position: relative;
+  margin-top: 20px;
+  text-align: center;
+  max-width: 100%;
+  max-height: 80vh; /* Ensures it fits within the viewport */
+}
+
+.preview-image,
+.preview-video {
+  max-width: 100%;
+  max-height: 70vh; /* Ensures the preview fits within the screen */
+  object-fit: contain; /* Maintains the aspect ratio of the media */
+}
+
+.close-media-preview {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 24px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.loading-indicator {
+  text-align: center;
+  font-size: 16px;
+  color: #333;
+  margin-top: 20px;
+}
+
+/* //////// */
+
+.submitted-message {
+  margin-top: 20px;
+  font-size: 18px;
+  color: green;
+  text-align: center;
+  font-weight: bold;
+}
+
+.loading-indicator {
+  text-align: center;
+  font-size: 16px;
+  color: #333;
+  margin-top: 20px;
+}
+
+.media-preview-container {
+  position: relative;
+  margin-top: 20px;
+  text-align: center;
+  max-width: 100%;
+  max-height: 80vh; /* Ensures it fits within the viewport */
+}
+
+.preview-image,
+.preview-video {
+  max-width: 100%;
+  max-height: 70vh; /* Ensures the preview fits within the screen */
+  object-fit: contain; /* Maintains the aspect ratio of the media */
+}
+
+.close-media-preview {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 24px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  padding: 5px;
+}

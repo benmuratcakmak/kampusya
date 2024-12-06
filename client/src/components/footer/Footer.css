@@ -1,0 +1,88 @@
+.footer-wrapper {
+  background-color: #1D1F24;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 10;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  opacity: 1;
+  max-width: 768px;
+
+}
+
+.footer {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+  justify-content: space-between;
+  height: 44px;
+}
+
+.footer-links {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-links .icon {
+  display: flex;
+  font-size: 30px;
+}
+
+.link {
+  color: gray;
+}
+
+.active-link {
+  color: white;
+}
+
+.add-icon {
+  background-color: #5c9dff;
+  color: white;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 5px;
+  right: 25%;
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  text-align: center; 
+  line-height: 15px;
+}
+
+.message-notification-badge {
+  position: absolute;
+  top: 5px;
+  right: 2%;
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+/* Style for active link */
+.footer .active-link .icon {
+  color: white !important;
+}
+
+/* Style for the default link */
+.footer .link .icon {
+  color: inherit;
+}
+
+/* Optional: Styling for icons */
+.icon {
+  font-size: 24px;
+  transition: color 0.3s;
+}
+

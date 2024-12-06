@@ -1,0 +1,174 @@
+[
+    {
+      "id": 1,
+      "type": "Fakülte",
+      "name": "Mühendislik Fakültesi",
+      "departments": [
+        "Bilgisayar Mühendisliği",
+        "Elektrik-Elektronik Mühendisliği",
+        "Makine Mühendisliği",
+        "Gıda Mühendisliği",
+        "Kimya Mühendisliği",
+        "İnşaat Mühendisliği",
+        "Tekstil Mühendisliği",
+        "Jeoloji Mühendisliği",
+        "Biyomühendislik"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "Fakülte",
+      "name": "Fen Fakültesi",
+      "departments": [
+        "Matematik",
+        "Fizik",
+        "Kimya",
+        "Biyoloji",
+        "Astronomi ve Uzay Bilimleri",
+        "İstatistik"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "Fakülte",
+      "name": "Tıp Fakültesi",
+      "departments": ["Temel Tıp Bilimleri", "Dahili Tıp Bilimleri", "Cerrahi Tıp Bilimleri"]
+    },
+    {
+      "id": 4,
+      "type": "Fakülte",
+      "name": "İktisadi ve İdari Bilimler Fakültesi",
+      "departments": [
+        "İşletme",
+        "Ekonomi",
+        "Uluslararası İlişkiler",
+        "Kamu Yönetimi",
+        "Ekonometri",
+        "Çalışma Ekonomisi ve Endüstri İlişkileri"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "Fakülte",
+      "name": "Edebiyat Fakültesi",
+      "departments": [
+        "Türk Dili ve Edebiyatı",
+        "Tarih",
+        "Felsefe",
+        "Psikoloji",
+        "Sanat Tarihi",
+        "Arkeoloji",
+        "Batı Dilleri ve Edebiyatları",
+        "Sosyoloji"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "Fakülte",
+      "name": "Eczacılık Fakültesi",
+      "departments": ["Farmasötik Kimya", "Farmakognozi", "Farmakoloji", "Klinik Eczacılık"]
+    },
+    {
+      "id": 7,
+      "type": "Fakülte",
+      "name": "Diş Hekimliği Fakültesi",
+      "departments": [
+        "Ağız, Diş ve Çene Cerrahisi",
+        "Restoratif Diş Tedavisi",
+        "Ortodonti",
+        "Pedodonti",
+        "Periodontoloji"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "Fakülte",
+      "name": "Ziraat Fakültesi",
+      "departments": [
+        "Tarım Ekonomisi",
+        "Bahçe Bitkileri",
+        "Bitki Koruma",
+        "Tarla Bitkileri",
+        "Toprak Bilimi ve Bitki Besleme",
+        "Zootekni"
+      ]
+    },
+    {
+      "id": 9,
+      "type": "Fakülte",
+      "name": "Sağlık Bilimleri Fakültesi",
+      "departments": ["Hemşirelik", "Beslenme ve Diyetetik", "Fizyoterapi ve Rehabilitasyon", "Ebelik"]
+    },
+    {
+      "id": 10,
+      "type": "Fakülte",
+      "name": "İletişim Fakültesi",
+      "departments": ["Halkla İlişkiler ve Tanıtım", "Gazetecilik", "Radyo, Televizyon ve Sinema"]
+    },
+    {
+      "id": 11,
+      "type": "Enstitü",
+      "name": "Fen Bilimleri Enstitüsü",
+      "departments": ["Yüksek Lisans", "Doktora Programları"]
+    },
+    {
+      "id": 12,
+      "type": "Enstitü",
+      "name": "Sosyal Bilimler Enstitüsü",
+      "departments": ["Yüksek Lisans", "Doktora Programları"]
+    },
+    {
+      "id": 13,
+      "type": "Enstitü",
+      "name": "Sağlık Bilimleri Enstitüsü",
+      "departments": ["Yüksek Lisans", "Doktora Programları"]
+    },
+    {
+      "id": 14,
+      "type": "Yüksekokul",
+      "name": "Devlet Türk Musikisi Konservatuvarı",
+      "departments": ["Türk Halk Müziği", "Türk Sanat Müziği", "Çalgı Yapımı"]
+    },
+    {
+      "id": 15,
+      "type": "Yüksekokul",
+      "name": "Beden Eğitimi ve Spor Yüksekokulu",
+      "departments": ["Antrenörlük Eğitimi", "Spor Yöneticiliği", "Rekreasyon"]
+    },
+    {
+      "id": 16,
+      "type": "Meslek Yüksekokulu",
+      "name": "Ege Meslek Yüksekokulu",
+      "departments": [
+        "Bilgisayar Programcılığı",
+        "Elektrik",
+        "Makine",
+        "Mobilya ve Dekorasyon",
+        "Moda Tasarımı"
+      ]
+    },
+    {
+      "id": 17,
+      "type": "Meslek Yüksekokulu",
+      "name": "Ödemiş Meslek Yüksekokulu",
+      "departments": [
+        "Hayvan Yetiştiriciliği ve Sağlığı",
+        "Tarım Teknolojisi",
+        "Tıbbi Laboratuvar Teknikleri",
+        "İş Sağlığı ve Güvenliği"
+      ]
+    },
+    {
+      "id": 18,
+      "type": "Araştırma Merkezi",
+      "name": "Ege Üniversitesi Gözlemevi",
+      "departments": ["Astrofizik", "Uzay Bilimleri"]
+    },
+    {
+      "id": 19,
+      "type": "Araştırma Merkezi",
+      "name": "Tarımsal Araştırma ve Uygulama Merkezi",
+      "departments": ["Sürdürülebilir Tarım", "İklim Değişikliği Çalışmaları"]
+    }
+  ]
+  

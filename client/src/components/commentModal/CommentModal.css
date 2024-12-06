@@ -1,0 +1,149 @@
+.comment-modal-container {
+  margin-top: 44px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #141416;
+  color: #f1f1f1;
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+}
+.comment-modal-container span{
+  color: gray;
+}
+
+.comment-list {
+  overflow-y: auto;
+}
+
+.comment-item {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem
+}
+
+.comment-item-top {
+  display: flex;
+  gap: 10px;
+}
+
+.comment-item-top .item-left {
+  display: flex;
+  align-items: start;
+}
+
+.comment-item-top .item-mid {
+  margin: 0;
+}
+
+.comment-item-top .item-right {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.comment-item .item-mid {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+
+.comment-item .item-mid p {
+  margin: 0;
+}
+.comment-item .item-mid .show-reply-input {
+  color: gray;
+}
+
+.comment-item .item-mid .user-and-time {
+  display: flex;
+  gap: 1rem;
+}
+
+.user-and-time p:nth-of-type(2) {
+  color: gray;
+}
+
+.comment-item .item-mid p:nth-of-type(3) {
+  color: grey;
+}
+
+.comment-item .item-mid .content {
+  word-break: break-all;
+  padding-right: 1rem;
+}
+
+.comment-item-bottom {
+  margin-left: 3rem;
+  display: flex;
+  flex-direction: column;
+}
+.comment-item-bottom .show-comment{
+  color: gray;
+}
+
+/* Reply */
+
+.reply-item {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.reply-item-left {
+  display: flex;
+  justify-content: start;
+  margin-right: 1rem;
+}
+
+.reply-item-left .reply-avatar{
+  height: 2rem;
+  width: 2rem;
+}
+
+.reply-item-mid p {
+  margin: 0px;
+}
+
+.reply-item-mid .user-and-time {
+  display: flex;
+  gap: 1rem;
+}
+
+.reply-item-mid .content {
+  word-break: break-all;
+  padding-right: 1rem;
+}
+
+.reply-item-right {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.comment-input {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1D1F24;
+  border-radius: 50px;
+}
+
+.reply-send{
+  column-gap: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.reply-send input{
+  width: 100%;
+}

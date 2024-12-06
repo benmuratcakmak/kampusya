@@ -1,0 +1,14 @@
+.message-input {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1D1F24;
+    border-radius: 50px;
+  }
+  
+  .message-input input {
+    width: 80%;
+  }
