@@ -21,7 +21,12 @@ import messageRoutes from "./routes/messages.js";
 import reportRoutes from "./routes/report.js";
 
 // Middlewares
-app.use(cors({ origin: "https://kampusya.com", credentials: true }));
+app.use(cors({
+  origin: ["https://kampusya.com", "http://localhost:3000"],
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
 // app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 app.use(express.json()); // JSON veri gönderebilmek için

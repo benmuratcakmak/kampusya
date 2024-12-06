@@ -9,7 +9,7 @@ const server = http.createServer(app);
 // Socket.IO için CORS ayarlarını yapıyoruz
 const io = new Server(server, {
   cors: {
-    origin: "https://kampusya.com",
+    origin: ["https://kampusya.com", "http://localhost:3000"],
     // origin: "http://localhost:3000",
   },
 });

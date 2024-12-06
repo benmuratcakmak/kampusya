@@ -29,8 +29,5 @@
     "nodemailer": "^6.9.16",
     "nodemon": "^3.1.7",
     "socket.io": "^4.8.1"
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
