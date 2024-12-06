@@ -11,7 +11,14 @@ router.get("/:conversationId", async (req, res) => {
   try {
     const messages = await Message.find({
       conversationId: req.params.conversationId,
-    }).populate('sender', 'username photo');
+    }).populate('sender', 'username photo').populate({
+      path: "sharePostId", // Paylaşılan postu populate et
+      select: "content mediaUrl createdAt",
+      populate: {
+        path: "userId", // Paylaşılan postun kullanıcısını da populate et
+        select: "username firstName lastName photo", // Hangi alanları alacağını belirt
+      },
+    })
 
     res.status(200).json(messages);
   } catch (err) {

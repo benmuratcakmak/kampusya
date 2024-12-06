@@ -172,68 +172,70 @@ export const ProfilePost = ({ posts }) => {
                 />
               )}
 
-              {/* Quote Section */}
-              {post.sharePostProfilePhoto && (
-                <div
-                  className="quote-container"
-                  style={{
-                    display:
-                      post.sharePostProfilePhoto &&
-                      post.sharePostFirstName &&
-                      post.sharePostLastName &&
-                      post.sharePostUsername &&
-                      post.sharePostContent
-                        ? "block"
-                        : "none",
-                    border:
-                      post.sharePostProfilePhoto ||
-                      post.sharePostFirstName ||
-                      post.sharePostLastName ||
-                      post.sharePostUsername ||
-                      post.sharePostContent ||
-                      post.sharePostMedia
-                        ? "#333 1px solid"
-                        : "none",
-                  }}
-                  onClick={() => handleQuoteClick(post.sharePostId)}
-                >
-                  <div className="quote-top">
-                    <div className="quote-top-left">
-                    {post.sharePostProfilePhoto && (
-                        <Avatar
-                          src={
-                            post.sharePostProfilePhoto ||
-                            "/path/to/default-avatar.png"
-                          }
-                          alt="Profile"
-                          className="avatar"
-                          onClick={() =>
-                            handleProfileClick(post.userId.username)
-                          }
-                        />
-                      )}
+              {/* Gönderi Alıntısı */}
+              <div
+                className="quote-container"
+                style={{
+                  display:
+                    post.sharePostId?.userId?.photo &&
+                    post.sharePostId?.userId?.firstName &&
+                    post.sharePostId?.userId?.lastName &&
+                    post.sharePostId?.userId?.username &&
+                    post.sharePostId?.content &&
+                    post.sharePostId?.mediaUrl
+                      ? "block"
+                      : "none",
+                  border:
+                    post.sharePostId?.userId?.photo ||
+                    post.sharePostId?.userId?.firstName ||
+                    post.sharePostId?.userId?.lastName ||
+                    post.sharePostId?.userId?.username ||
+                    post.sharePostId?.content ||
+                    post.sharePostId?.mediaUrl
+                      ? "#333 1px solid"
+                      : "none",
+                }}
+                onClick={() => handleQuoteClick(post.sharePostId._id)}
+              >
+                <div className="quote-top">
+                  <div className="quote-top-left">
+                    {post.sharePostId && (
+                      <Avatar
+                        src={
+                          post.sharePostId?.userId?.photo ||
+                          "/path/to/default-avatar.png"
+                        }
+                        alt="Profile"
+                        className="avatar"
+                      />
+                    )}
+                  </div>
+                  <div className="quote-top-right">
+                    <div className="quote-top-right-info">
+                      <small>
+                        {post.sharePostId?.userId?.firstName}{" "}
+                        {post.sharePostId?.userId?.lastName}
+                      </small>
+
+                      <small>@{post.sharePostId?.userId?.username}</small>
+                      <FormatTime timestamp={post.sharePostId?.createdAt} />
                     </div>
-                    <div className="quote-top-right">
-                      <div className="quote-top-right-info">
-                        <small>
-                          {post.sharePostFirstName} {post.sharePostLastName}
-                        </small>
-                        <small>{post.sharePostUsername}</small>
-                      </div>
-                      <div className="quote-right-top-text">
-                        <p>{post.sharePostContent}</p>
-                      </div>
+                    <div className="quote-right-top-text">
+                      <p>{post.sharePostId?.content}</p>
                     </div>
                   </div>
-                  {post.sharePostMedia && (
-                    <div className="quote-bottom">
-                      <div className="quote-bottom-media">
-                        <img src={post.sharePostMedia} alt="Shared Media" />
-                      </div>
-                    </div>
-                  )}
                 </div>
-              )}
+                {post.sharePostId?.mediaUrl && (
+                  <div className="quote-bottom">
+                    <div className="quote-bottom-media">
+                      <img
+                        src={post.sharePostId?.mediaUrl}
+                        alt="Shared Media"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
 
               {post.eventTitle && (
                 <div className="event-details">

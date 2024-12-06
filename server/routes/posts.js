@@ -89,12 +89,12 @@ router.post("/", upload.single("media"), async (req, res) => {
   const {
     content,
     sharePostId,
-    sharePostContent,
-    sharePostMedia,
-    sharePostProfilePhoto,
-    sharePostFirstName,
-    sharePostLastName,
-    sharePostUsername,
+    // sharePostContent,
+    // sharePostMedia,
+    // sharePostProfilePhoto,
+    // sharePostFirstName,
+    // sharePostLastName,
+    // sharePostUsername,
     userId,
     isSharedFromHome,
     originalPostId,
@@ -122,12 +122,12 @@ router.post("/", upload.single("media"), async (req, res) => {
     const newPostData = {
       content,
       sharePostId,
-      sharePostContent,
-      sharePostMedia,
-      sharePostProfilePhoto,
-      sharePostFirstName,
-      sharePostLastName,
-      sharePostUsername,
+      // sharePostContent,
+      // sharePostMedia,
+      // sharePostProfilePhoto,
+      // sharePostFirstName,
+      // sharePostLastName,
+      // sharePostUsername,
       userId,
       mediaUrl,
       eventTitle,
@@ -189,7 +189,15 @@ router.delete("/:postId", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const posts = await Post.find()
-      .populate("userId", "username firstName lastName photo")
+      .populate("userId", "username firstName lastName photo") // Ana postun kullanıcısını populate et
+      .populate({
+        path: "sharePostId", // Paylaşılan postu populate et
+        select: "content mediaUrl createdAt",
+        populate: {
+          path: "userId", // Paylaşılan postun kullanıcısını da populate et
+          select: "username firstName lastName photo", // Hangi alanları alacağını belirt
+        },
+      })
       .sort({ createdAt: -1 });
     res.json(posts);
   } catch (error) {
@@ -197,6 +205,7 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: "Postlar getirilemedi", error });
   }
 });
+
 
 // Kullanıcı profilindeki postları listeleme
 router.get("/profile/:username", async (req, res) => {
@@ -206,6 +215,14 @@ router.get("/profile/:username", async (req, res) => {
 
     const posts = await Post.find({ userId: user._id })
       .populate("userId", "username firstName lastName photo")
+      .populate({
+        path: "sharePostId", // Paylaşılan postu populate et
+        select: "content mediaUrl createdAt",
+        populate: {
+          path: "userId", // Paylaşılan postun kullanıcısını da populate et
+          select: "username firstName lastName photo", // Hangi alanları alacağını belirt
+        },
+      })
       .sort({ createdAt: -1 });
 
     res.status(200).json(posts);

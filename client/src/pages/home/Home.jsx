@@ -14,8 +14,8 @@ export const Home = () => {
   const [error, setError] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
   const [showDropdown, setShowDropdown] = useState(null);
-  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const [selectedPostForShare, setSelectedPostForShare] = useState(null);
+  // const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  // const [selectedPostForShare, setSelectedPostForShare] = useState(null);
   const navigate = useNavigate();
 
   const fetchPosts = useCallback(async () => {
@@ -30,7 +30,7 @@ export const Home = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, [fetchPosts]);
+  }, []); // Sadece ilk renderda çalışacak
 
   const handleLike = useCallback(
     async (postId) => {
@@ -78,18 +78,36 @@ export const Home = () => {
     }
   };
 
+  const [modalState, setModalState] = useState({
+    isShareModalOpen: false,
+    selectedPostForShare: null,
+    selectedPostForComment: null,
+  });
+
   const handleShareClick = (post) => {
-    setSelectedPostForShare(post);
-    setIsShareModalOpen(true);
+    setModalState({
+      ...modalState,
+      isShareModalOpen: true,
+      selectedPostForShare: post,
+    });
   };
 
   const closeShareModal = () => {
-    setIsShareModalOpen(false);
+    setModalState({
+      ...modalState,
+      isShareModalOpen: false,
+      selectedPostForShare: null,
+    });
   };
 
-  const handleCommentSubmit = () => {
+  const handleCommentSubmit = (postId) => {
     setSelectedPost(null);
-    fetchPosts();
+    // Yalnızca yorum yapılan postu güncelleyin
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post._id === postId ? { ...post, comments: [...post.comments] } : post
+      )
+    );
   };
 
   return (
@@ -121,17 +139,10 @@ export const Home = () => {
       )}
 
       <ShareModal
-        isOpen={isShareModalOpen}
+        isOpen={modalState.isShareModalOpen}
         onClose={closeShareModal}
-        selectedPost={selectedPostForShare}
+        selectedPost={modalState.selectedPostForShare}
       />
-      {isShareModalOpen && (
-        <ShareModal
-          post={selectedPostForShare}
-          onClose={closeShareModal}
-          onPostShare={() => fetchPosts()}
-        />
-      )}
     </div>
   );
 };

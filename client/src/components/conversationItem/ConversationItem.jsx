@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
-import FormatTime from "../../components/FormatTime";
+// import FormatTime from "../../components/FormatTime";
 
 const ConversationItem = ({
   conversation,
@@ -13,11 +13,11 @@ const ConversationItem = ({
     onDeleteConversation(conversation.conversationId);
   };
 
+
+
   return (
     <div
-      className={`conversation-item ${
-        conversation.isRead ? "read" : "unread"
-      }`}
+      className={`conversation-item ${conversation.isRead ? "read" : "unread"}`}
       onClick={() => onMarkAsRead(conversation.conversationId)}
     >
       <Link
@@ -34,7 +34,9 @@ const ConversationItem = ({
           />
           <div className="conversation-fullname-and-lastMessage">
             <div className="full-name">
-              <strong>{conversation.otherUser?.firstName || "Kullanıcı"}</strong>
+              <strong>
+                {conversation.otherUser?.firstName || "Kullanıcı"}
+              </strong>
               <strong>{conversation.otherUser?.lastName || ""}</strong>
             </div>
             <p className="last-message">
@@ -44,7 +46,10 @@ const ConversationItem = ({
                   "Bu konuşmada henüz mesaj yok."}
             </p>
           </div>
-          <FormatTime timestamp={conversation.updatedAt} />
+          
+          {/* <FormatTime timestamp={new Date(conversation?.lastMessage?.createdAt)} /> */}
+
+
           <div className="options" onClick={handleDelete}>
             ...
           </div>

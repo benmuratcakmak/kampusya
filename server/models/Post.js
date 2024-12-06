@@ -9,34 +9,11 @@ const PostSchema = new mongoose.Schema({
   content: {
     type: String,
   },
-  sharePostFirstName: {
-    type: String,
-  },
-  sharePostLastName: {
-    type: String,
-  },
-  sharePostUsername: {
-    type: String,
-  },
-  sharePostContent: {
-    type: String,
-  },
   sharePostId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Post",
   },
   mediaUrl: {
-    type: String,
-    default: null,
-  },
-  sharePostMedia: {
-    type: String,
-    default: null,
-  },
-  sharePostProfilePhoto: {
-    type: String,
-    default: null,
-  },
-  shareCreatedAt:{
     type: String,
     default: null,
   },

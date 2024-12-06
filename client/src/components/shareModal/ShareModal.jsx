@@ -10,7 +10,6 @@ import { FaCheck } from "react-icons/fa";
 import { Avatar } from "@mui/material";
 import axios from "axios";
 import "./ShareModal.css";
-import { debounce } from "lodash"; // debounce import
 
 const ShareModal = ({ isOpen, onClose, selectedPost }) => {
   const { user } = useContext(AuthContext);
@@ -46,11 +45,10 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
     fetchFollowing();
   }, [user?.username]);
 
-  // Kullanıcı yazısı değişimini debounce ile kontrol etme
-  const handleContentChange = useCallback(
-    debounce((e) => setContent(e.target.value), 300),
-    [] // Bu şekilde her renderda yeni bir fonksiyon oluşturulmaz
-  );
+  const handleContentChange = (e) => {
+    setContent(e.target.value); // debounce kaldırıldı
+  };
+  
 
   // Kullanıcı seçimini toggle etme
   const toggleFollowerSelection = useCallback((followerId) => {
@@ -97,13 +95,13 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
           sharePostId: selectedPost._id,
           sender: userId,
           text: content,
-          sharePostText: selectedPost.content,
-          sharePostMedia: selectedPost.mediaUrl,
-          sharePostProfilePhoto: selectedPost.userId?.photo,
-          sharePostFirstName: selectedPost.userId?.firstName,
-          sharePostLastName: selectedPost.userId?.lastName,
-          sharePostUsername: selectedPost.userId?.username,
-          shareCreatedAt: selectedPost.userId?.createdAt,
+          // sharePostText: selectedPost.content,
+          // sharePostMedia: selectedPost.mediaUrl,
+          // sharePostProfilePhoto: selectedPost.userId?.photo,
+          // sharePostFirstName: selectedPost.userId?.firstName,
+          // sharePostLastName: selectedPost.userId?.lastName,
+          // sharePostUsername: selectedPost.userId?.username,
+          // shareCreatedAt: selectedPost.userId?.createdAt,
         });
 
         await axios.put(
@@ -131,16 +129,16 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
       const response = await axios.post("/posts", {
         content,
         sharePostId: selectedPost._id,
-        sharePostContent: selectedPost.content,
+        // sharePostContent: selectedPost.content,
         userId: userId,
-        sharePostMedia: selectedPost.mediaUrl,
-        sharePostProfilePhoto: selectedPost.userId?.photo,
-        sharePostFirstName: selectedPost.userId?.firstName,
-        sharePostLastName: selectedPost.userId?.lastName,
-        sharePostUsername: selectedPost.userId?.username,
-        isSharedFromHome: true,
-        originalPostId: selectedPost._id,
-        shareCreatedAt: selectedPost.userId?.createdAt,
+        // sharePostMedia: selectedPost.mediaUrl,
+        // sharePostProfilePhoto: selectedPost.userId?.photo,
+        // sharePostFirstName: selectedPost.userId?.firstName,
+        // sharePostLastName: selectedPost.userId?.lastName,
+        // sharePostUsername: selectedPost.userId?.username,
+        // isSharedFromHome: true,
+        // originalPostId: selectedPost._id,
+        // shareCreatedAt: selectedPost.userId?.createdAt,
       });
 
       if (response.status === 201) {

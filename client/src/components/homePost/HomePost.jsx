@@ -7,7 +7,7 @@ import {
   MdShare,
   MdMoreVert,
 } from "react-icons/md";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import FormatTime from "../FormatTime";
 import PollSection from "../pollSection/PollSection";
 import DeletePost from "../deletePost/DeletePost";
@@ -92,56 +92,57 @@ const HomePost = ({
           className="quote-container"
           style={{
             display:
-              post.sharePostProfilePhoto &&
-              post.sharePostFirstName &&
-              post.sharePostLastName &&
-              post.sharePostUsername &&
-              post.sharePostContent
+              post.sharePostId?.userId?.photo &&
+              post.sharePostId?.userId?.firstName &&
+              post.sharePostId?.userId?.lastName &&
+              post.sharePostId?.userId?.username &&
+              post.sharePostId?.content &&
+              post.sharePostId?.mediaUrl
                 ? "block"
                 : "none",
             border:
-              post.sharePostProfilePhoto ||
-              post.sharePostFirstName ||
-              post.sharePostLastName ||
-              post.sharePostUsername ||
-              post.sharePostContent ||
-              post.sharePostMedia
+              post.sharePostId?.userId?.photo ||
+              post.sharePostId?.userId?.firstName ||
+              post.sharePostId?.userId?.lastName ||
+              post.sharePostId?.userId?.username ||
+              post.sharePostId?.content ||
+              post.sharePostId?.mediaUrl
                 ? "#333 1px solid"
                 : "none",
           }}
-          onClick={() => handleQuoteClick(post.sharePostId)}
+          onClick={() => handleQuoteClick(post.sharePostId._id)}
         >
           {/* Alıntı Bilgileri */}
           <div className="quote-top">
             <div className="quote-top-left">
-              {post.sharePostProfilePhoto && (
+              {post.sharePostId && (
                 <Avatar
-                  src={post.sharePostProfilePhoto}
-                  alt="Profile"
-                  className="avatar"
-                  onClick={() => handleProfileClick(post.sharePostUsername)}
-                />
+                src={post.sharePostId.userId?.photo}
+                alt="Profile"
+                className="avatar"
+              />
               )}
             </div>
             <div className="quote-top-right">
               <div className="quote-top-right-info">
                 <small>
-                  {post.sharePostFirstName} {post.sharePostLastName}
+                  {post.sharePostId?.userId?.firstName}{" "}
+                  {post.sharePostId?.userId?.lastName}
                 </small>
-                <small>@{post.sharePostUsername}</small>
-                <FormatTime timestamp={post.shareCreatedAt} />
+                <small>@{post.sharePostId?.userId?.username}</small>
+                <FormatTime timestamp={post.sharePostId?.createdAt} />
               </div>
-              {post.sharePostContent && (
+              {post.sharePostId?.content && (
                 <div className="quote-right-top-text">
-                  <p>{post.sharePostContent}</p>
+                  <p>{post.sharePostId?.content}</p>
                 </div>
               )}
             </div>
           </div>
-          {post.sharePostMedia && (
+          {post.sharePostId?.mediaUrl && (
             <div className="quote-bottom">
               <div className="quote-bottom-media">
-                <img src={post.sharePostMedia} alt="Shared Media" />
+                <img src={post.sharePostId?.mediaUrl} alt="Shared Media" />
               </div>
             </div>
           )}

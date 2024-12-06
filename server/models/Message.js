@@ -15,21 +15,9 @@ const MessageSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  sharePostText: {
-    type: String,
-  },
-  sharePostMedia: {
-    type: String,
-    default: null,
-  },
-  sharePostProfilePhoto: {
-    type: String,
-  },
-  sharePostUsername: {
-    type: String,
-  },
   sharePostId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Post",
   },
   createdAt: {
     type: Date,
