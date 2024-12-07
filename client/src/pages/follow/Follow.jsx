@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import Icons from "../../icons";
 import axios from "axios";
 import { Avatar } from "@mui/material";
 import "./Follow.css";
@@ -51,8 +52,8 @@ export const Follow = () => {
 
   return (
     <div className="follow-container">
-      <div className="close-back-icon" onClick={handleBackClick}>
-        &#8592; {/* Geri dönme ikonu */}
+      <div className="close-back-icon">
+        <Icons.Back onClick={handleBackClick} />
       </div>
 
       {/* Tabs */}

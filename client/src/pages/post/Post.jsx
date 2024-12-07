@@ -2,19 +2,12 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { Avatar } from "@mui/material";
-import {
-  MdFavoriteBorder,
-  MdFavorite,
-  MdChatBubbleOutline,
-  MdMoreVert,
-  MdShare,
-  MdArrowBack, // Geri butonu ikonu
-} from "react-icons/md";
+import Icons from "../../icons";
 import FormatTime from "../../components/FormatTime";
 import ShareModal from "../../components/shareModal/ShareModal";
-import Countdown from "../../components/CountDown";
 import CommentModal from "../../components/commentModal/CommentModal";
-import PollSection from "../../components/pollSection/PollSection";
+import PollDetails from "../../components/pollDetails/PollDetails";
+import DeletePost from "../../components/deletePost/DeletePost";
 import { AuthContext } from "../../context/AuthContext";
 
 export const Post = () => {
@@ -74,7 +67,6 @@ export const Post = () => {
     setSelectedPostForShare(post); // Burada post objesini doğru şekilde seçtiğinizden emin olun
     setIsShareModalOpen(true);
   };
-  
 
   const closeShareModal = () => {
     setIsShareModalOpen(false);
@@ -98,8 +90,7 @@ export const Post = () => {
   return (
     <div className="home-posts-container">
       <div className="close-back-icon">
-        <MdArrowBack
-          style={{ cursor: "pointer", color: "gray" }}
+        <Icons.Back
           onClick={() => navigate(-1)} // Kullanıcıyı önceki sayfaya yönlendirir
         />
       </div>
@@ -118,10 +109,16 @@ export const Post = () => {
               {post.userId?.firstName} {post.userId?.lastName}
             </p>
             <p>@{post.userId?.username}</p>
-            <FormatTime timestamp={post.createdAt} />
+            <p>
+              <FormatTime timestamp={post.createdAt} />
+            </p>
             {post.userId?._id === userId && (
-              <MdMoreVert
-                style={{ cursor: "pointer", color: "gray" }}
+              <Icons.More
+                style={{
+                  cursor: "pointer",
+                  marginLeft: "auto",
+                  color: "gray",
+                }}
                 onClick={() => setShowDropdown((prev) => !prev)}
               />
             )}
@@ -139,7 +136,7 @@ export const Post = () => {
             </div>
           )}
           {post.pollQuestion && (
-            <PollSection
+            <PollDetails
               postId={post._id}
               pollQuestion={post.pollQuestion}
               pollOptions={post.pollOptions}
@@ -147,46 +144,32 @@ export const Post = () => {
             />
           )}
           {post.eventTitle && (
-            <div className="event-details">
-              <h3 className="event-title">{post.eventTitle}</h3>
-              <p className="event-description">{post.eventDescription}</p>
-              <div className="event-meta">
-                <p className="event-date">
-                  {new Date(post.eventDate).toLocaleString("tr-TR", {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                  })}
-                </p>
-                <Countdown eventDate={post.eventDate} />
-              </div>
-            </div>
+            <EventDetails
+              eventTitle={post.eventTitle}
+              eventDescription={post.eventDescription}
+              eventDate={post.eventDate}
+            />
           )}
           <div className="right-icons">
             <span className="like-button" onClick={handleLike}>
               {post.likes.includes(userId) ? (
-                <MdFavorite style={{ color: "red" }} />
+                <Icons.Heart style={{ color: "red" }} />
               ) : (
-                <MdFavoriteBorder />
+                <Icons.HeartBorder />
               )}
               {post.likes.length}
             </span>
             <span className="comment-button" onClick={handleCommentClick}>
-              <MdChatBubbleOutline />
+              <Icons.Comment />
               {post.comments.length}
             </span>
             <span className="share-button" onClick={handleShareClick}>
-              <MdShare />
+              <Icons.Share />
               {post.shareCount || 0}
             </span>
           </div>
           {showDropdown && (
-            <div className="dropdown-menu">
-              <button onClick={handleDeletePost}>Gönderiyi sil</button>
-            </div>
+            <DeletePost postId={post._id} handleDeletePost={handleDeletePost} />
           )}
         </div>
       </div>

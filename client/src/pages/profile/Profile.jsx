@@ -8,10 +8,7 @@ import {
   DialogTitle,
   Button,
 } from "@mui/material";
-import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
-import VpnKeyIcon from "@mui/icons-material/VpnKey";
-import SettingsIcon from "@mui/icons-material/Settings";
-import MessageIcon from "@mui/icons-material/Message";
+import Icons from "../../icons";
 import { AuthContext } from "../../context/AuthContext";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -155,7 +152,7 @@ export const Profile = () => {
                 <Avatar src={user?.photo} className="profile-photo" />
                 <div className="profile-left-top-icon">
                   {currentUser._id !== user?._id && (
-                    <MessageIcon
+                    <Icons.MessageIcon
                       onClick={createConversation}
                       className="message-button"
                       sx={{ color: "grey" }}
@@ -164,7 +161,7 @@ export const Profile = () => {
 
                   {user?._id === currentUser._id && (
                     <>
-                      <SettingsIcon
+                      <Icons.SettingsIcon
                         onClick={(e) => setAnchorEl(e.currentTarget)}
                         className="settings-button"
                         sx={{ color: "grey" }}
@@ -175,11 +172,11 @@ export const Profile = () => {
                         onClose={() => setAnchorEl(null)}
                       >
                         <MenuItem onClick={handleLogoutClick}>
-                          <LogoutOutlinedIcon color="error" />
+                          <Icons.LogoutOutlinedIcon color="error" />
                           Çıkış Yap
                         </MenuItem>
                         <MenuItem onClick={handleChangePasswordClick}>
-                          <VpnKeyIcon color="primary" />
+                          <Icons.VpnKeyIcon color="primary" />
                           Şifreyi Değiştir
                         </MenuItem>
                       </Menu>

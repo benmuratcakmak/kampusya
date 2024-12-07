@@ -23,7 +23,7 @@ const FormatTime = ({ timestamp }) => {
     }
   };
 
-  return <p>{formatTime(timestamp)}</p>;
+  return formatTime(timestamp);
 };
 
 export default FormatTime;

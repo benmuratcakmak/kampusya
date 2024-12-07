@@ -5,24 +5,26 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6); /* Arkaplan bulanıklığı */
+  background-color: rgba(0, 0, 0, 0.6);
+  /* Arkaplan bulanıklığı */
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   z-index: 1000;
 }
 
 .share-modal-content {
-  background-color: #1f1f1f; /* Koyu arkaplan */
-  color: #eaeaea; /* Açık metin rengi */
-  border-radius: 12px;
   background-color: #141416;
-
-  max-width: 500px;
+  /* max-width: 500px; */
   width: 90%;
   padding: 20px;
   overflow: hidden;
   position: relative;
+}
+
+.share-input-div{
+  display: flex;
+  justify-content: center;
 }
 
 .share-header {
@@ -42,6 +44,19 @@
   justify-content: center;
 }
 
+.share-modal-container .modal-content{
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.share-followings{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .modal-content {
   max-height: 60vh;
   overflow-y: auto;
@@ -49,108 +64,19 @@
   scrollbar-color: #555 #1f1f1f;
 }
 
-.followers-list {
-  margin-bottom: 20px;
-}
-
-.followers-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
 .follower-item {
-  background-color: #2a2a2a;
-  border: 1px solid #333;
-  border-radius: 8px;
   padding: 10px;
   display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  flex: 1 1 calc(50% - 10px); /* İki sütun tasarımı */
   transition: background-color 0.3s ease;
-}
-
-.follower-item:hover {
-  background-color: #333;
 }
 
 .follower-item.selected {
-  border-color: #4caf50; /* Seçilen öğe */
-}
-
-.follower-photo {
-  width: 40px;
-  height: 40px;
-}
-
-.error-message {
-  color: #ff6b6b;
-}
-
-.send-button {
-  background-color: #4caf50;
-  color: #ffffff;
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 100%;
-}
-
-.send-button:hover {
-  background-color: #45a049;
-}
-
-.send-button:disabled {
-  background-color: #555;
-  cursor: not-allowed;
-}
-
-.share-modal-container .notification {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #333;
-  color: #eaeaea;
-  padding: 10px 15px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 1050;
-  animation: slide-in 0.3s ease-out, fade-out 3s ease-out 3s;
-}
-
-.share-modal-container .modal-content{
-  border-top: 1px solid rgb(50, 50, 50);
-}
-
-.share-modal-container textarea{
-  width: 100%;
+  border-color: #4caf50;
 }
 
 .notification-icon {
   font-size: 1.5rem;
-}
-
-@keyframes slide-in {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes fade-out {
-  to {
-    opacity: 0;
-    transform: translateY(10px);
-  }
 }

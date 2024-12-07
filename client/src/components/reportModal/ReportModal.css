@@ -13,24 +13,29 @@ body.no-scroll {
   right: 0;
   width: 100%;
   height: 100%;
-  color: #f1f1f1; /* Metin rengini daha okunur yapmak için */
+  color: #f1f1f1;
+  /* Metin rengini daha okunur yapmak için */
   display: flex;
   flex-direction: column;
   z-index: 999;
   display: flex;
+  gap: 1rem;
 }
-.report-modal-container h2{
+
+.report-modal-container h2 {
   text-align: start;
   padding: 0rem 1rem;
   margin: 0;
 }
-.report-modal-container h3{
+
+.report-modal-container h3 {
   color: orangered;
   text-align: start;
   padding: 0rem 1rem;
   margin: 0;
 }
-.report-modal-container textarea{
+
+.report-modal-container textarea {
   margin: 1rem;
 }
 
@@ -39,6 +44,10 @@ body.no-scroll {
   display: flex;
   justify-content: space-between;
   padding: 0 1rem;
+}
+
+.report-modal-container .icon {
+  height: 20px;
 }
 
 /* .other-contacts{
@@ -57,14 +66,17 @@ body.no-scroll {
   margin-top: 20px;
   text-align: center;
   max-width: 100%;
-  max-height: 80vh; /* Ensures it fits within the viewport */
+  max-height: 80vh;
+  /* Ensures it fits within the viewport */
 }
 
 .preview-image,
 .preview-video {
   max-width: 100%;
-  max-height: 70vh; /* Ensures the preview fits within the screen */
-  object-fit: contain; /* Maintains the aspect ratio of the media */
+  max-height: 70vh;
+  /* Ensures the preview fits within the screen */
+  object-fit: contain;
+  /* Maintains the aspect ratio of the media */
 }
 
 .close-media-preview {
@@ -108,14 +120,17 @@ body.no-scroll {
   margin-top: 20px;
   text-align: center;
   max-width: 100%;
-  max-height: 80vh; /* Ensures it fits within the viewport */
+  max-height: 80vh;
+  /* Ensures it fits within the viewport */
 }
 
 .preview-image,
 .preview-video {
   max-width: 100%;
-  max-height: 70vh; /* Ensures the preview fits within the screen */
-  object-fit: contain; /* Maintains the aspect ratio of the media */
+  max-height: 70vh;
+  /* Ensures the preview fits within the screen */
+  object-fit: contain;
+  /* Maintains the aspect ratio of the media */
 }
 
 .close-media-preview {

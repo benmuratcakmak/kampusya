@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Avatar } from "@mui/material";
-import { RiMailSendLine } from "react-icons/ri";
+import Icons from "../../icons";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
@@ -62,7 +62,7 @@ export const Header = ({ setOpenModal }) => {
               biliyosun?
             </small>
             <div className="header-send-icon-container">
-              <RiMailSendLine
+              <Icons.ReportSend
                 className="header-send-icon"
                 onClick={handleOpenModal}
               />

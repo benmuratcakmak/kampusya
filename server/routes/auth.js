@@ -1,13 +1,12 @@
 import express from "express";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
-import crypto from 'crypto'
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
 dotenv.config();
-
 
 const router = express.Router();
 
@@ -22,20 +21,22 @@ const transporter = nodemailer.createTransport({
 
 // E-posta gönderme fonksiyonu
 const sendEmail = (to, subject, text) => {
-  transporter.sendMail({
-    from: process.env.EMAIL_USER, // E-posta gönderen adres
-    to, // Alıcı e-posta adresi
-    subject, // E-posta konusu
-    text, // E-posta içeriği
-  }, (error, info) => {
-    if (error) {
-      console.error("E-posta gönderilirken bir hata oluştu:", error);
-    } else {
-      console.log("E-posta başarıyla gönderildi:", info.response);
+  transporter.sendMail(
+    {
+      from: process.env.EMAIL_USER, // E-posta gönderen adres
+      to, // Alıcı e-posta adresi
+      subject, // E-posta konusu
+      text, // E-posta içeriği
+    },
+    (error, info) => {
+      if (error) {
+        console.error("E-posta gönderilirken bir hata oluştu:", error);
+      } else {
+        console.log("E-posta başarıyla gönderildi:", info.response);
+      }
     }
-  });
+  );
 };
-
 
 // Rastgele doğrulama kodu oluşturma fonksiyonu
 const generateVerificationCode = () =>
@@ -66,7 +67,9 @@ router.delete("/cancel-registration", async (req, res) => {
     const user = await User.findOneAndDelete({ email, isVerified: false });
 
     if (!user) {
-      return res.status(404).json({ message: "Silinecek kullanıcı bulunamadı." });
+      return res
+        .status(404)
+        .json({ message: "Silinecek kullanıcı bulunamadı." });
     }
 
     res.status(200).json({ message: "Kullanıcı kaydı başarıyla silindi." });
@@ -79,7 +82,6 @@ router.delete("/cancel-registration", async (req, res) => {
   }
 });
 
-
 // Kayıt rotası
 router.post("/register", async (req, res) => {
   try {
@@ -89,17 +91,16 @@ router.post("/register", async (req, res) => {
     const existingUser = await User.findOne({ email });
     if (existingUser && existingUser.verificationCode) {
       return res.status(400).json({
-        message: "Bu e-posta adresiyle zaten bir kayıt işlemi yapılmış. Lütfen doğrulama kodunu girin."
+        message:
+          "Bu e-posta adresiyle zaten bir kayıt işlemi yapılmış. Lütfen doğrulama kodunu girin.",
       });
     }
 
     // .edu uzantılı e-posta doğrulaması
     if (!email.endsWith(".edu") && !email.endsWith(".edu.tr")) {
-      return res
-        .status(400)
-        .json({
-          message: "Sadece .edu uzantılı e-posta adresleri kabul edilmektedir.",
-        });
+      return res.status(400).json({
+        message: "Sadece .edu uzantılı e-posta adresleri kabul edilmektedir.",
+      });
     }
 
     // Şifreleme
@@ -119,15 +120,16 @@ router.post("/register", async (req, res) => {
       isVerified: false,
       verificationCode,
     });
-    
+
     try {
       const savedUser = await newUser.save();
       console.log("Kaydedilen kullanıcı:", savedUser);
     } catch (err) {
       console.error("Kullanıcı kaydedilirken hata oluştu:", err);
-      return res.status(500).json({ message: "Kullanıcı kaydı sırasında hata oluştu", error: err });
+      return res
+        .status(500)
+        .json({ message: "Kullanıcı kaydı sırasında hata oluştu", error: err });
     }
-    
 
     await newUser.save();
 
@@ -141,16 +143,18 @@ router.post("/register", async (req, res) => {
       });
     } catch (err) {
       console.error("E-posta gönderilirken hata oluştu:", err);
-      return res.status(500).json({ message: "E-posta gönderimi sırasında bir hata oluştu", error: err });
+      return res
+        .status(500)
+        .json({
+          message: "E-posta gönderimi sırasında bir hata oluştu",
+          error: err,
+        });
     }
-    
 
-    res
-      .status(200)
-      .json({
-        message:
-          "Kayıt başarılı. Lütfen e-posta adresinize gönderilen doğrulama kodunu girin.",
-      });
+    res.status(200).json({
+      message:
+        "Kayıt başarılı. Lütfen e-posta adresinize gönderilen doğrulama kodunu girin.",
+    });
   } catch (err) {
     res
       .status(500)
@@ -164,7 +168,9 @@ router.post("/verify-code", verifyCodeLimiter, async (req, res) => {
 
   try {
     if (!email || !verificationCode) {
-      return res.status(400).json({ message: "E-posta ve doğrulama kodu gereklidir." });
+      return res
+        .status(400)
+        .json({ message: "E-posta ve doğrulama kodu gereklidir." });
     }
 
     const user = await User.findOne({ email });
@@ -181,7 +187,8 @@ router.post("/verify-code", verifyCodeLimiter, async (req, res) => {
     const currentTime = new Date();
     if (user.verificationCodeExpiresAt < currentTime) {
       return res.status(400).json({
-        message: "Doğrulama kodu süresi dolmuş. Lütfen yeni bir kod talep edin.",
+        message:
+          "Doğrulama kodu süresi dolmuş. Lütfen yeni bir kod talep edin.",
       });
     }
 
@@ -203,7 +210,6 @@ router.post("/verify-code", verifyCodeLimiter, async (req, res) => {
     });
   }
 });
-
 
 // Doğrulama kodunu yeniden gönderme endpoint'i
 router.post("/resend-code", async (req, res) => {
@@ -232,7 +238,8 @@ router.post("/resend-code", async (req, res) => {
     const currentTime = new Date();
     if (user.verificationCodeExpiresAt >= currentTime) {
       return res.status(400).json({
-        message: "Doğrulama kodu süresi dolmamış. Yeni bir kod almanız gerekmez.",
+        message:
+          "Doğrulama kodu süresi dolmamış. Yeni bir kod almanız gerekmez.",
       });
     }
 
@@ -241,7 +248,9 @@ router.post("/resend-code", async (req, res) => {
 
     // Yeni doğrulama kodunu kullanıcıya kaydet
     user.verificationCode = newVerificationCode;
-    user.verificationCodeExpiresAt = new Date(currentTime.getTime() + 1 * 20 * 1000); // 20 saniye sonra geçerli olacak
+    user.verificationCodeExpiresAt = new Date(
+      currentTime.getTime() + 1 * 20 * 1000
+    ); // 20 saniye sonra geçerli olacak
     await user.save();
 
     // Yeni doğrulama kodunu e-posta ile gönder
@@ -333,7 +342,9 @@ router.post("/forgot-password", async (req, res) => {
       `Geçici şifreniz: ${temporaryPassword}\nLütfen giriş yaptıktan sonra şifrenizi değiştirin.`
     );
 
-    res.status(200).json({ message: "Geçici şifre e-posta adresinize gönderildi." });
+    res
+      .status(200)
+      .json({ message: "Geçici şifre e-posta adresinize gönderildi." });
   } catch (err) {
     console.error("Hata:", err); // Hata bilgisini konsola yazdırın
     res.status(500).json({ message: "Bir hata oluştu.", error: err.message });

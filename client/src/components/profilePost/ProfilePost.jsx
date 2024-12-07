@@ -9,18 +9,14 @@ import axios from "axios";
 import Avatar from "@mui/material/Avatar";
 import { AuthContext } from "../../context/AuthContext.js";
 import { useNavigate } from "react-router-dom";
-import {
-  MdFavoriteBorder,
-  MdFavorite,
-  MdChatBubbleOutline,
-  MdMoreVert,
-  MdShare,
-} from "react-icons/md";
+import Icons from "../../icons";
 import FormatTime from "../FormatTime.js";
 import ShareModal from "../shareModal/ShareModal.jsx";
-import Countdown from "../CountDown.js";
 import CommentModal from "../commentModal/CommentModal.jsx";
-import PollSection from "../pollSection/PollSection.jsx";
+import PollDetails from "../pollDetails/PollDetails.jsx";
+import EventDetails from "../eventDetails/EventDetails.jsx";
+import DeletePost from "../deletePost/DeletePost.jsx";
+
 import "./ProfilePost.css";
 import "../../pages/home/Quote.css";
 
@@ -128,9 +124,11 @@ export const ProfilePost = ({ posts }) => {
                   {post.userId?.firstName} {post.userId?.lastName}
                 </p>
                 <p>@{post.userId?.username}</p>
-                <FormatTime timestamp={post.createdAt} />
+                <p>
+                  <FormatTime timestamp={post.createdAt} />
+                </p>
                 {post.userId?._id === userId && (
-                  <MdMoreVert
+                  <Icons.More
                     style={{
                       cursor: "pointer",
                       marginLeft: "auto",
@@ -164,7 +162,7 @@ export const ProfilePost = ({ posts }) => {
 
               {/* PollSection Component */}
               {post.pollQuestion && (
-                <PollSection
+                <PollDetails
                   postId={post._id}
                   pollQuestion={post.pollQuestion}
                   pollOptions={post.pollOptions}
@@ -218,7 +216,9 @@ export const ProfilePost = ({ posts }) => {
                       </small>
 
                       <small>@{post.sharePostId?.userId?.username}</small>
-                      <FormatTime timestamp={post.sharePostId?.createdAt} />
+                      <small>
+                        <FormatTime timestamp={post.sharePostId?.createdAt} />
+                      </small>
                     </div>
                     <div className="quote-right-top-text">
                       <p>{post.sharePostId?.content}</p>
@@ -238,23 +238,11 @@ export const ProfilePost = ({ posts }) => {
               </div>
 
               {post.eventTitle && (
-                <div className="event-details">
-                  <h3 className="event-title">{post.eventTitle}</h3>
-                  <p className="event-description">{post.eventDescription}</p>
-                  <div className="event-meta">
-                    <p className="event-date">
-                      {new Date(post.eventDate).toLocaleString("tr-TR", {
-                        weekday: "long",
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                        hour: "numeric",
-                        minute: "numeric",
-                      })}
-                    </p>
-                    <Countdown eventDate={post.eventDate} />
-                  </div>
-                </div>
+                <EventDetails
+                  eventTitle={post.eventTitle}
+                  eventDescription={post.eventDescription}
+                  eventDate={post.eventDate}
+                />
               )}
               <div className="right-icons">
                 <span
@@ -262,9 +250,9 @@ export const ProfilePost = ({ posts }) => {
                   onClick={() => handleLike(post._id)}
                 >
                   {post.likes.includes(userId) ? (
-                    <MdFavorite style={{ color: "red" }} />
+                    <Icons.Heart style={{ color: "red" }} />
                   ) : (
-                    <MdFavoriteBorder />
+                    <Icons.HeartBorder />
                   )}
                   {post.likes.length}
                 </span>
@@ -272,23 +260,19 @@ export const ProfilePost = ({ posts }) => {
                   className="comment-button"
                   onClick={() => handleCommentClick(post)}
                 >
-                  <MdChatBubbleOutline />
+                  <Icons.Comment />
                   {post.comments.length}
                 </span>
                 <span
                   className="share-button"
                   onClick={() => handleShareClick(post)}
                 >
-                  <MdShare />
+                  <Icons.Share />
                   {post.shareCount || 0}
                 </span>
               </div>
               {showDropdown === post._id && (
-                <div className="dropdown-menu">
-                  <button onClick={() => handleDeletePost(post._id)}>
-                    Gönderiyi sil
-                  </button>
-                </div>
+                <DeletePost postId={post._id} handleDeletePost={handleDeletePost} />
               )}
               {selectedPost && selectedPost._id === post._id && (
                 <CommentModal

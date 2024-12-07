@@ -1,8 +1,7 @@
 .follow-container {
+    margin-top: 44px;
     width: 100%;
     max-width: 600px;
-    margin: 0 auto;
-    /* padding: 20px; */
     font-family: Arial, sans-serif;
 }
 
@@ -10,13 +9,13 @@
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid rgb(50, 50, 50);
-    margin-bottom: 20px;
+    padding-top: 1rem;
 }
 
 .tab {
     flex: 1;
+    color: gray;
     text-align: center;
-    /* padding: 10px; */
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -24,46 +23,18 @@
 
 .tab.active {
     border-bottom: 2px solid;
-    /* color: #007bff; */
+    color: white;
 }
-
-/* .list {
-    padding: 0;
-    list-style: none;
-  } */
 
 .list-item {
     display: flex;
     align-items: center;
-    /* margin-bottom: 15px; */
     padding: 10px;
-
-    /* border-radius: 8px; */
 }
 
-.avatar {
+.follow-container .avatar {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     margin-right: 15px;
 }
-
-/* .profile-info {
-    flex-grow: 1;
-} */
-
-/* .profile-info .username {
-    font-size: 16px;
-    font-weight: bold;
-    color: #007bff;
-    text-decoration: none;
-} */
-
-/* .profile-info .full-name {
-    font-size: 14px;
-    color: #555;
-} */
-
-/* .profile-link {
-    text-decoration: none;
-} */

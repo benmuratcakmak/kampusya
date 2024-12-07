@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./PollSection.css";
+import "./PollDetails.css";
 
-const PollSection = ({
+const PollDetails = ({
   postId,
   pollQuestion,
   pollOptions,
@@ -79,4 +79,4 @@ const PollSection = ({
   );
 };
 
-export default PollSection;
+export default PollDetails;

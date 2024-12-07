@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { FaArrowLeft, FaPaperPlane, FaRegImages, FaTimes } from "react-icons/fa";
+import Icons from "../../icons";
 import axios from "axios";
 import "./ReportModal.css";
 
@@ -33,19 +33,25 @@ export const ReportModal = ({ open, handleClose }) => {
   const handleFormSubmit = useCallback(
     async (e) => {
       e.preventDefault();
+  
+      if (!message.trim() && !media) {
+        alert("Lütfen bir mesaj yazın veya bir medya dosyası yükleyin.");
+        return;
+      }
+  
       const formData = new FormData();
       formData.append("message", message);
       if (media) {
         formData.append("media", media);
       }
-
+  
       setLoading(true);
       try {
         const response = await axios.post("/report/upload", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         setLoading(false);
-
+  
         if (response.data.success) {
           setSubmitted(true); // Gönderim tamamlandığında başarı durumu
           setMessage("");
@@ -64,6 +70,7 @@ export const ReportModal = ({ open, handleClose }) => {
     },
     [message, media, handleClose]
   );
+  
 
   // Dosya seçme işlemi
   const handleFileSelect = () => {
@@ -85,7 +92,7 @@ export const ReportModal = ({ open, handleClose }) => {
   return (
     <div className="report-modal-container" onClick={(e) => e.stopPropagation()}>
       <div className="close-back-icon">
-        <FaArrowLeft onClick={handleClose} />
+        <Icons.Back onClick={handleClose} />
       </div>
       <h2>Elinizde bir haber, fotoğraf, video, dosya veya yazı varsa, bizimle paylaşabilirsiniz.</h2>
       <br />
@@ -99,8 +106,8 @@ export const ReportModal = ({ open, handleClose }) => {
           rows={4}
         />
         <div className="modal-icons">
-          <FaRegImages onClick={handleFileSelect} className="icon" />
-          <FaPaperPlane onClick={handleFormSubmit} className="icon" />
+          <Icons.FaRegImages onClick={handleFileSelect} className="icon" />
+          <Icons.FaPaperPlane onClick={handleFormSubmit} className="icon" />
         </div>
         <input
           type="file"

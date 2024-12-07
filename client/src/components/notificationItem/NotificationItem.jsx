@@ -7,20 +7,20 @@ import FormatTime from "../../components/FormatTime";
 const NotificationItem = ({ notification, handleNotificationClick, handleAvatarClick }) => {
   const navigate = useNavigate();
 
-  const getMessage = (type, senderUsername) => {
+  const getMessage = (type) => {
     switch (type) {
       case "like":
-        return `${senderUsername} sizin gönderinizi beğendi!`;
+        return "sizin gönderinizi beğendi!";
       case "comment":
-        return `${senderUsername} gönderinize yorum yaptı!`;
+        return "gönderinize yorum yaptı!";
       case "commentLike":
-        return `${senderUsername} sizin yorumunuzu beğendi!`;
+        return "sizin yorumunuzu beğendi!";
       case "commentReply":
-        return `${senderUsername} yorumunuza yanıt verdi!`;
+        return "yorumunuza yanıt verdi!";
       case "commentReplyLike":
-        return `${senderUsername} sizin yanıtınızı beğendi!`;
+        return "sizin yanıtınızı beğendi!";
       case "follow":
-        return `${senderUsername} sizi takip etmeye başladı!`;
+        return "sizi takip etmeye başladı!";
       default:
         return "";
     }
@@ -45,7 +45,7 @@ const NotificationItem = ({ notification, handleNotificationClick, handleAvatarC
         }}
       />
       <p>
-        <strong>{notification.sender?.username}</strong> {getMessage(notification.type, notification.sender?.username)}
+        <strong>{notification.sender?.username}</strong> {getMessage(notification.type)}
       </p>
       <FormatTime timestamp={notification.createdAt} />
     </div>

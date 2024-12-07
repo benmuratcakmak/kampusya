@@ -1,15 +1,10 @@
 import React from "react";
 import Avatar from "@mui/material/Avatar";
-import {
-  MdFavoriteBorder,
-  MdFavorite,
-  MdChatBubbleOutline,
-  MdShare,
-  MdMoreVert,
-} from "react-icons/md";
+import Icons from "../../icons";
 import { useNavigate } from "react-router-dom";
 import FormatTime from "../FormatTime";
-import PollSection from "../pollSection/PollSection";
+import PollDetails from "../pollDetails/PollDetails";
+import EventDetails from "../eventDetails/EventDetails";
 import DeletePost from "../deletePost/DeletePost";
 import "./HomePost.css";
 
@@ -46,9 +41,11 @@ const HomePost = ({
             {post.userId?.firstName} {post.userId?.lastName}
           </p>
           <p>@{post.userId?.username}</p>
-          <FormatTime timestamp={post.createdAt} />
+          <p>
+            <FormatTime timestamp={post.createdAt} />
+          </p>
           {post.userId?._id === userId && (
-            <MdMoreVert
+            <Icons.More
               style={{
                 cursor: "pointer",
                 marginLeft: "auto",
@@ -79,11 +76,18 @@ const HomePost = ({
         )}
 
         {post.pollQuestion && (
-          <PollSection
+          <PollDetails
             postId={post._id}
             pollQuestion={post.pollQuestion}
             pollOptions={post.pollOptions}
             userId={userId}
+          />
+        )}
+        {post.eventTitle && (
+          <EventDetails
+            eventTitle={post.eventTitle}
+            eventDescription={post.eventDescription}
+            eventDate={post.eventDate}
           />
         )}
 
@@ -92,21 +96,19 @@ const HomePost = ({
           className="quote-container"
           style={{
             display:
-              post.sharePostId?.userId?.photo &&
-              post.sharePostId?.userId?.firstName &&
-              post.sharePostId?.userId?.lastName &&
-              post.sharePostId?.userId?.username &&
-              post.sharePostId?.content &&
-              post.sharePostId?.mediaUrl
+              // post.sharePostId?.userId?.photo &&
+              // post.sharePostId?.userId?.firstName &&
+              // post.sharePostId?.userId?.lastName &&
+              // post.sharePostId?.userId?.username &&
+              post.sharePostId?.content && post.sharePostId?.mediaUrl
                 ? "block"
                 : "none",
             border:
-              post.sharePostId?.userId?.photo ||
-              post.sharePostId?.userId?.firstName ||
-              post.sharePostId?.userId?.lastName ||
-              post.sharePostId?.userId?.username ||
-              post.sharePostId?.content ||
-              post.sharePostId?.mediaUrl
+              // post.sharePostId?.userId?.photo ||
+              // post.sharePostId?.userId?.firstName ||
+              // post.sharePostId?.userId?.lastName ||
+              // post.sharePostId?.userId?.username ||
+              post.sharePostId?.content || post.sharePostId?.mediaUrl
                 ? "#333 1px solid"
                 : "none",
           }}
@@ -117,10 +119,10 @@ const HomePost = ({
             <div className="quote-top-left">
               {post.sharePostId && (
                 <Avatar
-                src={post.sharePostId.userId?.photo}
-                alt="Profile"
-                className="avatar"
-              />
+                  src={post.sharePostId.userId?.photo}
+                  alt="Profile"
+                  className="avatar"
+                />
               )}
             </div>
             <div className="quote-top-right">
@@ -130,7 +132,9 @@ const HomePost = ({
                   {post.sharePostId?.userId?.lastName}
                 </small>
                 <small>@{post.sharePostId?.userId?.username}</small>
-                <FormatTime timestamp={post.sharePostId?.createdAt} />
+                <small>
+                  <FormatTime timestamp={post.sharePostId?.createdAt} />
+                </small>
               </div>
               {post.sharePostId?.content && (
                 <div className="quote-right-top-text">
@@ -151,9 +155,9 @@ const HomePost = ({
         <div className="right-icons">
           <span className="like-button" onClick={() => handleLike(post._id)}>
             {post.likes.includes(userId) ? (
-              <MdFavorite style={{ color: "red" }} />
+              <Icons.Heart style={{ color: "red" }} />
             ) : (
-              <MdFavoriteBorder />
+              <Icons.HeartBorder />
             )}
             {post.likes.length}
           </span>
@@ -161,11 +165,11 @@ const HomePost = ({
             className="comment-button"
             onClick={() => handleCommentClick(post)}
           >
-            <MdChatBubbleOutline />
+            <Icons.Comment />
             {post.comments.length}
           </span>
           <span className="share-button" onClick={() => handleShareClick(post)}>
-            <MdShare />
+            <Icons.Share />
             {post.shareCount || 0}
           </span>
         </div>

@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { FaCheck } from "react-icons/fa";
+import Icons from "../../icons";
 import { Avatar } from "@mui/material";
 import axios from "axios";
 import "./ShareModal.css";
@@ -174,14 +175,9 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
     <div className="share-modal-container">
       <div className="share-modal-content" ref={modalContentRef}>
         <header className="share-header" onClick={handleSendforHome}>
-          <h3>Alıntı olarak Paylaş</h3>
+          <h5>Alıntı olarak Paylaş</h5>
         </header>
-        <textarea
-          className="content-textarea"
-          value={content}
-          onChange={handleContentChange}
-          placeholder="Buraya yazın..."
-        />
+        
 
         <main className="modal-content">
           <h4>Takip Ettiklerin</h4>
@@ -211,14 +207,19 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
           ) : (
             <p>Takip ettiğiniz kimse yok.</p>
           )}
-
-          <button
+          <input
+          className="content-textarea"
+          value={content}
+          onChange={handleContentChange}
+          placeholder="Buraya yazın..."
+        />
+          <Icons.FaPaperPlane
             className="send-button"
             onClick={handleSend}
             disabled={!selectedFollowers.length || !content} // Eğer içerik yoksa butonu devre dışı bırak
           >
             Gönder
-          </button>
+          </Icons.FaPaperPlane>
         </main>
       </div>
     </div>

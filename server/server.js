@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { fileURLToPath } from "url";
 
+dotenv.config();
+
 // __filename ve __dirname tanımlama
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,7 +29,6 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
-// app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 app.use(express.json()); // JSON veri gönderebilmek için
 // Statik olarak "uploads" klasörünü sunuyoruz
@@ -36,8 +37,6 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.set('trust proxy', true);
 
-// Dotenv config
-dotenv.config();
 const port = process.env.PORT;
 
 app.get("/", (req, res) => {

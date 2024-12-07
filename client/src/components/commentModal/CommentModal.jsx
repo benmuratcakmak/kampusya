@@ -2,8 +2,7 @@ import React, { useState, useContext, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { FaArrowLeft } from "react-icons/fa";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import Icons from "../../icons";
 import FormatTime from "../../components/FormatTime";
 import SendIcon from "@mui/icons-material/Send";
 import "./CommentModal.css";
@@ -132,7 +131,7 @@ const CommentModal = ({ postId, onCommentSubmit, onClose }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="close-back-icon" onClick={onClose}>
-          <FaArrowLeft />
+          <Icons.Back />
         </div>
         <div className="comment-list">
           {comments.length > 0 ? (
@@ -212,13 +211,13 @@ const CommentItem = ({
         </div>
         <div className="item-right">
           {isLikedByUser(comment.likes) ? (
-            <AiFillHeart
+            <Icons.Heart
               size={20}
               color="red"
               onClick={() => onLike(comment._id, "comment")}
             />
           ) : (
-            <AiOutlineHeart
+            <Icons.HeartBorder
               size={20}
               color="gray"
               onClick={() => onLike(comment._id, "comment")}
@@ -262,14 +261,14 @@ const CommentItem = ({
                 </div>
                 <div className="reply-item-right">
                   {isLikedByUser(reply.likes) ? (
-                    <AiFillHeart
+                    <Icons.Heart
                       size={20}
                       color="red"
                       onClick={() => onLike(reply._id, "reply", comment._id)}
                       style={{ cursor: "pointer" }}
                     />
                   ) : (
-                    <AiOutlineHeart
+                    <Icons.HeartBorder
                       size={20}
                       color="gray"
                       onClick={() => onLike(reply._id, "reply", comment._id)}

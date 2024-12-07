@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import axios from "axios";
 import { Avatar, IconButton } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import Icons from "../../icons";
 import { AuthContext } from "../../context/AuthContext";
 import { useParams, useNavigate } from "react-router-dom";
 import faculties from "../../data/faculties.json"; // Fakülteler JSON'dan import ediliyor
@@ -103,14 +102,8 @@ export const UpdateProfile = () => {
   return (
     <div className="update-profile-container">
       <div className="close-back-icon">
-        <ArrowBackIcon
+        <Icons.Back
           onClick={() => navigate(`/profile/${username}`)}
-          sx={{
-            color: "white",
-            cursor: "pointer",
-            fontSize: 30,
-            "&:hover": { color: "gray" },
-          }}
         />
         <span
           onClick={handleUpdate}
@@ -153,7 +146,7 @@ export const UpdateProfile = () => {
             }}
             onClick={handleAvatarClick}
           >
-            <AddPhotoAlternateIcon />
+            <Icons.AddPhotoAlternateIcon />
           </IconButton>
 
           <input

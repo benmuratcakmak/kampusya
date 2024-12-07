@@ -2,14 +2,7 @@ import React, { useState, useContext, useEffect, useCallback } from "react";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import {
-  FaArrowLeft,
-  FaPaperPlane,
-  FaPaperclip,
-  FaRegCalendarAlt,
-  FaPollH,
-  FaTimes,
-} from "react-icons/fa";
+import Icons from "../../icons";
 import {
   Dialog,
   DialogActions,
@@ -166,7 +159,7 @@ export const PostModal = ({ isOpen, onClose, setPosts }) => {
   return (
     <div className="post-modal-container" onClick={(e) => e.stopPropagation()}>
       <div className="close-back-icon">
-        <FaArrowLeft onClick={handleBackClick} />
+        <Icons.Back onClick={handleBackClick} />
       </div>
       <form onSubmit={handleSubmit}>
         <textarea
@@ -186,7 +179,7 @@ export const PostModal = ({ isOpen, onClose, setPosts }) => {
         {media && (
           <div className="post-media-preview">
             <div>
-              <FaTimes className="x-icon" onClick={handleRemoveMedia} />{" "}
+              <Icons.Times className="x-icon" onClick={handleRemoveMedia} />{" "}
             </div>
             {media.type.includes("image") ? (
               <img src={URL.createObjectURL(media)} alt="preview" />
@@ -201,7 +194,7 @@ export const PostModal = ({ isOpen, onClose, setPosts }) => {
         <div className="modal-icons">
           <div className="modal-icons-left">
             <label>
-              <FaPaperclip
+              <Icons.Paperclip
                 className={`icon ${
                   showEventForm || showPollForm ? "disabled" : ""
                 }`}
@@ -218,11 +211,11 @@ export const PostModal = ({ isOpen, onClose, setPosts }) => {
             </label>
 
             <label className="event-icon" onClick={handleEventFormToggle}>
-              <FaRegCalendarAlt className="icon" />
+              <Icons.Calendar className="icon" />
             </label>
 
             <label className="poll-icon" onClick={handlePollFormToggle}>
-              <FaPollH className="icon" />
+              <Icons.Poll className="icon" />
             </label>
           </div>
 
@@ -230,7 +223,7 @@ export const PostModal = ({ isOpen, onClose, setPosts }) => {
             <span>Yükleniyor...</span>
           ) : (
             <div className="send-icon-container">
-              <FaPaperPlane
+              <Icons.FaPaperPlane
                 className="icon"
                 disabled={
                   (content.trim() === "" &&
@@ -278,7 +271,7 @@ export const PostModal = ({ isOpen, onClose, setPosts }) => {
               onChange={(e) => setPollQuestion(e.target.value)}
             />
             {pollOptions.map((option, index) => (
-              <div key={index} className="poll-option">
+              <div key={index} className="poll-option-select">
                 <input
                   type="text"
                   value={option}
@@ -287,13 +280,7 @@ export const PostModal = ({ isOpen, onClose, setPosts }) => {
                   }
                   placeholder={`Seçenek ${index + 1}`}
                 />
-                <button
-                  type="button"
-                  className="remove-option"
-                  onClick={() => handleRemovePollOption(index)}
-                >
-                  <FaTimes />
-                </button>
+                  <Icons.Times onClick={() => handleRemovePollOption(index)}/>
               </div>
             ))}
             <button

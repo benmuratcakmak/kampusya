@@ -8,12 +8,15 @@
     display: flex;
     margin: 5px 0 5px 5px;
 }
-.quote-top-right{
-    
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box; /* İçerik taşmasını engeller */
-  overflow: hidden; /* Taşan içerik görünmez olur */
+
+.quote-top-right {
+
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    /* İçerik taşmasını engeller */
+    overflow: hidden;
+    /* Taşan içerik görünmez olur */
 }
 
 .quote-right-top-text {
@@ -31,14 +34,14 @@
     height: 2rem;
 }
 
-.quote-top-right-info{
+.quote-top-right-info {
     display: flex;
     gap: 7px;
 }
 
-.quote-top-right-info small:nth-child(2) {
-    color: grey; /* İkinci elemanı gri yapar */
-  }
+.quote-top-right-info small:not(:first-child) {
+    color: grey;
+}
 
 .quote-container img {
     width: 230px;

@@ -1,16 +1,9 @@
   import { useState, useContext, useEffect, useCallback } from "react";
   import { io } from "socket.io-client";
   import { AuthContext } from "../../context/AuthContext";
-  import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-  import HomeIcon from "@mui/icons-material/Home";
-  import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-  import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-  import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-  import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
-  import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
-  import MessageIcon from "@mui/icons-material/Message";
   import { NavLink, useLocation } from "react-router-dom";
   import { PostModal } from "../../components/postModal/PostModal";
+  import Icons from "../../icons";
   import "./Footer.css";
 
   export const Footer = () => {
@@ -145,9 +138,9 @@
               >
                 {({ isActive }) =>
                   isActive ? (
-                    <HomeIcon className="icon" />
+                    <Icons.Home className="icon" />
                   ) : (
-                    <HomeOutlinedIcon className="icon" />
+                    <Icons.HomeOutlined className="icon" />
                   )
                 }
               </NavLink>
@@ -157,11 +150,11 @@
                 to="/search"
                 className={({ isActive }) => (isActive ? "active-link" : "link")}
               >
-                <SearchRoundedIcon className="icon" />
+                <Icons.Search className="icon" />
               </NavLink>
 
               {/* Add Post */}
-              <AddCircleOutlineIcon
+              <Icons.Add
                 className="icon add-icon"
                 onClick={() => setIsModalOpen(true)}
               />
@@ -174,9 +167,9 @@
                 onClick={handleNotificationClick}
               >
                 {isNotificationPage ? (
-                  <NotificationsActiveIcon className="icon" />
+                  <Icons.NotificationActive className="icon" />
                 ) : (
-                  <NotificationsNoneIcon className="icon" />
+                  <Icons.Notification className="icon" />
                 )}
 
                 {newMessageNotification && !hasClicked && (
@@ -210,9 +203,9 @@
               >
                 {({ isActive }) =>
                   isActive ? (
-                    <MessageIcon className="icon" />
+                    <Icons.MessageIcon className="icon" />
                   ) : (
-                    <MessageOutlinedIcon className="icon" />
+                    <Icons.MessageOutlinedIcon className="icon" />
                   )
                 }
               </NavLink>
