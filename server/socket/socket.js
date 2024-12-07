@@ -10,7 +10,9 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: ["https://kampusya.com", "http://localhost:3000"],
+    credentials: true,
   },
+  transports: ['websocket', 'polling'],
 });
 
 // Socket.IO olaylarını başlatıyoruz
