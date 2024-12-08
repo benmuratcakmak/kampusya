@@ -12,7 +12,7 @@ const VerificationModal = ({ email, isOpen, onClose, onSuccess }) => {
   useEffect(() => {
     const handleBeforeUnload = async () => {
       try {
-        await axios.delete("/auth/cancel-registration", {
+        await axios.delete("/api/auth/cancel-registration", {
           data: { email }, // Backend'e e-posta gönderiliyor
         });
       } catch (error) {
@@ -51,7 +51,7 @@ const VerificationModal = ({ email, isOpen, onClose, onSuccess }) => {
     }
 
     try {
-      const response = await axios.post("/auth/verify-code", {
+      const response = await axios.post("/api/auth/verify-code", {
         email,
         verificationCode,
       });
@@ -75,7 +75,7 @@ const VerificationModal = ({ email, isOpen, onClose, onSuccess }) => {
     setMessage(""); // Önceki mesajları temizle
 
     try {
-      const response = await axios.post("/auth/resend-code", { email });
+      const response = await axios.post("/api/auth/resend-code", { email });
       setMessage(response.data.message);
     } catch (error) {
       setError(
@@ -90,7 +90,7 @@ const VerificationModal = ({ email, isOpen, onClose, onSuccess }) => {
       console.log("Kullanıcı emaili:", email);
 
       // Email'i backend'e gönder
-      await axios.delete("/auth/cancel-registration", {
+      await axios.delete("/api/auth/cancel-registration", {
         data: { email }, // Email gönderiliyor
       });
 

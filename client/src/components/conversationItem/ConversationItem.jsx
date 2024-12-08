@@ -22,7 +22,7 @@ const ConversationItem = ({
     >
       <Link
         className="conversation-link"
-        to={`/messages/${conversation.conversationId}`}
+        to={`/api/messages/${conversation.conversationId}`}
       >
         <div className="conversation-real-item">
           <Avatar

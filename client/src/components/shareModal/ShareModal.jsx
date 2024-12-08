@@ -31,7 +31,7 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
     const fetchFollowing = async () => {
       setStatus({ loading: true, error: null });
       try {
-        const response = await axios.get(`/follow/following/${user.username}`);
+        const response = await axios.get(`/api/follow/following/${user.username}`);
         setFollowers(response.data);
       } catch (err) {
         setStatus({
@@ -86,12 +86,12 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
     try {
       for (const followerId of selectedFollowers) {
         const { data } = await axios.post(
-          "/conversations/getOrCreateConversation",
+          "/api/conversations/getOrCreateConversation",
           { senderId: userId, receiverId: followerId }
         );
         const conversationId = data._id;
 
-        await axios.post("/messages", {
+        await axios.post("/api/messages", {
           conversationId,
           sharePostId: selectedPost._id,
           sender: userId,
@@ -106,7 +106,7 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
         });
 
         await axios.put(
-          `/postFeatures/${selectedPost._id}/incrementShareCount`
+          `/api/postFeatures/${selectedPost._id}/incrementShareCount`
         );
       }
 

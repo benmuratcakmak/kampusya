@@ -31,7 +31,7 @@ export const UpdateProfile = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await axios.get(`/users/${userId}`);
+        const res = await axios.get(`/api/users/${userId}`);
         const userData = res.data;
         setFirstName(userData.firstName || "");
         setLastName(userData.lastName || "");

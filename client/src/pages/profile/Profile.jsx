@@ -35,8 +35,8 @@ export const Profile = () => {
     const fetchUserData = async () => {
       try {
         const [userRes, postsRes] = await Promise.all([
-          axios.get(`/users?username=${username}`),
-          axios.get(`/posts/profile/${username}`),
+          axios.get(`/api/users?username=${username}`),
+          axios.get(`/api/posts/profile/${username}`),
         ]);
         
         // Kullanıcının followers verisini kontrol et
@@ -56,7 +56,7 @@ export const Profile = () => {
 
   const createConversation = async () => {
     try {
-      const res = await axios.post("/conversations/getOrCreateConversation", {
+      const res = await axios.post("/api/conversations/getOrCreateConversation", {
         senderId: currentUser._id,
         receiverId: user._id,
       });
@@ -80,7 +80,7 @@ export const Profile = () => {
 
     try {
       // Eski şifreyi doğrula
-      const res = await axios.post("/users/verify-old-password", {
+      const res = await axios.post("/api/users/verify-old-password", {
         userId: currentUser._id,
         oldPassword,
       });
@@ -105,7 +105,7 @@ export const Profile = () => {
   const handleLogoutClick = async () => {
     try {
       // Çıkış işlemi için API isteği (token ve kullanıcıyı silme işlemi yapılacak)
-      await axios.post("/users/logout"); // API endpoint'ine post isteği gönderiyoruz
+      await axios.post("/api/users/logout"); // API endpoint'ine post isteği gönderiyoruz
 
       // API isteği başarılı olduktan sonra, auth token ve user bilgilerini localStorage'dan temizliyoruz
       localStorage.removeItem("user");
@@ -120,11 +120,11 @@ export const Profile = () => {
 
   const handleFollow = async () => {
     try {
-      await axios.put(`/follow/follow/${user._id}`, {
+      await axios.put(`/api/follow/follow/${user._id}`, {
         followerId: currentUser._id,
       });
       setIsFollowing(true);
-      const updatedUser = await axios.get(`/users?username=${username}`);
+      const updatedUser = await axios.get(`/api/users?username=${username}`);
       setUser(updatedUser.data);
     } catch (err) {
       console.error("Takip etme hatası:", err);
@@ -133,11 +133,11 @@ export const Profile = () => {
 
   const handleUnfollow = async () => {
     try {
-      await axios.put(`/follow/unfollow/${user._id}`, {
+      await axios.put(`/api/follow/unfollow/${user._id}`, {
         followerId: currentUser._id,
       });
       setIsFollowing(false);
-      const updatedUser = await axios.get(`/users?username=${username}`);
+      const updatedUser = await axios.get(`/api/users?username=${username}`);
       setUser(updatedUser.data);
     } catch (err) {
       console.error("Takipten çıkarma hatası:", err);

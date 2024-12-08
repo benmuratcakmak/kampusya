@@ -27,7 +27,7 @@ export const Conversation = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await axios.get(`/messages/${conversationId}`);
+        const response = await axios.get(`/api/messages/${conversationId}`);
         // Veriyi dizi olduğundan emin olun
         if (Array.isArray(response.data)) {
           setMessages(response.data);
@@ -66,7 +66,7 @@ export const Conversation = () => {
 
     try {
       const conversationResponse = await axios.get(
-        `/messages/forSocketNotification/${conversationId}`
+        `/api/messages/forSocketNotification/${conversationId}`
       );
       const conversation = conversationResponse.data;
 
@@ -95,7 +95,7 @@ export const Conversation = () => {
         createdAt: new Date(),
       };
 
-      const response = await axios.post("/messages", messageData);
+      const response = await axios.post("/api/messages", messageData);
       socket.emit("sendMessage", response.data);
 
       setMessages((prevMessages) => [

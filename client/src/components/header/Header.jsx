@@ -19,7 +19,7 @@ export const Header = ({ setOpenModal }) => {
     if (!user || !user._id) return;
     const getUser = async () => {
       try {
-        const response = await axios.get(`/users/${user._id}`);
+        const response = await axios.get(`/api/users/${user._id}`);
         if (response.data?.photo) {
           setUserPhoto(response.data.photo);
         }

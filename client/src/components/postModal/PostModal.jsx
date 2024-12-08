@@ -99,7 +99,7 @@ export const PostModal = ({ isOpen, onClose, setPosts }) => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("/posts", formData, {
+      const response = await axios.post("/api/posts", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

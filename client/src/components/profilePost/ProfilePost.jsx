@@ -41,7 +41,7 @@ export const ProfilePost = ({ posts }) => {
   const handleLike = useCallback(
     async (postId) => {
       try {
-        const res = await axios.post(`/postFeatures/${postId}/like`, {
+        const res = await axios.post(`/api/postFeatures/${postId}/like`, {
           userId,
         });
         // Update likes count and user's like status without reloading the page
@@ -76,7 +76,7 @@ export const ProfilePost = ({ posts }) => {
     );
     if (isConfirmed) {
       try {
-        await axios.delete(`/posts/${postId}`);
+        await axios.delete(`/api/posts/${postId}`);
         // Update posts using postsRef
         postsRef.current = postsRef.current.filter(
           (post) => post._id !== postId

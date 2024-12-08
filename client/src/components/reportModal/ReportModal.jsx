@@ -47,7 +47,7 @@ export const ReportModal = ({ open, handleClose }) => {
   
       setLoading(true);
       try {
-        const response = await axios.post("/report/upload", formData, {
+        const response = await axios.post("/api/report/upload", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         setLoading(false);

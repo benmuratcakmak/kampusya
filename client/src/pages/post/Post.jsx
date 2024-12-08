@@ -26,7 +26,7 @@ export const Post = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await axios.get(`/posts/post/${postId}`);
+        const res = await axios.get(`/api/posts/post/${postId}`);
         setPost(res.data);
       } catch (err) {
         console.error("Post bilgisi alınamadı:", err);
@@ -38,7 +38,7 @@ export const Post = () => {
 
   const handleLike = async () => {
     try {
-      const res = await axios.post(`/postFeatures/${postId}/like`, { userId });
+      const res = await axios.post(`/api/postFeatures/${postId}/like`, { userId });
       setPost((prevPost) => ({
         ...prevPost,
         likes: res.data.likes,
@@ -54,7 +54,7 @@ export const Post = () => {
     );
     if (isConfirmed) {
       try {
-        await axios.delete(`/posts/${postId}`);
+        await axios.delete(`/api/posts/${postId}`);
         navigate("/"); // Gönderi silindikten sonra ana sayfaya yönlendirme
       } catch (error) {
         console.error("Post silinirken hata oluştu:", error);

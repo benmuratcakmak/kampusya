@@ -14,7 +14,7 @@ export const Conversations = () => {
   useEffect(() => {
     const fetchConversations = async () => {
       try {
-        const response = await axios.get(`/conversations/${userId}`);
+        const response = await axios.get(`/api/conversations/${userId}`);
         setConversations(response.data);
       } catch (error) {
         console.error("Konuşmaları getirirken hata:", error);
@@ -27,7 +27,7 @@ export const Conversations = () => {
   const handleDeleteConversation = async (conversationId) => {
     if (window.confirm("Bu konuşmayı silmek istediğinizden emin misiniz?")) {
       try {
-        await axios.delete(`/messages/${conversationId}`);
+        await axios.delete(`/api/messages/${conversationId}`);
         setConversations(
           conversations.filter((c) => c.conversationId !== conversationId)
         );
@@ -48,8 +48,8 @@ export const Conversations = () => {
     }
 
     try {
-      await axios.put(`/conversations/mark-as-read/${conversationId}`);
-      const response = await axios.get(`/conversations/${userId}`);
+      await axios.put(`/api/conversations/mark-as-read/${conversationId}`);
+      const response = await axios.get(`/api/conversations/${userId}`);
       setConversations(response.data);
     } catch (error) {
       console.error("Konuşma okunmuş olarak işaretlenirken hata:", error);

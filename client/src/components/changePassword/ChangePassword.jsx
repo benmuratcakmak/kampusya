@@ -17,14 +17,14 @@ const ChangePassword = ({ open, onClose, userId, onSuccess }) => {
 
     try {
       // Eski şifreyi doğrula
-      const res = await axios.post("/users/verify-old-password", {
+      const res = await axios.post("/api/users/verify-old-password", {
         userId,
         oldPassword,
       });
 
       if (res.data.success) {
         // Eski şifre doğrulandıysa yeni şifreyi değiştir
-        await axios.put("/users/change-password", {
+        await axios.put("/api/users/change-password", {
           userId,
           newPassword,
         });

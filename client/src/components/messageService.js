@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const fetchConversationMessages = async (conversationId) => {
-  const response = await axios.get(`/messages/${conversationId}`);
+  const response = await axios.get(`/api/messages/${conversationId}`);
   return response.data;
 };
 

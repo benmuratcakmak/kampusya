@@ -19,7 +19,7 @@ const PollDetails = ({
     if (isVoted) {
       // Oy verildikten sonra API'ye oyu gönder
       axios
-        .post(`/posts/${postId}/vote`, { userId, optionIndex: selectedOption })
+        .post(`/api/posts/${postId}/vote`, { userId, optionIndex: selectedOption })
         .then((response) => {
           console.log("Oylama başarılı:", response.data);
           // Oylama sonrası sonuçları güncelle

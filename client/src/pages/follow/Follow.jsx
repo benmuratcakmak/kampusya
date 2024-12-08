@@ -23,7 +23,7 @@ export const Follow = () => {
   useEffect(() => {
     const fetchFollowers = async () => {
       try {
-        const res = await axios.get(`/follow/followers/${username}`);
+        const res = await axios.get(`/api/follow/followers/${username}`);
         setFollowers(res.data);
       } catch (err) {
         console.error("Takipçiler alınamadı:", err);
@@ -32,7 +32,7 @@ export const Follow = () => {
 
     const fetchFollowing = async () => {
       try {
-        const res = await axios.get(`/follow/following/${username}`);
+        const res = await axios.get(`/api/follow/following/${username}`);
         setFollowing(res.data);
       } catch (err) {
         console.error("Takip edilenler alınamadı:", err);

@@ -20,7 +20,7 @@ export const Home = () => {
 
   const fetchPosts = useCallback(async () => {
     try {
-      const res = await axios.get("/posts");
+      const res = await axios.get("/api/posts");
       setPosts(res.data);
     } catch (err) {
       console.error("Postlar alınırken hata oluştu:", err);
@@ -35,7 +35,7 @@ export const Home = () => {
   const handleLike = useCallback(
     async (postId) => {
       try {
-        const res = await axios.post(`/postFeatures/${postId}/like`, {
+        const res = await axios.post(`/api/postFeatures/${postId}/like`, {
           userId,
         });
         setPosts((prevPosts) =>
@@ -51,7 +51,7 @@ export const Home = () => {
   );
 
   const handleQuoteClick = (postId) => {
-    navigate(`/posts/post/${postId}`);
+    navigate(`/api/posts/post/${postId}`);
   };
 
   const handleCommentClick = (post) => {
@@ -68,7 +68,7 @@ export const Home = () => {
     );
     if (isConfirmed) {
       try {
-        await axios.delete(`/posts/${postId}`);
+        await axios.delete(`/api/posts/${postId}`);
         setPosts((prevPosts) =>
           prevPosts.filter((post) => post._id !== postId)
         );

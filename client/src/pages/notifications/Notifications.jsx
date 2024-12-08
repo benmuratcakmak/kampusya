@@ -15,7 +15,7 @@ export const Notifications = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const res = await axios.get(`/notifications/${userId}`);
+        const res = await axios.get(`/api/notifications/${userId}`);
         if (Array.isArray(res.data)) {
           setNotifications(res.data);
         } else {
@@ -34,7 +34,7 @@ export const Notifications = () => {
 
   const handleNotificationClick = async (notificationId, postId, senderUsername) => {
     try {
-      await axios.put(`/notifications/${notificationId}`, { isRead: true });
+      await axios.put(`/api/notifications/${notificationId}`, { isRead: true });
 
       setNotifications((prevNotifications) =>
         prevNotifications.map((notification) =>

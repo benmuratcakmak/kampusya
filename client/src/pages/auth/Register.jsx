@@ -49,7 +49,7 @@ export const Register = ({setOpenModal}) => {
     }
   
     try {
-      const res = await axios.post("/auth/register", formData);
+      const res = await axios.post("/api/auth/register", formData);
   
       if (res.status === 200) {
         setRegisteredEmail(email); // Kayıt edilen e-posta adresini sakla

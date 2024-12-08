@@ -49,7 +49,11 @@
     useEffect(() => {
       if (!user) return;
 
-      const socket = io("http://localhost:5000");
+      const socket = io("http://localhost:5000", {
+        withCredentials: true, // CORS için
+        transports: ["websocket", "polling"], // WebSocket ve polling kullanımı
+      });
+      
       socket.emit("joinRoom", user._id);
 
       socket.on("newMessageNotification", () => {
@@ -124,7 +128,7 @@
     }, [location]);
 
     const closeModal = () => setIsModalOpen(false);
-    const isNotificationPage = location.pathname === "/notifications";
+    const isNotificationPage = location.pathname === "/api/notifications";
 
     return (
       <div className={`footer-wrapper ${isScrolled ? "scrolled" : ""}`}>
@@ -197,7 +201,7 @@
 
               {/* Messages */}
               <NavLink
-                to="/messages"
+                to="/api/messages"
                 className={({ isActive }) => (isActive ? "active-link" : "link")}
                 onClick={() => handleNotificationClick("message")}
               >

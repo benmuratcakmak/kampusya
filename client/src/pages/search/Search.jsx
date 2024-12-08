@@ -19,7 +19,7 @@
         if (value.length >= 3) {
           setLoading(true);
           try {
-            const res = await axios.get(`/users/search/list?search=${value}`);
+            const res = await axios.get(`/api/users/search/list?search=${value}`);
             
             // response'dan gelen verinin dizilere uygun olup olmadığını kontrol et
             if (Array.isArray(res.data)) {

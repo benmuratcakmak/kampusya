@@ -20,7 +20,7 @@ const CommentModal = ({ postId, onCommentSubmit, onClose }) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`/postFeatures/${postId}/comments`);
+        const res = await axios.get(`/api/postFeatures/${postId}/comments`);
         console.log(res.data); // Veriyi kontrol edin
         setComments(res.data);
       } catch (err) {
@@ -33,7 +33,7 @@ const CommentModal = ({ postId, onCommentSubmit, onClose }) => {
   // Refresh comments
   const refreshComments = useCallback(async () => {
     try {
-      const res = await axios.get(`/postFeatures/${postId}/comments`);
+      const res = await axios.get(`/api/postFeatures/${postId}/comments`);
       setComments(res.data);
     } catch (err) {
       alert("Yorumlar yenilenirken hata oluştu.");
@@ -43,7 +43,7 @@ const CommentModal = ({ postId, onCommentSubmit, onClose }) => {
   // Handle new comment submission
   const handleCommentSubmit = async () => {
     try {
-      await axios.post(`/postFeatures/${postId}/comment`, {
+      await axios.post(`/api/postFeatures/${postId}/comment`, {
         userId: user._id,
         content: commentContent,
       });
@@ -61,8 +61,8 @@ const CommentModal = ({ postId, onCommentSubmit, onClose }) => {
     try {
       const url =
         type === "comment"
-          ? `/postFeatures/${postId}/comment/${id}/like`
-          : `/postFeatures/${postId}/comment/${parentId}/reply/${id}/like`;
+          ? `/api/postFeatures/${postId}/comment/${id}/like`
+          : `/api/postFeatures/${postId}/comment/${parentId}/reply/${id}/like`;
 
       const res = await axios.post(url, { userId: user._id });
 
@@ -95,7 +95,7 @@ const CommentModal = ({ postId, onCommentSubmit, onClose }) => {
 
   const handleReplySubmit = async (commentId) => {
     try {
-      await axios.post(`/postFeatures/${postId}/comment/${commentId}/reply`, {
+      await axios.post(`/api/postFeatures/${postId}/comment/${commentId}/reply`, {
         userId: user._id,
         content: replyContents[commentId],
       });
