@@ -63,20 +63,6 @@ router.put("/update", upload.single("photo"), async (req, res) => {
   }
 });
 
-// Get list of users based on search query
-router.get("/search/list", async (req, res) => {
-  try {
-    const searchQuery = req.query.search || ""; // Search term from user
-    const users = await User.find({
-      username: { $regex: searchQuery, $options: "i" }, // Search by username
-    });
-    res.status(200).json(users);
-  } catch (err) {
-    res.status(500).json({ message: "Bir hata oluştu", error: err });
-    console.error("routesHatasi", err);
-  }
-});
-
 router.post("/verify-old-password", async (req, res) => {
   try {
     const { userId, oldPassword } = req.body;

@@ -128,7 +128,7 @@
     }, [location]);
 
     const closeModal = () => setIsModalOpen(false);
-    const isNotificationPage = location.pathname === "/api/notifications";
+    const isNotificationPage = location.pathname === "/notifications";
 
     return (
       <div className={`footer-wrapper ${isScrolled ? "scrolled" : ""}`}>

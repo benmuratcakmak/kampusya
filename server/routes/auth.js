@@ -249,7 +249,7 @@ router.post("/resend-code", async (req, res) => {
     // Yeni doğrulama kodunu kullanıcıya kaydet
     user.verificationCode = newVerificationCode;
     user.verificationCodeExpiresAt = new Date(
-      currentTime.getTime() + 1 * 20 * 1000
+      currentTime.getTime() + 1 * 60 * 1000
     ); // 20 saniye sonra geçerli olacak
     await user.save();
 

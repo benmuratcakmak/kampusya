@@ -13,8 +13,6 @@ const ConversationItem = ({
     onDeleteConversation(conversation.conversationId);
   };
 
-
-
   return (
     <div
       className={`conversation-item ${conversation.isRead ? "read" : "unread"}`}
@@ -22,7 +20,7 @@ const ConversationItem = ({
     >
       <Link
         className="conversation-link"
-        to={`/api/messages/${conversation.conversationId}`}
+        to={`/messages/${conversation.conversationId}`}
       >
         <div className="conversation-real-item">
           <Avatar
@@ -46,9 +44,8 @@ const ConversationItem = ({
                   "Bu konuşmada henüz mesaj yok."}
             </p>
           </div>
-          
-          {/* <FormatTime timestamp={new Date(conversation?.lastMessage?.createdAt)} /> */}
 
+          {/* <FormatTime timestamp={new Date(conversation?.lastMessage?.createdAt)} /> */}
 
           <div className="options" onClick={handleDelete}>
             ...

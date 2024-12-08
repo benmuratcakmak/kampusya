@@ -5,7 +5,7 @@ import FormatTime from "../../components/FormatTime";
 // import "./NotificationItem.css";
 
 const NotificationItem = ({ notification, handleNotificationClick, handleAvatarClick }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const getMessage = (type) => {
     switch (type) {
@@ -36,7 +36,7 @@ const NotificationItem = ({ notification, handleNotificationClick, handleAvatarC
       }
     >
       <Avatar
-        src={notification.sender?.photo || "/default-avatar.png"}
+        src={notification.sender?.photo}
         alt={`${notification.sender?.username} profil fotoğrafı`}
         className="notification-photo"
         onClick={(e) => {

@@ -42,7 +42,6 @@ export const Conversation = () => {
       }
     };
     
-
     fetchMessages();
 
     socket.emit("joinConversation", conversationId);

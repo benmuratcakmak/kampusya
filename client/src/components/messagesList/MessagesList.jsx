@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { Avatar } from "@mui/material";
 import "./MessagesList.css";
+import { Link } from "react-router-dom";
 
 const MessagesList = ({
   messages,
@@ -28,11 +29,13 @@ const MessagesList = ({
           }`}
         >
           {message.sender._id !== userId && (
-            <Avatar
-              src={message.sender?.photo || "/path/to/default-avatar.png"}
-              alt={message.sender?.username}
-              className="message-photo"
-            />
+            <Link to={`/profile/${message.sender?.username}`}>
+              <Avatar
+                src={message.sender?.photo}
+                alt={message.sender?.username}
+                className="message-photo"
+              />
+            </Link>
           )}
           <div className="message-text">
             <p>{message.text}</p>
