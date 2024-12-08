@@ -38,9 +38,12 @@ export const Profile = () => {
           axios.get(`/users?username=${username}`),
           axios.get(`/posts/profile/${username}`),
         ]);
+        
+        // Kullanıcının followers verisini kontrol et
+        const userFollowers = userRes.data.followers || []; // Eğer followers undefined ise boş dizi kullan
         setUser(userRes.data);
         setPosts(postsRes.data);
-        setIsFollowing(userRes.data.followers.includes(currentUser._id));
+        setIsFollowing(userFollowers.includes(currentUser._id)); // Takip etme durumunu kontrol et
       } catch (err) {
         console.error("Veri yükleme hatası:", err);
       } finally {
@@ -49,6 +52,7 @@ export const Profile = () => {
     };
     fetchUserData();
   }, [username, currentUser._id]);
+  
 
   const createConversation = async () => {
     try {

@@ -16,11 +16,18 @@ export const Notifications = () => {
     const fetchNotifications = async () => {
       try {
         const res = await axios.get(`/notifications/${userId}`);
-        setNotifications(res.data);
+        if (Array.isArray(res.data)) {
+          setNotifications(res.data);
+        } else {
+          console.error("Beklenen formatta veri alınamadı", res.data);
+          // Alternatif olarak boş dizi atayabilirsiniz.
+          setNotifications([]);
+        }
       } catch (error) {
         console.error("Bildirimler alınamadı:", error);
       }
     };
+    
 
     fetchNotifications();
   }, [userId]);
@@ -55,7 +62,8 @@ export const Notifications = () => {
 
   return (
     <div className="notifications-container">
-      {notifications.length === 0 ? (
+      {/* {notifications.length === 0 ? ( */}
+      {Array.isArray(notifications) && notifications.length === 0 ? (
         <p>Henüz bir bildiriminiz yok.</p>
       ) : (
         notifications.map((notification) => (

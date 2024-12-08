@@ -113,21 +113,27 @@ export const Home = () => {
   return (
     <div className="home-posts-container">
       {error && <div className="error-message">{error}</div>}
-      {posts.map((post) =>
-        post && post._id ? (
-          <HomePost
-            key={post._id}
-            post={post}
-            userId={userId}
-            handleLike={handleLike}
-            handleQuoteClick={handleQuoteClick}
-            handleCommentClick={handleCommentClick}
-            handleShareClick={handleShareClick}
-            handleDeletePost={handleDeletePost}
-            showDropdown={showDropdown}
-            setShowDropdown={setShowDropdown}
-          />
-        ) : null
+
+      {/* posts dizisinin düzgün bir şekilde yüklendiğini kontrol et */}
+      {Array.isArray(posts) && posts.length > 0 ? (
+        posts.map((post) =>
+          post && post._id ? (
+            <HomePost
+              key={post._id}
+              post={post}
+              userId={userId}
+              handleLike={handleLike}
+              handleQuoteClick={handleQuoteClick}
+              handleCommentClick={handleCommentClick}
+              handleShareClick={handleShareClick}
+              handleDeletePost={handleDeletePost}
+              showDropdown={showDropdown}
+              setShowDropdown={setShowDropdown}
+            />
+          ) : null
+        )
+      ) : (
+        <div>No posts available.</div> // posts yoksa bir mesaj göster
       )}
 
       {selectedPost && (

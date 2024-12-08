@@ -28,7 +28,12 @@ export const Conversation = () => {
     const fetchMessages = async () => {
       try {
         const response = await axios.get(`/messages/${conversationId}`);
-        setMessages(response.data);
+        // Veriyi dizi olduğundan emin olun
+        if (Array.isArray(response.data)) {
+          setMessages(response.data);
+        } else {
+          setError("Mesajlar geçerli bir dizi değil.");
+        }
       } catch (error) {
         console.error("Mesajlar yüklenirken hata:", error);
         setError("Mesajlar yüklenemedi.");
@@ -36,6 +41,7 @@ export const Conversation = () => {
         setLoading(false);
       }
     };
+    
 
     fetchMessages();
 
