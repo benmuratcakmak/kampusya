@@ -12,21 +12,21 @@
     const timeoutRef = useRef(null); // Timeout ID'yi saklamak için ref kullanıyoruz
 
     // Debounce fonksiyonu (useRef ile timeout ID'si korunuyor)
-    const debounceSearch = useCallback((value) => {
+    const debounceSearch = useCallback((value, page = 1, limit = 5) => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     
       timeoutRef.current = setTimeout(async () => {
         if (value.length >= 3) {
           setLoading(true);
           try {
-            const res = await axios.get(`/api/users/search/list?search=${value}`);
-            
-            // response'dan gelen verinin dizilere uygun olup olmadığını kontrol et
-            if (Array.isArray(res.data)) {
-              setUserFilter(res.data);
+            const res = await axios.get(`/api/search/list?search=${value}&page=${page}&limit=${limit}`);
+            const { users, totalResults, totalPages } = res.data;
+    
+            if (Array.isArray(users)) {
+              setUserFilter(users);
             } else {
               console.error("Beklenmedik veri formatı:", res.data);
-              setUserFilter([]); // Veri uygun değilse boş dizi ata
+              setUserFilter([]);
             }
           } catch (error) {
             console.error("Arama başarısız oldu:", error);
@@ -39,6 +39,7 @@
         }
       }, 500);
     }, []);
+    
 
     // Search input değiştikçe debounceSearch fonksiyonunu tetikle
     const handleSearch = (e) => {

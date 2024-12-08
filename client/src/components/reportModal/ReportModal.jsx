@@ -122,7 +122,7 @@ export const ReportModal = ({ open, handleClose }) => {
       {media && (
         <div className="media-preview-container">
           <div className="close-media-preview" onClick={handleClosePreview}>
-            <FaTimes />
+            <Icons.Times />
           </div>
           {media.type.startsWith("image/") ? (
             <img src={URL.createObjectURL(media)} alt="Media Preview" className="preview-image" />

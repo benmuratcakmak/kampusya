@@ -6,6 +6,6 @@ export const fetchConversationMessages = async (conversationId) => {
 };
 
 export const sendMessage = async (messageData) => {
-  const response = await axios.post("/messages", messageData);
+  const response = await axios.post("/api/messages", messageData);
   return response.data;
 };

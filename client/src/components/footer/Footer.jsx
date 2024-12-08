@@ -201,7 +201,7 @@
 
               {/* Messages */}
               <NavLink
-                to="/api/messages"
+                to="/messages"
                 className={({ isActive }) => (isActive ? "active-link" : "link")}
                 onClick={() => handleNotificationClick("message")}
               >

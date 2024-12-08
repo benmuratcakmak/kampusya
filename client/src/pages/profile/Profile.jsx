@@ -159,7 +159,6 @@ export const Profile = () => {
                     <Icons.MessageIcon
                       onClick={createConversation}
                       className="message-button"
-                      sx={{ color: "grey" }}
                     />
                   )}
 
@@ -168,7 +167,6 @@ export const Profile = () => {
                       <Icons.SettingsIcon
                         onClick={(e) => setAnchorEl(e.currentTarget)}
                         className="settings-button"
-                        sx={{ color: "grey" }}
                       />
                       <Menu
                         anchorEl={anchorEl}

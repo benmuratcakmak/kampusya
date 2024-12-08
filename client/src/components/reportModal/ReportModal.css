@@ -79,18 +79,6 @@ body.no-scroll {
   /* Maintains the aspect ratio of the media */
 }
 
-.close-media-preview {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  color: #fff;
-  font-size: 24px;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 50%;
-  padding: 5px;
-}
-
 .loading-indicator {
   text-align: center;
   font-size: 16px;
@@ -111,7 +99,7 @@ body.no-scroll {
 .loading-indicator {
   text-align: center;
   font-size: 16px;
-  color: #333;
+  color: white;
   margin-top: 20px;
 }
 

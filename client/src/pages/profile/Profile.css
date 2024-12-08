@@ -26,6 +26,14 @@ position: relative;
   right: 0px;
 }
 
+.profile-left-top-icon .settings-button,
+.profile-left-top-icon .message-button {
+  color: white;
+  height: 2rem;
+  width: 2rem;
+}
+
+
 .profile-left-top .profile-photo {
   height: 9rem;
   width: 9rem;
@@ -61,12 +69,6 @@ position: relative;
   border-left: 1px solid rgb(50, 50, 50);
   row-gap: 10px;
 }
-
-/* .profile-right-top {
-  display: flex;
-  flex-direction: column;
-  row-gap: 10px;
-} */
 
 .profile-right .bio-div {
   margin-top: 1rem;

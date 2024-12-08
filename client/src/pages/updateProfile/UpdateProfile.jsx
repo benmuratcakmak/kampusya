@@ -86,7 +86,7 @@ export const UpdateProfile = () => {
     if (photo) formData.append("photo", photo); // Fotoğrafı ekle
 
     try {
-      const response = await axios.put("/users/update", formData, {
+      const response = await axios.put("/api/users/update", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       dispatch({ type: "UPDATE_USER", payload: response.data });

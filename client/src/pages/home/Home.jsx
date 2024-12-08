@@ -133,7 +133,7 @@ export const Home = () => {
           ) : null
         )
       ) : (
-        <div>No posts available.</div> // posts yoksa bir mesaj göster
+        <div>Henüz gönderi yok.</div> // posts yoksa bir mesaj göster
       )}
 
       {selectedPost && (
