@@ -1,15 +1,35 @@
 import { Server } from "socket.io";
 import http from "http";
 import express from "express";
+import cors from "cors"; 
 import Message from "../models/Message.js";
 
 const app = express();
 const server = http.createServer(app);
 
 // Socket.IO için CORS ayarlarını yapıyoruz
+// const io = new Server(server, {
+//   cors: {
+//     origin: ["https://kampusya.com", "http://localhost:3000"],
+//     methods: ["GET", "POST"],
+//     credentials: true,
+//   },
+//   transports: ['websocket', 'polling'],
+// });
+
+// CORS ayarlarını Express için uyguluyoruz
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+/////// yukardaki server.js de de var bunu ben sonradak ekledim
+
 const io = new Server(server, {
   cors: {
-    origin: ["https://kampusya.com", "http://localhost:3000"],
+    origin: "*", // Tüm istemcilere izin vermek için. Daha güvenli bir yapılandırma için belirli bir adres girin.
     methods: ["GET", "POST"],
     credentials: true,
   },

@@ -25,23 +25,11 @@ import conversationsRoutes from "./routes/conversations.js";
 import messageRoutes from "./routes/messages.js";
 import reportRoutes from "./routes/report.js";
 
-// const app = express();
-// const server = createServer(app);
-
-// Socket.IO ile ilgili yapılandırma
-// const io = new Server(server, {
-//   cors: {
-//     origin: ["https://kampusya.com", "http://localhost:3000"],
-//     methods: ["GET", "POST"],
-//     allowedHeaders: ["Content-Type", "Authorization"],
-//     credentials: true
-//   }
-// });
-
 // Middlewares
 app.use(cors({
-  origin: ["https://kampusya.com", "http://localhost:3000"],
-  methods: ["GET", "POST"],
+  // origin: ["https://kampusya.com", "http://localhost:3000"],
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
@@ -55,7 +43,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // React uygulamanızın build dizini
 app.use(express.static(path.join(__dirname, "client", "build")));  // React için static dosyalar
 
-const port = process.env.PORT || 3030;
+const port = process.env.PORT;
 
 app.get("/", (req, res) => {
   res.send(`Server portundasin, port no ${port}`);
@@ -79,26 +67,9 @@ app.use("/api/report", reportRoutes);
 // });
 
 // React yönlendirmesi
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-// });
-
-// Socket.IO bağlantı dinleme
-// io.on("connection", (socket) => {
-//   console.log("A user connected");
-
-  // Bağlantı kesildiğinde loglama
-//   socket.on("disconnect", () => {
-//     console.log("User disconnected");
-//   });
-// });
-
-// Server başlatma
-// const port = process.env.PORT;
-// server.listen(port, () => {
-//   conn();
-//   console.log("Server is running on port", port);
-// });
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
 server.listen(port, () => {
   conn();
