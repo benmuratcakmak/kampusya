@@ -8,7 +8,10 @@ import { MessageInput } from "../../components/messageInput/MessageInput";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import "./Conversation.css";
 
-const socket = io("http://localhost:5000");
+const socket = io("http://localhost:5000", {
+  withCredentials: true, // CORS için
+  transports: ["websocket", "polling"], // WebSocket ve polling kullanımı
+});
 
 export const Conversation = () => {
   const { conversationId } = useParams();
