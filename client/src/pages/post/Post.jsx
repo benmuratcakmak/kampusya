@@ -98,7 +98,7 @@ export const Post = () => {
       <div className="post">
         <div className="post-left">
           <Avatar
-            src={post.userId?.photo || "/default-avatar.png"}
+            src={post.userId?.photo}
             alt="Profile"
             onClick={() => navigate(`/profile/${post.userId?.username}`)}
           />
