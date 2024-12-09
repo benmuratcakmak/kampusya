@@ -51,7 +51,7 @@ export const Home = () => {
   );
 
   const handleQuoteClick = (postId) => {
-    navigate(`/api/posts/post/${postId}`);
+    navigate(`/posts/post/${postId}`);
   };
 
   const handleCommentClick = (post) => {

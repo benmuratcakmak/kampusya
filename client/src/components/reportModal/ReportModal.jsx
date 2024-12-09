@@ -106,7 +106,7 @@ export const ReportModal = ({ open, handleClose }) => {
           rows={4}
         />
         <div className="modal-icons">
-          <Icons.FaRegImages onClick={handleFileSelect} className="icon" />
+          <Icons.Paperclip onClick={handleFileSelect} className="icon" />
           <Icons.FaPaperPlane onClick={handleFormSubmit} className="icon" />
         </div>
         <input

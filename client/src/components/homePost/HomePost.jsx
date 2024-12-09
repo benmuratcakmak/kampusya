@@ -25,6 +25,7 @@ const HomePost = ({
   const handleProfileClick = (username) => {
     navigate(`/profile/${username}`); // username'e göre kullanıcı profil sayfasına git
   };
+
   return (
     <div className="post">
       <div className="post-left">
@@ -37,7 +38,7 @@ const HomePost = ({
       </div>
       <div className="post-right">
         <div className="right-info">
-          <p>
+          <p onClick={() => handleProfileClick(post.userId.username)}>
             {post.userId?.firstName} {post.userId?.lastName}
           </p>
           <p>@{post.userId?.username}</p>
@@ -75,20 +76,24 @@ const HomePost = ({
           </div>
         )}
 
-        {post.pollQuestion && (
-          <PollDetails
-            postId={post._id}
-            pollQuestion={post.pollQuestion}
-            pollOptions={post.pollOptions}
-            userId={userId}
-          />
+        {!post.sharePostId?.eventTitle && post.eventTitle && (
+          <div className="right-event">
+            <EventDetails
+              eventTitle={post.eventTitle}
+              eventDescription={post.eventDescription}
+              eventDate={post.eventDate}
+            />
+          </div>
         )}
-        {post.eventTitle && (
-          <EventDetails
-            eventTitle={post.eventTitle}
-            eventDescription={post.eventDescription}
-            eventDate={post.eventDate}
-          />
+        {!post.sharePostId?.pollQuestion && post.pollQuestion && (
+          <div className="right-poll">
+            <PollDetails
+              postId={post._id}
+              pollQuestion={post.pollQuestion}
+              pollOptions={post.pollOptions}
+              userId={userId}
+            />
+          </div>
         )}
 
         {/* Gönderi Alıntısı */}
@@ -96,19 +101,17 @@ const HomePost = ({
           className="quote-container"
           style={{
             display:
-              // post.sharePostId?.userId?.photo &&
-              // post.sharePostId?.userId?.firstName &&
-              // post.sharePostId?.userId?.lastName &&
-              // post.sharePostId?.userId?.username &&
-              post.sharePostId?.content && post.sharePostId?.mediaUrl
+              post.sharePostId?.content ||
+              post.sharePostId?.mediaUrl ||
+              post.sharePostId?.pollQuestion ||
+              post.sharePostId?.eventTitle
                 ? "block"
                 : "none",
             border:
-              // post.sharePostId?.userId?.photo ||
-              // post.sharePostId?.userId?.firstName ||
-              // post.sharePostId?.userId?.lastName ||
-              // post.sharePostId?.userId?.username ||
-              post.sharePostId?.content || post.sharePostId?.mediaUrl
+              post.sharePostId?.content ||
+              post.sharePostId?.mediaUrl ||
+              post.sharePostId?.pollQuestion ||
+              post.sharePostId?.eventTitle
                 ? "#333 1px solid"
                 : "none",
           }}
@@ -149,6 +152,23 @@ const HomePost = ({
                 <img src={post.sharePostId?.mediaUrl} alt="Shared Media" />
               </div>
             </div>
+          )}
+
+          {post.sharePostId?.eventTitle && (
+            <EventDetails
+              eventTitle={post.sharePostId?.eventTitle}
+              eventDescription={post.sharePostId?.eventDescription}
+              eventDate={post.sharePostId?.eventDate}
+            />
+          )}
+
+          {post.sharePostId?.pollQuestion && (
+            <PollDetails
+              postId={post.sharePostId?._id}
+              pollQuestion={post.sharePostId?.pollQuestion}
+              pollOptions={post.sharePostId?.pollOptions}
+              userId={userId}
+            />
           )}
         </div>
 

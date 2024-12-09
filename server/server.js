@@ -27,11 +27,9 @@ import reportRoutes from "./routes/report.js";
 
 // Middlewares
 app.use(cors({
-  // origin: ["https://kampusya.com", "http://localhost:3000"],
-  origin: "*",
+  origin: ["https://kampusya.com", "http://localhost:3000"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
 }));
 
 app.use(express.json()); // JSON veri gönderebilmek için
@@ -61,15 +59,15 @@ app.use("/api/conversations", conversationsRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/report", reportRoutes);
 
-// Ana sayfa
-// app.get("/", (req, res) => {
-//   res.send(`Server portundasin, port no ${process.env.PORT}`);
-// });
 
-// React yönlendirmesi
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-});
+// Üretim ortamında React build dosyasını sunmak
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 server.listen(port, () => {
   conn();

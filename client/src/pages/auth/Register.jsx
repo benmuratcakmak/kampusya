@@ -7,7 +7,7 @@ import { RiMailSendLine } from "react-icons/ri";
 
 import "./Auth.css";
 
-export const Register = ({setOpenModal}) => {
+export const Register = ({ setOpenModal }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -36,21 +36,29 @@ export const Register = ({setOpenModal}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { firstName, lastName, username, email, password, passwordAgain } = formData;
-  
-    if (!firstName || !lastName || !username || !email || !password || !passwordAgain) {
+    const { firstName, lastName, username, email, password, passwordAgain } =
+      formData;
+
+    if (
+      !firstName ||
+      !lastName ||
+      !username ||
+      !email ||
+      !password ||
+      !passwordAgain
+    ) {
       setError("Lütfen tüm alanları doldurun.");
       return;
     }
-  
+
     if (password !== passwordAgain) {
       setError("Şifreler uyuşmuyor!");
       return;
     }
-  
+
     try {
       const res = await axios.post("/api/auth/register", formData);
-  
+
       if (res.status === 200) {
         setRegisteredEmail(email); // Kayıt edilen e-posta adresini sakla
         setIsModalOpen(true); // Doğrulama modülünü aç
@@ -58,13 +66,18 @@ export const Register = ({setOpenModal}) => {
       }
     } catch (err) {
       // Hata mesajını ayarlayın
-      if (err.response?.data?.message === "Bu e-posta adresiyle zaten bir kayıt işlemi yapılmış. Lütfen doğrulama kodunu girin.") {
+      if (
+        err.response?.data?.message ===
+        "Bu e-posta adresiyle zaten bir kayıt işlemi yapılmış. Lütfen doğrulama kodunu girin."
+      ) {
         setRegisteredEmail(email); // Kayıtlı e-posta adresini sakla
         setIsModalOpen(true); // Modal'ı tekrar aç
       }
-      setError(err.response?.data?.message || "Kayıt işlemi sırasında bir hata oluştu.");
+      setError(
+        err.response?.data?.message || "Kayıt işlemi sırasında bir hata oluştu."
+      );
     }
-  };  
+  };
 
   // Handle successful verification (e.g., redirect to login page)
   const handleVerificationSuccess = () => {
@@ -75,18 +88,18 @@ export const Register = ({setOpenModal}) => {
   return (
     <div className="auth-container">
       <div className="report-container">
-            <small>
-              Bi'şeyler mi
-              <br />
-              biliyosun?
-            </small>
-            <div className="header-send-icon-container">
-              <RiMailSendLine
-                className="header-send-icon"
-                onClick={handleOpenModal}
-              />
-            </div>
-          </div>
+        <small>
+          Bi'şeyler mi
+          <br />
+          biliyosun?
+        </small>
+        <div className="header-send-icon-container">
+          <RiMailSendLine
+            className="header-send-icon"
+            onClick={handleOpenModal}
+          />
+        </div>
+      </div>
       <b>
         Yalnızca .edu uzantılı e-posta adresleriyle <br /> hesap
         oluşturabilirsiniz.
@@ -137,6 +150,8 @@ export const Register = ({setOpenModal}) => {
           onChange={handleChange}
           placeholder="Şifre"
           required
+          minLength={6} // En az 6 karakter
+          maxLength={15}
         />
         <input
           id="passwordAgain"

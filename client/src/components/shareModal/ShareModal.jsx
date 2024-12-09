@@ -31,7 +31,9 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
     const fetchFollowing = async () => {
       setStatus({ loading: true, error: null });
       try {
-        const response = await axios.get(`/api/follow/following/${user.username}`);
+        const response = await axios.get(
+          `/api/follow/following/${user.username}`
+        );
         setFollowers(response.data);
       } catch (err) {
         setStatus({
@@ -49,7 +51,6 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
   const handleContentChange = (e) => {
     setContent(e.target.value); // debounce kaldırıldı
   };
-  
 
   // Kullanıcı seçimini toggle etme
   const toggleFollowerSelection = useCallback((followerId) => {
@@ -65,9 +66,11 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
     const notification = document.createElement("div");
     notification.className = `notification ${type}`;
     notification.innerHTML = `
-      <span class="notification-icon">${type === "success" ? "✔️" : "❌"}</span>
-      <span>${message}</span>
-    `;
+        <span class="notification-icon">${
+          type === "success" ? "✔️" : "❌"
+        }</span>
+        <span>${message}</span>
+      `;
     document.body.appendChild(notification);
 
     setTimeout(() => {
@@ -96,13 +99,6 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
           sharePostId: selectedPost._id,
           sender: userId,
           text: content,
-          // sharePostText: selectedPost.content,
-          // sharePostMedia: selectedPost.mediaUrl,
-          // sharePostProfilePhoto: selectedPost.userId?.photo,
-          // sharePostFirstName: selectedPost.userId?.firstName,
-          // sharePostLastName: selectedPost.userId?.lastName,
-          // sharePostUsername: selectedPost.userId?.username,
-          // shareCreatedAt: selectedPost.userId?.createdAt,
         });
 
         await axios.put(
@@ -120,29 +116,35 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
   };
 
   // Evinize paylaşma
+  // Evinize paylaşma
   const handleSendforHome = async () => {
-    if (!selectedPost?.content && !selectedPost?.mediaUrl) {
+    if (
+      !selectedPost?.content &&
+      !selectedPost?.mediaUrl &&
+      !selectedPost?.pollQuestion &&
+      !selectedPost?.eventTitle
+    ) {
       showNotification("Geçerli bir gönderi yok.", "error");
       return;
     }
 
     try {
-      const response = await axios.post("/posts", {
+      const response = await axios.post("/api/posts", {
         content,
         sharePostId: selectedPost._id,
-        // sharePostContent: selectedPost.content,
         userId: userId,
-        // sharePostMedia: selectedPost.mediaUrl,
-        // sharePostProfilePhoto: selectedPost.userId?.photo,
-        // sharePostFirstName: selectedPost.userId?.firstName,
-        // sharePostLastName: selectedPost.userId?.lastName,
-        // sharePostUsername: selectedPost.userId?.username,
-        // isSharedFromHome: true,
-        // originalPostId: selectedPost._id,
-        // shareCreatedAt: selectedPost.userId?.createdAt,
+        pollQuestion: selectedPost.pollQuestion, // Anket sorusu ekleniyor
+        pollOptions: selectedPost.pollOptions, // Anket seçenekleri ekleniyor
+        eventTitle: selectedPost.eventTitle, // Etkinlik başlığı ekleniyor
+        eventDescription: selectedPost.eventDescription, // Etkinlik açıklaması ekleniyor
+        eventDate: selectedPost.eventDate, // Etkinlik tarihi ekleniyor
       });
 
       if (response.status === 201) {
+        // Paylaşım sayısını arttırma
+        await axios.put(
+          `/api/postFeatures/${selectedPost._id}/incrementShareCount`
+        );
         showNotification("Gönderiniz başarıyla paylaşıldı!", "success");
         onClose();
       }
@@ -174,13 +176,14 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
   return (
     <div className="share-modal-container">
       <div className="share-modal-content" ref={modalContentRef}>
-        <header className="share-header" onClick={handleSendforHome}>
-          <h5>Alıntı olarak Paylaş</h5>
-        </header>
-        
+        <button onClick={handleSendforHome}>
+          Alıntı olarak Paylaş
+          <Icons.Draw />
+        </button>
+        <h4>ya da</h4>
+        <h4>Takip ettiklerine gonder</h4>
 
         <main className="modal-content">
-          <h4>Takip Ettiklerin</h4>
           {status.loading ? (
             <p>Yükleniyor...</p>
           ) : status.error ? (
@@ -207,20 +210,18 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
           ) : (
             <p>Takip ettiğiniz kimse yok.</p>
           )}
-          <input
-          className="content-textarea"
+          <Icons.FaPaperPlane
+            className="share-modal-send-button"
+            onClick={handleSend}
+            disabled={!selectedFollowers.length || !content} // Eğer içerik yoksa butonu devre dışı bırak
+          ></Icons.FaPaperPlane>
+        </main>
+        <input
+          className="share-modal-input"
           value={content}
           onChange={handleContentChange}
           placeholder="Buraya yazın..."
         />
-          <Icons.FaPaperPlane
-            className="send-button"
-            onClick={handleSend}
-            disabled={!selectedFollowers.length || !content} // Eğer içerik yoksa butonu devre dışı bırak
-          >
-            Gönder
-          </Icons.FaPaperPlane>
-        </main>
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ const EventDetails = ({ eventTitle, eventDescription, eventDate }) => {
             minute: "numeric",
           })}
         </p>
-        <Countdown eventDate={eventDate} />
+          <Countdown  className="event-countdown" eventDate={eventDate} />
       </div>
     </div>
   );

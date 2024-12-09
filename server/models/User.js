@@ -6,13 +6,13 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       min: 2,
-      max: 50,
+      max: 20,
     },
     lastName: {
       type: String,
       required: true,
       min: 2,
-      max: 50,
+      max: 20,
     },
     username: {
       type: String,
@@ -37,14 +37,10 @@ const UserSchema = new mongoose.Schema(
     photo: {
       type: String,
     },
-    faculty: { type: String, default: '' }, // Fakülte
-    department: { type: String, default: '' }, // Bölüm
+    faculty: { type: String, default: null },
+    department: { type: String, default: null },
     isActive: { type: Boolean, default: true },
-    bio: {
-      type: String,
-      max: 50,
-      default: '',
-    },
+    bio: { type: String, max: 50, default: null },
     followers: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -58,13 +54,16 @@ const UserSchema = new mongoose.Schema(
       },
     ],
     isVerified: { type: Boolean, default: false }, // Doğrulama durumu
-    verificationCode: String, // Doğrulama kodu
-    verificationCodeExpiresAt: { type: Date },
+    // verificationCode: String,
+    // verificationCodeExpiresAt: { type: Date },
+    verificationCode: { type: String, default: null },
+    verificationCodeExpiresAt: { type: Date, default: null }, 
   },
   { timestamps: true }
 );
 
-UserSchema.index({ username: "text", firstName: "text", lastName: "text", email: "text" });
+UserSchema.index({ username: 1, email: 1 }, { unique: true });
+UserSchema.index({ firstName: 1, lastName: 1 });
 
 
 const User = mongoose.model("User", UserSchema);

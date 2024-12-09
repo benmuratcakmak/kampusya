@@ -15,17 +15,17 @@
 .event-title {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #333;
+    color: white;
 }
 
 .event-description {
     font-size: 1rem;
-    color: #555;
+    color: white;
 }
 
-.event-date p {
+.event-date {
     font-size: 0.9rem;
-    color: #888;
+    color: gray;
 }
 
 .event-countdown {

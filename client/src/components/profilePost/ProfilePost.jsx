@@ -160,14 +160,24 @@ export const ProfilePost = ({ posts }) => {
                 </div>
               )}
 
-              {/* PollSection Component */}
-              {post.pollQuestion && (
-                <PollDetails
-                  postId={post._id}
-                  pollQuestion={post.pollQuestion}
-                  pollOptions={post.pollOptions}
-                  userId={userId}
-                />
+              {!post.sharePostId?.eventTitle && post.eventTitle && (
+                <div className="right-event">
+                  <EventDetails
+                    eventTitle={post.eventTitle}
+                    eventDescription={post.eventDescription}
+                    eventDate={post.eventDate}
+                  />
+                </div>
+              )}
+              {!post.sharePostId?.pollQuestion && post.pollQuestion && (
+                <div className="right-poll">
+                  <PollDetails
+                    postId={post._id}
+                    pollQuestion={post.pollQuestion}
+                    pollOptions={post.pollOptions}
+                    userId={userId}
+                  />
+                </div>
               )}
 
               {/* Gönderi Alıntısı */}
@@ -175,21 +185,17 @@ export const ProfilePost = ({ posts }) => {
                 className="quote-container"
                 style={{
                   display:
-                    post.sharePostId?.userId?.photo &&
-                    post.sharePostId?.userId?.firstName &&
-                    post.sharePostId?.userId?.lastName &&
-                    post.sharePostId?.userId?.username &&
-                    post.sharePostId?.content &&
-                    post.sharePostId?.mediaUrl
+                    post.sharePostId?.content ||
+                    post.sharePostId?.mediaUrl ||
+                    post.sharePostId?.pollQuestion ||
+                    post.sharePostId?.eventTitle
                       ? "block"
                       : "none",
                   border:
-                    post.sharePostId?.userId?.photo ||
-                    post.sharePostId?.userId?.firstName ||
-                    post.sharePostId?.userId?.lastName ||
-                    post.sharePostId?.userId?.username ||
                     post.sharePostId?.content ||
-                    post.sharePostId?.mediaUrl
+                    post.sharePostId?.mediaUrl ||
+                    post.sharePostId?.pollQuestion ||
+                    post.sharePostId?.eventTitle
                       ? "#333 1px solid"
                       : "none",
                 }}
@@ -214,15 +220,16 @@ export const ProfilePost = ({ posts }) => {
                         {post.sharePostId?.userId?.firstName}{" "}
                         {post.sharePostId?.userId?.lastName}
                       </small>
-
                       <small>@{post.sharePostId?.userId?.username}</small>
                       <small>
                         <FormatTime timestamp={post.sharePostId?.createdAt} />
                       </small>
                     </div>
-                    <div className="quote-right-top-text">
-                      <p>{post.sharePostId?.content}</p>
-                    </div>
+                    {post.sharePostId?.content && (
+                      <div className="quote-right-top-text">
+                        <p>{post.sharePostId?.content}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
                 {post.sharePostId?.mediaUrl && (
@@ -235,15 +242,25 @@ export const ProfilePost = ({ posts }) => {
                     </div>
                   </div>
                 )}
+
+                {post.sharePostId?.eventTitle && (
+                  <EventDetails
+                    eventTitle={post.sharePostId?.eventTitle}
+                    eventDescription={post.sharePostId?.eventDescription}
+                    eventDate={post.sharePostId?.eventDate}
+                  />
+                )}
+
+                {post.sharePostId?.pollQuestion && (
+                  <PollDetails
+                    postId={post.sharePostId?._id}
+                    pollQuestion={post.sharePostId?.pollQuestion}
+                    pollOptions={post.sharePostId?.pollOptions}
+                    userId={userId}
+                  />
+                )}
               </div>
 
-              {post.eventTitle && (
-                <EventDetails
-                  eventTitle={post.eventTitle}
-                  eventDescription={post.eventDescription}
-                  eventDate={post.eventDate}
-                />
-              )}
               <div className="right-icons">
                 <span
                   className="like-button"
@@ -272,7 +289,10 @@ export const ProfilePost = ({ posts }) => {
                 </span>
               </div>
               {showDropdown === post._id && (
-                <DeletePost postId={post._id} handleDeletePost={handleDeletePost} />
+                <DeletePost
+                  postId={post._id}
+                  handleDeletePost={handleDeletePost}
+                />
               )}
               {selectedPost && selectedPost._id === post._id && (
                 <CommentModal

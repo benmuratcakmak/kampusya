@@ -7,7 +7,7 @@ const VerificationModal = ({ email, isOpen, onClose, onSuccess }) => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [isCodeExpired, setIsCodeExpired] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(60); // 20 saniyelik geri sayım
+  const [timeLeft, setTimeLeft] = useState(180); // 20 saniyelik geri sayım
 
   useEffect(() => {
     const handleBeforeUnload = async () => {
@@ -71,7 +71,7 @@ const VerificationModal = ({ email, isOpen, onClose, onSuccess }) => {
 
   const resendCode = async () => {
     setIsCodeExpired(false);
-    setTimeLeft(20); // Zamanlayıcıyı sıfırla
+    setTimeLeft(180); // Zamanlayıcıyı sıfırla
     setMessage(""); // Önceki mesajları temizle
 
     try {

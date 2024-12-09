@@ -89,12 +89,6 @@ router.post("/", upload.single("media"), async (req, res) => {
   const {
     content,
     sharePostId,
-    // sharePostContent,
-    // sharePostMedia,
-    // sharePostProfilePhoto,
-    // sharePostFirstName,
-    // sharePostLastName,
-    // sharePostUsername,
     userId,
     isSharedFromHome,
     originalPostId,
@@ -122,21 +116,15 @@ router.post("/", upload.single("media"), async (req, res) => {
     const newPostData = {
       content,
       sharePostId,
-      // sharePostContent,
-      // sharePostMedia,
-      // sharePostProfilePhoto,
-      // sharePostFirstName,
-      // sharePostLastName,
-      // sharePostUsername,
       userId,
       mediaUrl,
-      eventTitle,
-      eventDate,
-      eventDescription,
-      pollQuestion,
-      pollOptions: formattedPollOptions,
-      isSharedFromHome,
+      eventTitle: isSharedFromHome ? null : eventTitle,
+      eventDate: isSharedFromHome ? null : eventDate,
+      eventDescription: isSharedFromHome ? null : eventDescription,
+      pollQuestion: isSharedFromHome ? null : pollQuestion,
+      pollOptions: isSharedFromHome ? [] : formattedPollOptions,
     };
+    
 
     // Yeni gönderiyi oluştur ve kaydet
     const newPost = new Post(newPostData);
@@ -192,7 +180,7 @@ router.get("/", async (req, res) => {
       .populate("userId", "username firstName lastName photo") // Ana postun kullanıcısını populate et
       .populate({
         path: "sharePostId", // Paylaşılan postu populate et
-        select: "content mediaUrl createdAt",
+        // select: "content mediaUrl createdAt",
         populate: {
           path: "userId", // Paylaşılan postun kullanıcısını da populate et
           select: "username firstName lastName photo", // Hangi alanları alacağını belirt
@@ -217,7 +205,7 @@ router.get("/profile/:username", async (req, res) => {
       .populate("userId", "username firstName lastName photo")
       .populate({
         path: "sharePostId", // Paylaşılan postu populate et
-        select: "content mediaUrl createdAt",
+        // select: "content mediaUrl createdAt",
         populate: {
           path: "userId", // Paylaşılan postun kullanıcısını da populate et
           select: "username firstName lastName photo", // Hangi alanları alacağını belirt
@@ -239,7 +227,7 @@ router.get("/post/:postId", async (req, res) => {
   try {
     const post = await Post.findById(postId).populate(
       "userId",
-      "username firstName lastName photo mediaUrl"
+      "username firstName lastName photo"
     ); // Postu paylaşan kullanıcının bilgilerini alıyoruz
     if (!post) {
       return res.status(404).json({ error: "Post bulunamadı" }); // Post bulunamazsa hata mesajı gönderiyoruz

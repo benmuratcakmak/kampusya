@@ -56,14 +56,37 @@ const MessagesList = ({
                     <p>{message.sharePostId?.content}</p>
                   </div>
                 </div>
-                <div className="post-bottom">
-                  {message.sharePostId && (
+                {message.sharePostId?.mediaUrl && (
+                  <div className="post-bottom">
                     <img
                       src={message.sharePostId?.mediaUrl}
                       alt="paylaşılan medya"
                     />
-                  )}
-                </div>
+                  </div>
+                )}
+                {/* Etkinlik verileri burada görüntüleniyor */}
+                {message.sharePostId?.eventTitle && (
+                  <div className="event">
+                    <h3>{message.sharePostId.eventTitle}</h3>
+                    <p>{message.sharePostId.eventDescription}</p>
+                    <p>
+                      <strong>Tarih:</strong> {new Date(message.sharePostId.eventDate).toLocaleString()}
+                    </p>
+                  </div>
+                )}
+                {/* Anket verileri burada görüntüleniyor */}
+                {message.sharePostId?.pollQuestion && (
+                  <div className="poll">
+                    <h3>{message.sharePostId.pollQuestion}</h3>
+                    <ul>
+                      {message.sharePostId.pollOptions.map((option, index) => (
+                        <li key={index}>
+                          {option.option} - {option.votes} oy
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
           </div>

@@ -9,6 +9,7 @@ import CommentModal from "../../components/commentModal/CommentModal";
 import PollDetails from "../../components/pollDetails/PollDetails";
 import DeletePost from "../../components/deletePost/DeletePost";
 import { AuthContext } from "../../context/AuthContext";
+import EventDetails from '../../components/eventDetails/EventDetails';
 
 export const Post = () => {
   const { user } = useContext(AuthContext);

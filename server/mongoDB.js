@@ -1,15 +1,19 @@
 import mongoose from "mongoose"
 
 const conn = () => {
+    const uri =
+        process.env.NODE_ENV === "production"
+            ? process.env.MONGODB_URI_PRODUCTION
+            : process.env.MONGODB_URI;
+
     mongoose
-        // .connect(process.env.MONGODB_URI)
-        .connect(process.env.MONGODB_URI_PRODUCTION)
+        .connect(uri)
         .then(() => {
-            console.log('mongoDb baglantisi basarili...')
+            console.log("MongoDB bağlantısı başarılı...");
         })
         .catch((err) => {
-            console.log('baglanti basarisiz... Hata ise bu ' + err)
-        })
-}
-//hello
+            console.log("Bağlantı başarısız... Hata: " + err);
+        });
+};
+
 export default conn

@@ -13,7 +13,7 @@ router.get("/:conversationId", async (req, res) => {
       conversationId: req.params.conversationId,
     }).populate('sender', 'username photo').populate({
       path: "sharePostId", // Paylaşılan postu populate et
-      select: "content mediaUrl createdAt",
+      // select: "content mediaUrl createdAt",
       populate: {
         path: "userId", // Paylaşılan postun kullanıcısını da populate et
         select: "username firstName lastName photo", // Hangi alanları alacağını belirt

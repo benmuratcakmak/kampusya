@@ -1,4 +1,5 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import DrawOutlinedIcon from '@mui/icons-material/DrawOutlined';
 
 // Post Modal
 import {
@@ -83,6 +84,7 @@ const Icons = {
   Poll: FaPollH,
   FaPaperPlane,
   Times: FaTimes,
+  Draw: DrawOutlinedIcon,
 };
 
 export default Icons;

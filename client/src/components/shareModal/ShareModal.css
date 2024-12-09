@@ -16,38 +16,27 @@
 .share-modal-content {
   background-color: #141416;
   /* max-width: 500px; */
-  width: 90%;
-  padding: 20px;
+  padding-top: 1rem;
+  width: 100%;
+  /* padding: 20px; */
   overflow: hidden;
   position: relative;
-}
-
-.share-input-div{
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
-.share-header {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: center;
-  color: #ffffff;
-  border-bottom: 1px solid #333;
-  padding-bottom: 10px;
-  cursor: pointer;
-}
-
-.share-header h3 {
+.share-modal-content button{
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 5px;
 }
 
 .share-modal-container .modal-content{
+  width: 100%;
+  border-top: 1px solid #1D1F24;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
 }
 
@@ -79,4 +68,15 @@
 
 .notification-icon {
   font-size: 1.5rem;
+}
+
+.share-modal-send-button{
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 20px;
+}
+
+.share-modal-input{
+  width: 100%;
 }
