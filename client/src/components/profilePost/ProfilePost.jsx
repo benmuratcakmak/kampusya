@@ -24,6 +24,7 @@ export const ProfilePost = ({ posts }) => {
   const { user } = useContext(AuthContext);
   const userId = user._id;
   const [error, setError] = useState(null);
+  const [postsState, setPostsState] = useState(posts);
   const [selectedPost, setSelectedPost] = useState(null);
   const [showDropdown, setShowDropdown] = useState(null);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
@@ -31,32 +32,35 @@ export const ProfilePost = ({ posts }) => {
   const navigate = useNavigate();
 
   // Use useRef to store posts to avoid resetting on re-renders
-  const postsRef = useRef(posts);
+  // const postsRef = useRef(posts);
 
   // Update postsRef whenever posts prop changes
+  // useEffect(() => {
+  //   postsRef.current = posts;
+  // }, [posts]);
+
   useEffect(() => {
-    postsRef.current = posts;
+    setPostsState(posts); // Update state when `posts` prop changes
   }, [posts]);
 
-  const handleLike = useCallback(
-    async (postId) => {
-      try {
-        const res = await axios.post(`/api/postFeatures/${postId}/like`, {
-          userId,
-        });
-        // Update likes count and user's like status without reloading the page
-        postsRef.current = postsRef.current.map((post) =>
+  const handleLike = async (postId) => {
+    try {
+      const res = await axios.post(`/api/postFeatures/${postId}/like`, {
+        userId,
+      });
+      // Update likes and user's like status
+      setPostsState((prevPosts) =>
+        prevPosts.map((post) =>
           post._id === postId
             ? { ...post, likes: res.data.likes, isLiked: res.data.isLiked }
             : post
-        );
-      } catch (error) {
-        setError("Beğeni işlemi sırasında bir hata oluştu.");
-        console.error("Hata:", error);
-      }
-    },
-    [userId]
-  );
+        )
+      );
+    } catch (error) {
+      setError("Beğeni işlemi sırasında bir hata oluştu.");
+      console.error("Hata:", error);
+    }
+  };
 
   const handleQuoteClick = (postId) => {
     navigate(`/posts/post/${postId}`);
@@ -107,8 +111,8 @@ export const ProfilePost = ({ posts }) => {
   return (
     <div className="profile-posts-container">
       {error && <div className="error-message">{error}</div>}
-      {postsRef.current.length ? (
-        postsRef.current.map((post) => (
+      {postsState.length ? (
+        postsState.map((post) => (
           <div key={post._id} className="post">
             <div className="post-left">
               <Avatar

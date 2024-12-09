@@ -12,7 +12,7 @@ const io = new Server(server, {
   cors: {
     origin: ["https://kampusya.com", "http://localhost:3000"],
     methods: ["GET", "POST"],
-  }
+  },
 });
 
 // Socket.IO olaylarını başlatıyoruz
@@ -21,6 +21,9 @@ io.on("connection", (socket) => {
 
   // Kullanıcıyı belirli bir odaya dahil etme
   socket.on("joinRoom", (userId) => {
+
+    socket.leaveAll();  // Tüm odalardan çıkartıyor
+
     socket.join(userId);
     console.log(`Kullanıcı odaya katıldı: ${userId}`);
   });
@@ -31,6 +34,24 @@ io.on("connection", (socket) => {
   });
 
   // Mesaj gönderme
+  // socket.on("sendMessage", async (message) => {
+  //   try {
+  //     // Mesajı sender bilgileriyle doldur
+  //     const populatedMessage = await Message.findById(message._id).populate(
+  //       "sender",
+  //       "username photo"
+  //     );
+
+  //     if (populatedMessage) {
+  //       io.to(message.conversationId).emit("receiveMessage", populatedMessage);
+  //     } else {
+  //       console.error("Mesaj bulunamadı veya sender bilgileri eksik.");
+  //     }
+  //   } catch (err) {
+  //     console.error("Mesaj gönderme hatası:", err);
+  //   }
+  // });
+
   socket.on("sendMessage", async (message) => {
     try {
       // Mesajı sender bilgileriyle doldur
@@ -38,16 +59,20 @@ io.on("connection", (socket) => {
         "sender",
         "username photo"
       );
-  
-      if (populatedMessage) {
-        io.to(message.conversationId).emit("receiveMessage", populatedMessage);
-      } else {
-        console.error("Mesaj bulunamadı veya sender bilgileri eksik.");
+      
+      // Sender bilgisi kontrolü ekliyoruz
+      if (!populatedMessage || !populatedMessage.sender) {
+        console.error("Sender bilgileri eksik.");
+        return;
       }
+  
+      // Eğer mesaj ve sender bilgileri varsa, mesajı odada paylaş
+      io.to(message.conversationId).emit("receiveMessage", populatedMessage);
     } catch (err) {
       console.error("Mesaj gönderme hatası:", err);
     }
   });
+  
 
   // Kullanıcı bağlantısı kesildiğinde
   socket.on("disconnect", () => {

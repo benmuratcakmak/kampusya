@@ -49,7 +49,11 @@ export const Footer = () => {
   useEffect(() => {
     if (!user) return;
 
-    const socket = io("http://localhost:5000", {});
+    // const socket = io("http://localhost:5000", {});
+
+    const socket = io("https://kampusya.com", {
+      transports: ["websocket"], // WebSocket protokolünü kullan
+    });
 
     socket.emit("joinRoom", user._id);
 

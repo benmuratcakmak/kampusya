@@ -4,7 +4,7 @@ const conn = () => {
     const uri =
         process.env.NODE_ENV === "production"
             ? process.env.MONGODB_URI_PRODUCTION
-            : process.env.MONGODB_URI;
+            : process.env.MONGODB_URI_DEVELOPMENT;
 
     mongoose
         .connect(uri)

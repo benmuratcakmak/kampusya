@@ -14,76 +14,16 @@ const upload = multer({ storage });
 // Cloudinary'ye dosya yükleme işlevi
 const uploadToCloudinary = async (fileBuffer) => {
   return new Promise((resolve, reject) => {
-    cloudinary.uploader
-      .upload_stream(
-        { resource_type: "auto", folder: "postMedia" },
-        (error, result) => {
-          if (error) return reject(error);
-          resolve(result.secure_url);
-        }
-      )
-      .end(fileBuffer);
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { resource_type: "auto", folder: "postMedia" },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result.secure_url);
+      }
+    );
+    uploadStream.end(fileBuffer);
   });
 };
-
-router.post("/:postId/vote", async (req, res) => {
-  const { postId } = req.params;
-  const { userId, optionIndex } = req.body;
-
-  console.log("Gelen veri:", req.body); // Gelen veriyi logluyoruz
-
-  // postId'nin geçerliliğini kontrol edin
-  if (!mongoose.Types.ObjectId.isValid(postId)) {
-    return res.status(400).json({ error: "Geçersiz gönderi ID'si" });
-  }
-
-  try {
-    const post = await Post.findById(postId);
-    if (!post) {
-      return res.status(404).json({ error: "Gönderi bulunamadı" });
-    }
-
-    if (!post.pollOptions || !post.pollOptions[optionIndex]) {
-      return res.status(400).json({ error: "Geçersiz veya eksik anket verisi" });
-    }
-
-    // Kullanıcının daha önce oy verip vermediğini kontrol et
-    const existingVote = post.pollVotes.find(vote => vote.userId.toString() === userId.toString());
-
-    if (existingVote) {
-      // Eğer kullanıcı daha önce oy verdiyse, oyu değiştirebiliriz
-      const previousOptionIndex = existingVote.optionIndex;
-      
-      // Önceki seçeneğin oyunu bir azalt, yeni seçeneğin oyunu bir artır
-      post.pollOptions[previousOptionIndex].votes -= 1;
-      post.pollOptions[optionIndex].votes += 1;
-
-      // Kullanıcı oylamasını güncelle
-      existingVote.optionIndex = optionIndex;
-    } else {
-      // Eğer kullanıcı hiç oy vermemişse, yeni oy kaydedilir
-      post.pollVotes.push({ userId, optionIndex });
-
-      // Yeni seçeneğin oyunu artır
-      post.pollOptions[optionIndex].votes += 1;
-    }
-
-    try {
-      await post.save();
-      return res.status(200).json({
-        message: "Oylama başarılı",
-        poll: post.pollOptions.map(option => option.votes),
-      });
-    } catch (saveError) {
-      console.error("Kaydetme hatası:", saveError);
-      return res.status(500).json({ error: "Veritabanı kaydı sırasında hata oluştu" });
-    }
-  } catch (error) {
-    console.error("Oylama işlemi sırasında hata oluştu:", error);
-    res.status(500).json({ error: "Oylama işlemi başarısız oldu" });
-  }
-});
-
 
 router.post("/", upload.single("media"), async (req, res) => {
   const {
@@ -124,7 +64,6 @@ router.post("/", upload.single("media"), async (req, res) => {
       pollQuestion: isSharedFromHome ? null : pollQuestion,
       pollOptions: isSharedFromHome ? [] : formattedPollOptions,
     };
-    
 
     // Yeni gönderiyi oluştur ve kaydet
     const newPost = new Post(newPostData);
@@ -153,7 +92,71 @@ router.post("/", upload.single("media"), async (req, res) => {
     res.status(201).json(postWithUserInfo);
   } catch (error) {
     console.error("Gönderi oluşturulurken hata oluştu:", error);
-    res.status(500).json({ error: "Gönderi kaydedilemedi" });
+    res.status(500).json({ error: "Gönderi kaydedilemedi. Lütfen tekrar deneyin." });
+  }
+});
+
+router.post("/:postId/vote", async (req, res) => {
+  const { postId } = req.params;
+  const { userId, optionIndex } = req.body;
+
+  console.log("Gelen veri:", req.body); // Gelen veriyi logluyoruz
+
+  // postId'nin geçerliliğini kontrol edin
+  if (!mongoose.Types.ObjectId.isValid(postId)) {
+    return res.status(400).json({ error: "Geçersiz gönderi ID'si" });
+  }
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ error: "Gönderi bulunamadı" });
+    }
+
+    if (!post.pollOptions || !post.pollOptions[optionIndex]) {
+      return res
+        .status(400)
+        .json({ error: "Geçersiz veya eksik anket verisi" });
+    }
+
+    // Kullanıcının daha önce oy verip vermediğini kontrol et
+    const existingVote = post.pollVotes.find(
+      (vote) => vote.userId.toString() === userId.toString()
+    );
+
+    if (existingVote) {
+      // Eğer kullanıcı daha önce oy verdiyse, oyu değiştirebiliriz
+      const previousOptionIndex = existingVote.optionIndex;
+
+      // Önceki seçeneğin oyunu bir azalt, yeni seçeneğin oyunu bir artır
+      post.pollOptions[previousOptionIndex].votes -= 1;
+      post.pollOptions[optionIndex].votes += 1;
+
+      // Kullanıcı oylamasını güncelle
+      existingVote.optionIndex = optionIndex;
+    } else {
+      // Eğer kullanıcı hiç oy vermemişse, yeni oy kaydedilir
+      post.pollVotes.push({ userId, optionIndex });
+
+      // Yeni seçeneğin oyunu artır
+      post.pollOptions[optionIndex].votes += 1;
+    }
+
+    try {
+      await post.save();
+      return res.status(200).json({
+        message: "Oylama başarılı",
+        poll: post.pollOptions.map((option) => option.votes),
+      });
+    } catch (saveError) {
+      console.error("Kaydetme hatası:", saveError);
+      return res
+        .status(500)
+        .json({ error: "Veritabanı kaydı sırasında hata oluştu" });
+    }
+  } catch (error) {
+    console.error("Oylama işlemi sırasında hata oluştu:", error);
+    res.status(500).json({ error: "Oylama işlemi başarısız oldu" });
   }
 });
 
@@ -193,7 +196,6 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: "Postlar getirilemedi", error });
   }
 });
-
 
 // Kullanıcı profilindeki postları listeleme
 router.get("/profile/:username", async (req, res) => {
