@@ -239,10 +239,19 @@ export const ProfilePost = ({ posts }) => {
                 {post.sharePostId?.mediaUrl && (
                   <div className="quote-bottom">
                     <div className="quote-bottom-media">
-                      <img
-                        src={post.sharePostId?.mediaUrl}
-                        alt="Shared Media"
-                      />
+                      {post.sharePostId.mediaUrl.includes("video") ? (
+                        <video controls>
+                          <source
+                            src={post.sharePostId.mediaUrl}
+                            type="video/mp4"
+                          />
+                        </video>
+                      ) : (
+                        <img
+                          src={post.sharePostId.mediaUrl}
+                          alt="Shared Media"
+                        />
+                      )}
                     </div>
                   </div>
                 )}

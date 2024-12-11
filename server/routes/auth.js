@@ -45,8 +45,8 @@ const generateVerificationCode = () =>
 // Tum hasssas bilgiler icin rateLimiter ayarla middleware
 
 const verifyCodeLimiter = rateLimit({
-  windowMs: 1 * 180 * 1000, // 1 dakika
-  max: 5, // Maksimum 5 istek
+  windowMs: 1 * 100 * 1000, // 1 dakika
+  max: 3, // Maksimum 5 istek
   message: {
     message:
       "Çok fazla istek yaptınız. Lütfen bir süre bekleyin ve tekrar deneyin.",
@@ -55,32 +55,7 @@ const verifyCodeLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-router.delete("/cancel-registration", async (req, res) => {
-  const { email } = req.body;
 
-  try {
-    if (!email) {
-      return res.status(400).json({ message: "E-posta adresi gerekli." });
-    }
-
-    // Email'e göre kullanıcıyı buluyoruz
-    const user = await User.findOneAndDelete({ email, isVerified: false });
-
-    if (!user) {
-      return res
-        .status(404)
-        .json({ message: "Silinecek kullanıcı bulunamadı." });
-    }
-
-    res.status(200).json({ message: "Kullanıcı kaydı başarıyla silindi." });
-  } catch (error) {
-    console.error("Hata oluştu:", error);
-    res.status(500).json({
-      message: "Kullanıcı silme işlemi sırasında bir hata oluştu.",
-      error,
-    });
-  }
-});
 
 // Kayıt rotası
 router.post("/register", async (req, res) => {
@@ -109,6 +84,7 @@ router.post("/register", async (req, res) => {
 
     // Doğrulama kodu oluşturma
     const verificationCode = generateVerificationCode();
+    const verificationCodeExpiresAt = new Date(Date.now() + 1 * 100 * 1000);
 
     // Kullanıcı oluşturma
     const newUser = new User({
@@ -119,6 +95,7 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
       isVerified: false,
       verificationCode,
+      verificationCodeExpiresAt,
     });
 
     try {
@@ -143,12 +120,10 @@ router.post("/register", async (req, res) => {
       });
     } catch (err) {
       console.error("E-posta gönderilirken hata oluştu:", err);
-      return res
-        .status(500)
-        .json({
-          message: "E-posta gönderimi sırasında bir hata oluştu",
-          error: err,
-        });
+      return res.status(500).json({
+        message: "E-posta gönderimi sırasında bir hata oluştu",
+        error: err,
+      });
     }
 
     res.status(200).json({
@@ -185,6 +160,13 @@ router.post("/verify-code", verifyCodeLimiter, async (req, res) => {
 
     // Doğrulama kodunun süresi geçmiş mi kontrol et
     const currentTime = new Date();
+
+    console.log("Current time:", currentTime);
+    console.log(
+      "Verification code expires at:",
+      user.verificationCodeExpiresAt
+    );
+    
     if (user.verificationCodeExpiresAt < currentTime) {
       return res.status(400).json({
         message:
@@ -249,8 +231,8 @@ router.post("/resend-code", async (req, res) => {
     // Yeni doğrulama kodunu kullanıcıya kaydet
     user.verificationCode = newVerificationCode;
     user.verificationCodeExpiresAt = new Date(
-      currentTime.getTime() + 1 * 180 * 1000
-    ); // 20 saniye sonra geçerli olacak
+      currentTime.getTime() + 1 * 100 * 1000
+    );
     await user.save();
 
     // Yeni doğrulama kodunu e-posta ile gönder
@@ -348,6 +330,33 @@ router.post("/forgot-password", async (req, res) => {
   } catch (err) {
     console.error("Hata:", err); // Hata bilgisini konsola yazdırın
     res.status(500).json({ message: "Bir hata oluştu.", error: err.message });
+  }
+});
+
+router.delete("/cancel-registration", async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    if (!email) {
+      return res.status(400).json({ message: "E-posta adresi gerekli." });
+    }
+
+    // Email'e göre kullanıcıyı buluyoruz
+    const user = await User.findOneAndDelete({ email, isVerified: false });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "Silinecek kullanıcı bulunamadı." });
+    }
+
+    res.status(200).json({ message: "Kullanıcı kaydı başarıyla silindi." });
+  } catch (error) {
+    console.error("Hata oluştu:", error);
+    res.status(500).json({
+      message: "Kullanıcı silme işlemi sırasında bir hata oluştu.",
+      error,
+    });
   }
 });
 

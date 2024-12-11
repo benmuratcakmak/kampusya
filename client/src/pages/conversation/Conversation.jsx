@@ -8,9 +8,17 @@ import { MessageInput } from "../../components/messageInput/MessageInput";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import "./Conversation.css";
 
-const socket = io("http://localhost:5000", {
-  withCredentials: true, // CORS için
-  transports: ["websocket", "polling"], // WebSocket ve polling kullanımı
+// const socket = io("http://localhost:5000", {
+//   withCredentials: true, // CORS için
+//   transports: ["websocket", "polling"], // WebSocket ve polling kullanımı
+// });
+
+// const socket = io("https://kampusya.com", {
+//   transports: ["websocket"],
+// });
+
+const socket = io(process.env.NODE_ENV === "production" ? "https://kampusya.com" : "http://localhost:5000", {
+  transports: ["websocket"], // WebSocket protokolünü kullan
 });
 
 export const Conversation = () => {

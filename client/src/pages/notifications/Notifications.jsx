@@ -27,7 +27,6 @@ export const Notifications = () => {
         console.error("Bildirimler alınamadı:", error);
       }
     };
-    
 
     fetchNotifications();
   }, [userId]);
@@ -60,6 +59,16 @@ export const Notifications = () => {
     navigate(`/profile/${username}`);
   };
 
+  const handleDeleteNotification = async (notificationId) => {
+    try {
+      const res = await axios.delete(`/api/notifications/${notificationId}`);
+      console.log("Bildirim silindi:", res.data);  // Yanıtı kontrol et
+      setNotifications(notifications.filter(notification => notification._id !== notificationId));
+    } catch (error) {
+      console.error("Bildirim silinemedi:", error);
+    }
+  };
+  
   return (
     <div className="notifications-container">
       {/* {notifications.length === 0 ? ( */}
@@ -72,6 +81,7 @@ export const Notifications = () => {
             notification={notification}
             handleNotificationClick={handleNotificationClick}
             handleAvatarClick={handleAvatarClick}
+            handleDeleteNotification={handleDeleteNotification}
           />
         ))
       )}

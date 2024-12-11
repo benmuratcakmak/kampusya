@@ -38,7 +38,8 @@ router.get("/forSocketNotification/:conversationId", async (req, res) => {
 
     const conversation = await Conversation.findById(
       req.params.conversationId
-    ).populate("participants", "username photo firstName lastName");
+    ).populate("participants", "username photo firstName lastName")
+    // .populate("lastMessage", "text createdAt")
 
     if (!conversation) {
       return res.status(404).json({ message: "Konuşma bulunamadı." });
@@ -53,11 +54,11 @@ router.get("/forSocketNotification/:conversationId", async (req, res) => {
 
 // Mesaj kaydedildiğinde, konuşmayı güncelle
 router.post("/", async (req, res) => {
-  const { conversationId, sender, receiver, text, sharePostText, sharePostMedia, sharePostProfilePhoto, sharePostUsername, sharePostId } = req.body;
+  const { conversationId, sender, receiver, text, sharePostId, createdAt } = req.body;
 
   try {
     // Yeni mesajı kaydet
-    const message = new Message({ conversationId, sender, receiver, text, sharePostText, sharePostMedia, sharePostProfilePhoto, sharePostUsername, sharePostId });
+    const message = new Message({ conversationId, sender, receiver, text, sharePostId, createdAt });
     await message.save();
 
     io.emit("newMessageNotification", {

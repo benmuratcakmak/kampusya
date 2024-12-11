@@ -4,7 +4,12 @@ import { useNavigate } from "react-router-dom";
 import FormatTime from "../../components/FormatTime";
 // import "./NotificationItem.css";
 
-const NotificationItem = ({ notification, handleNotificationClick, handleAvatarClick }) => {
+const NotificationItem = ({
+  notification,
+  handleNotificationClick,
+  handleAvatarClick,
+  handleDeleteNotification,
+}) => {
   // const navigate = useNavigate();
 
   const getMessage = (type) => {
@@ -26,12 +31,24 @@ const NotificationItem = ({ notification, handleNotificationClick, handleAvatarC
     }
   };
 
+  const handleDeleteClick = (e) => {
+    e.stopPropagation(); // Avatar veya bildirim metnine tıklanması durumunda delete butonuna tıklanması engellenir
+    const confirmed = window.confirm("Bu bildirimi silmek istediğinize emin misiniz?");
+    if (confirmed) {
+      handleDeleteNotification(notification._id);
+    }
+  };
+
   return (
     <div
       className={`notification ${notification.isRead ? "read" : "unread"}`}
       onClick={() =>
         notification.type === "follow"
-          ? handleNotificationClick(notification._id, null, notification.sender.username)
+          ? handleNotificationClick(
+              notification._id,
+              null,
+              notification.sender.username
+            )
           : handleNotificationClick(notification._id, notification.postId?._id)
       }
     >
@@ -45,9 +62,13 @@ const NotificationItem = ({ notification, handleNotificationClick, handleAvatarC
         }}
       />
       <p>
-        <strong>{notification.sender?.username}</strong> {getMessage(notification.type)}
+        <strong>{notification.sender?.username}</strong>{" "}
+        {getMessage(notification.type)}
       </p>
       <FormatTime timestamp={notification.createdAt} />
+      <div className="options" onClick={handleDeleteClick}>
+        ...
+      </div>
     </div>
   );
 };

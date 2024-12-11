@@ -100,7 +100,7 @@ export const Register = ({ setOpenModal }) => {
           />
         </div>
       </div>
-      <b>
+      <b className="disclaimer">
         Yalnızca .edu uzantılı e-posta adresleriyle <br /> hesap
         oluşturabilirsiniz.
       </b>

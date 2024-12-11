@@ -6,7 +6,7 @@ import { RiMailSendLine } from "react-icons/ri";
 
 import "./Auth.css";
 
-export const Login = ({setOpenModal}) => {
+export const Login = ({ setOpenModal }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const { isFetching, dispatch, user } = useContext(AuthContext);
@@ -50,19 +50,23 @@ export const Login = ({setOpenModal}) => {
   return (
     <div className="auth-container">
       <div className="report-container">
-            <small>
-              Bi'şeyler mi
-              <br />
-              biliyosun?
-            </small>
-            <div className="header-send-icon-container">
-              <RiMailSendLine
-                className="header-send-icon"
-                onClick={handleOpenModal}
-              />
-            </div>
-          </div>
-        <h3>Giriş Yap</h3>
+        <small>
+          Bi'şeyler mi
+          <br />
+          biliyosun?
+        </small>
+        <div className="header-send-icon-container">
+          <RiMailSendLine
+            className="header-send-icon"
+            onClick={handleOpenModal}
+          />
+        </div>
+      </div>
+      <b className="disclaimer">
+      Paylaşımlarından sorumlu olduğunu unutma.
+      </b>
+
+      <h3>Giriş Yap</h3>
       <form className="form" onSubmit={handleSubmit}>
         <input
           id="email"
@@ -74,16 +78,16 @@ export const Login = ({setOpenModal}) => {
           required
           autoComplete="email"
         />
-          <input
-            id="password"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Şifre"
-            required
-            autoComplete="current-password"
-          />
+        <input
+          id="password"
+          name="password"
+          type="password"
+          value={formData.password}
+          onChange={handleChange}
+          placeholder="Şifre"
+          required
+          autoComplete="current-password"
+        />
         <br />
         <Link to="/forgot-password">Sifreni mi unuttun?</Link>
         <br />
@@ -92,7 +96,9 @@ export const Login = ({setOpenModal}) => {
           {isFetching ? "Yükleniyor..." : "Giriş Yap"}
         </button>
         <br />
-        <Link to="/register">Üye değil misin? <span>Hemen kaydol!</span></Link>
+        <Link to="/register">
+          Üye değil misin? <span>Hemen kaydol!</span>
+        </Link>
       </form>
     </div>
   );

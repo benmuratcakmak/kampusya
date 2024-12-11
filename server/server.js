@@ -32,6 +32,9 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
+// Proxy'nin güvenilir olduğunu belirtir
+// app.set('trust proxy', 1);
+
 app.use(express.json()); // JSON veri gönderebilmek için
 app.use(express.urlencoded({ extended: true }));
 

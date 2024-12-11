@@ -2,34 +2,3 @@
   margin-top: 44px;
   color: white;
 }
-
-.conversation-real-item {
-  color: gray;
-  display: flex;
-  padding: 1rem;
-  border-bottom: 1px solid rgb(50, 50, 50);
-  align-items: center;
-  gap: 1rem;
-}
-
-.full-name {
-  display: flex;
-  gap: 5px;
-}
-
-.last-message {
-  margin: 0;
-
-}
-
-.options {
-  cursor: pointer;
-  color: gray;
-  margin-left: auto;
-}
-
-
-.conversation-item.unread {
-  color: white;
-
-}

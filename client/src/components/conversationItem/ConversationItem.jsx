@@ -1,13 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
-// import FormatTime from "../../components/FormatTime";
+import FormatTime from "../../components/FormatTime";
+
+import "./ConversationItem.css";
 
 const ConversationItem = ({
   conversation,
   onMarkAsRead,
   onDeleteConversation,
 }) => {
+
+  console.log(conversation.lastMessage?.createdAt);
+  console.log(new Date(conversation.lastMessage?.createdAt));
+  
   const handleDelete = (e) => {
     e.preventDefault(); // Link tıklamasını önle
     onDeleteConversation(conversation.conversationId);
@@ -45,7 +51,13 @@ const ConversationItem = ({
             </p>
           </div>
 
-          {/* <FormatTime timestamp={new Date(conversation?.lastMessage?.createdAt)} /> */}
+          {/* <FormatTime
+            timestamp={
+              conversation?.lastMessage?.createdAt
+                ? new Date(conversation.lastMessage.createdAt)
+                : null
+            }
+          /> */}
 
           <div className="options" onClick={handleDelete}>
             ...

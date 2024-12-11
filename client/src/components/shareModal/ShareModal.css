@@ -12,6 +12,10 @@
   align-items: start;
   z-index: 1000;
 }
+/* .share-modal-container .followers-list{
+  display: flex;
+  flex-direction: column;
+} */
 
 .share-modal-content {
   background-color: #141416;
@@ -37,7 +41,7 @@
   border-top: 1px solid #1D1F24;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
 }
 
 .share-followings{
@@ -78,5 +82,5 @@
 }
 
 .share-modal-input{
-  width: 100%;
+  width: 90%;
 }

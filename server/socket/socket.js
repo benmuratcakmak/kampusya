@@ -5,6 +5,8 @@ import express from "express";
 import Message from "../models/Message.js";
 
 const app = express();
+app.set('trust proxy', true);
+
 const server = http.createServer(app);
 
 // Socket.IO için CORS ayarlarını yapıyoruz

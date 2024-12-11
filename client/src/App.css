@@ -4,14 +4,6 @@ input[type="file"] {
   display: none;
 }
 
-/* html,
-body,
-#root {
-  max-width: 768px;
-  display: flex;
-  justify-content: center;
-} */
-
 body {
   margin: 0;
   padding: 0;

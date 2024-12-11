@@ -1,5 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { Avatar } from "@mui/material";
+import FormatTime from "../../components/FormatTime";
+
 import "./MessagesList.css";
 import { Link } from "react-router-dom";
 
@@ -57,20 +59,33 @@ const MessagesList = ({
                   </div>
                 </div>
                 {message.sharePostId?.mediaUrl && (
-                  <div className="post-bottom">
-                    <img
-                      src={message.sharePostId?.mediaUrl}
-                      alt="paylaşılan medya"
-                    />
+                  <div className="post-bottom quote-bottom-media">
+                    {message.sharePostId.mediaUrl.endsWith(".mp4") ||
+                    message.sharePostId.mediaUrl.endsWith(".webm") ? (
+                      <video controls>
+                        <source
+                          src={message.sharePostId.mediaUrl}
+                          type="video/mp4"
+                        />
+                        Tarayıcınız bu videoyu desteklemiyor.
+                      </video>
+                    ) : (
+                      <img
+                        src={message.sharePostId.mediaUrl}
+                        alt="paylaşılan medya"
+                      />
+                    )}
                   </div>
                 )}
+
                 {/* Etkinlik verileri burada görüntüleniyor */}
                 {message.sharePostId?.eventTitle && (
                   <div className="event">
                     <h3>{message.sharePostId.eventTitle}</h3>
                     <p>{message.sharePostId.eventDescription}</p>
                     <p>
-                      <strong>Tarih:</strong> {new Date(message.sharePostId.eventDate).toLocaleString()}
+                      <strong>Tarih:</strong>{" "}
+                      {new Date(message.sharePostId.eventDate).toLocaleString()}
                     </p>
                   </div>
                 )}
@@ -90,6 +105,9 @@ const MessagesList = ({
               </div>
             )}
           </div>
+          {/* <p className="message-list-formattime">
+            <FormatTime timestamp={message.createdAt} />
+          </p> */}
         </div>
       ))}
       <div ref={messagesEndRef} />

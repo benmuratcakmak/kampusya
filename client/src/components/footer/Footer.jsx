@@ -51,7 +51,11 @@ export const Footer = () => {
 
     // const socket = io("http://localhost:5000", {});
 
-    const socket = io("https://kampusya.com", {
+    // const socket = io("https://kampusya.com", {
+    //   transports: ["websocket"],
+    // });
+
+    const socket = io(process.env.NODE_ENV === "production" ? "https://kampusya.com" : "http://localhost:5000", {
       transports: ["websocket"], // WebSocket protokolünü kullan
     });
 

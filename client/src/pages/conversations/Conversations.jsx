@@ -37,23 +37,25 @@ export const Conversations = () => {
   };
 
   const handleMarkAsRead = async (conversationId) => {
-    const conversation = conversations.find(
+    const conversationIndex = conversations.findIndex(
       (c) => c.conversationId === conversationId
     );
-
-    if (conversation.isRead) {
+  
+    if (conversationIndex === -1 || conversations[conversationIndex].isRead) {
       console.log("Bu konuşma zaten okundu.");
       return;
     }
-
+  
     try {
       await axios.put(`/api/conversations/mark-as-read/${conversationId}`);
-      const response = await axios.get(`/api/conversations/${userId}`);
-      setConversations(response.data);
+      const updatedConversations = [...conversations];
+      updatedConversations[conversationIndex].isRead = true;
+      setConversations(updatedConversations);
     } catch (error) {
       console.error("Konuşma okunmuş olarak işaretlenirken hata:", error);
     }
   };
+  
 
   return (
     <div className="conversations-container">
