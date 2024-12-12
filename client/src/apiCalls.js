@@ -1,15 +1,15 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+// apiCalls.js
 export const loginCall = async (userCredential, dispatch) => {
   dispatch({ type: "LOGIN_START" });
   try {
-    const res = await axios.post("/api/auth/login", userCredential);
+    const res = await axios.post("/api/auth/login", userCredential); // emailOrUsername parametresi gönderiliyor
     toast.success("Login Successful!");
 
     const { user, token } = res.data;
     
-    // Kullanıcıyı ve token'ı localStorage'a doğru şekilde kaydediyoruz
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("authToken", token);
 
@@ -18,10 +18,11 @@ export const loginCall = async (userCredential, dispatch) => {
       payload: { user, token } 
     });
 
-    return token;  // Token'ı frontend'de kullanmak için geri döndürüyoruz
+    return token;
   } catch (err) {
     dispatch({ type: "LOGIN_FAILURE", payload: err.message });
     toast.error("Login Failed!");
     throw err;
   }
 };
+

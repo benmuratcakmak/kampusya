@@ -7,7 +7,10 @@ import { RiMailSendLine } from "react-icons/ri";
 import "./Auth.css";
 
 export const Login = ({ setOpenModal }) => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({
+    emailOrUsername: "",
+    password: "",
+  });
   const [error, setError] = useState("");
   const { isFetching, dispatch, user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -32,7 +35,7 @@ export const Login = ({ setOpenModal }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.email || !formData.password) {
+    if (!formData.emailOrUsername || !formData.password) {
       setError("Lütfen tüm alanları doldurun.");
       return;
     }
@@ -62,21 +65,17 @@ export const Login = ({ setOpenModal }) => {
           />
         </div>
       </div>
-      <b className="disclaimer">
-      Paylaşımlarından sorumlu olduğunu unutma.
-      </b>
-
+      <b className="disclaimer">Paylaşımlarından sorumlu olduğunu unutma.</b>
       <h3>Giriş Yap</h3>
       <form className="form" onSubmit={handleSubmit}>
         <input
-          id="email"
-          name="email"
-          type="email"
-          value={formData.email}
+          id="emailOrUsername"
+          name="emailOrUsername"
+          type="text"
+          value={formData.emailOrUsername}
           onChange={handleChange}
-          placeholder="E-posta"
+          placeholder="E-posta veya Kullanıcı Adı"
           required
-          autoComplete="email"
         />
         <input
           id="password"
@@ -86,10 +85,9 @@ export const Login = ({ setOpenModal }) => {
           onChange={handleChange}
           placeholder="Şifre"
           required
-          autoComplete="current-password"
         />
         <br />
-        <Link to="/forgot-password">Sifreni mi unuttun?</Link>
+        <Link to="/forgot-password">Şifreni mi unuttun?</Link>
         <br />
         {error && <div className="error-message">{error}</div>}
         <button type="submit" disabled={isFetching}>

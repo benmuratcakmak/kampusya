@@ -55,6 +55,44 @@ const verifyCodeLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+// Login rotası
+router.post("/login", async (req, res) => {
+  try {
+    const { emailOrUsername, password } = req.body; // 'emailOrUsername' parametresini alıyoruz
+
+    // Kullanıcıyı hem e-posta hem de kullanıcı adı ile arıyoruz
+    const user = await User.findOne({
+      $or: [{ email: emailOrUsername }, { username: emailOrUsername }] // E-posta veya kullanıcı adı ile arama yapıyoruz
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "Kullanıcı bulunamadı!" });
+    }
+
+    // Kullanıcı doğrulaması yapılmış mı kontrol et
+    if (!user.isVerified) {
+      return res.status(403).json({ message: "E-posta doğrulaması yapılmamış." });
+    }
+
+    // Şifreyi doğrula
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(403).json({ message: "Geçersiz şifre!" });
+    }
+
+    // JWT token oluşturma
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.status(200).json({ user, token });
+
+  } catch (err) {
+    res.status(500).json({ message: "Giriş işlemi sırasında bir hata oluştu", error: err });
+  }
+});
 
 
 // Kayıt rotası
@@ -254,53 +292,8 @@ router.post("/resend-code", async (req, res) => {
   }
 });
 
-// Login rotası
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
 
-    // Kullanıcıyı bul
-    const user = await User.findOne({ email });
-    if (!user)
-      return res.status(404).json({ message: "Kullanıcı bulunamadı!" });
 
-    // Kullanıcı doğrulaması yapılmış mı kontrol et
-    if (!user.isVerified) {
-      return res
-        .status(403)
-        .json({ message: "E-posta doğrulaması yapılmamış." });
-    }
-
-    // Hesap dondurulmuşsa, hesabı aktif et
-    if (!user.isActive) {
-      // Hesabı aktif yap
-      user.isActive = true;
-      await user.save(); // Değişiklikleri kaydet
-
-      // Hesap aktif olduğunda kullanıcıyı bilgilendir
-      console.log(`Hesap aktif hale getirildi: ${user.email}`);
-    }
-
-    // Şifreyi doğrula
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) {
-      return res.status(403).json({ message: "Geçersiz şifre!" });
-    }
-
-    // JWT token oluşturma
-    const token = jwt.sign(
-      { id: user._id, email: user.email }, // Payload
-      process.env.JWT_SECRET, // Secret key, .env dosyasından alınmalı
-      { expiresIn: "1h" } // Token'ın geçerlilik süresi
-    );
-
-    res.status(200).json({ user, token }); // Kullanıcıyı ve token'ı geri gönderiyoruz
-  } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Giriş işlemi sırasında bir hata oluştu", error: err });
-  }
-});
 
 router.post("/forgot-password", async (req, res) => {
   const { email } = req.body;
