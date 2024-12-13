@@ -95,6 +95,7 @@ export const ReportModal = ({ open, handleClose }) => {
         <Icons.Back onClick={handleClose} />
       </div>
       <h2>Elinizde bir haber, fotoğraf, video, dosya veya yazı varsa, bizimle paylaşabilirsiniz.</h2>
+      {/* <h2>gonder yayinlayalim diye belirtilecek.</h2> */}
       {/* ayrica fikir ve onerilerinizi de gonderebilirsiniz gibisinden */}
       <br />
       <h3>Gönderdiğiniz tüm içerikler tamamen anonim olarak işlenecek ve kişisel bilgileriniz kesinlikle gizli tutulacaktır.</h3>

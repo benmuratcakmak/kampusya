@@ -45,8 +45,8 @@ const generateVerificationCode = () =>
 // Tum hasssas bilgiler icin rateLimiter ayarla middleware
 
 const verifyCodeLimiter = rateLimit({
-  windowMs: 1 * 100 * 1000, // 1 dakika
-  max: 3, // Maksimum 5 istek
+  windowMs: 3 * 60 * 1000, // 1 dakika
+  max: 5, // Maksimum 5 istek
   message: {
     message:
       "Çok fazla istek yaptınız. Lütfen bir süre bekleyin ve tekrar deneyin.",
@@ -122,7 +122,7 @@ router.post("/register", async (req, res) => {
 
     // Doğrulama kodu oluşturma
     const verificationCode = generateVerificationCode();
-    const verificationCodeExpiresAt = new Date(Date.now() + 1 * 100 * 1000);
+    const verificationCodeExpiresAt = new Date(Date.now() + 3 * 60 * 1000);
 
     // Kullanıcı oluşturma
     const newUser = new User({
@@ -269,7 +269,7 @@ router.post("/resend-code", async (req, res) => {
     // Yeni doğrulama kodunu kullanıcıya kaydet
     user.verificationCode = newVerificationCode;
     user.verificationCodeExpiresAt = new Date(
-      currentTime.getTime() + 1 * 100 * 1000
+      currentTime.getTime() + 3 * 60 * 1000
     );
     await user.save();
 
@@ -291,9 +291,6 @@ router.post("/resend-code", async (req, res) => {
     });
   }
 });
-
-
-
 
 router.post("/forgot-password", async (req, res) => {
   const { email } = req.body;

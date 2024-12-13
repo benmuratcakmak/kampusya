@@ -1,11 +1,21 @@
 import { Server } from "socket.io";
 import http from "http";
 import express from "express";
+import helmet from "helmet";
+// import rateLimit from "express-rate-limit";
 
 import Message from "../models/Message.js";
 
 const app = express();
 app.set('trust proxy', true);
+
+app.use(helmet());
+
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 dakika
+//   max: 100, // 100 istek limiti
+// });
+// app.use(limiter);
 
 const server = http.createServer(app);
 

@@ -192,12 +192,12 @@ const CommentItem = ({
           className="item-left"
           onClick={() => goToProfile(comment.userId.username)}
         >
-          <Avatar src={comment.userId.photo} alt={comment.userId.username} />
+          <Avatar src={comment.userId?.photo} alt={comment.userId?.username} />
         </div>
         <div className="item-mid">
           <div className="user-and-time">
-            <p onClick={() => goToProfile(comment.userId.username)}>
-              {comment.userId.username}
+            <p onClick={() => goToProfile(comment.userId?.username)}>
+              {comment.userId?.username}
             </p>
             <FormatTime timestamp={comment.createdAt} />
           </div>
@@ -240,7 +240,7 @@ const CommentItem = ({
               <div key={reply._id} className="reply-item">
                 <div
                   className="reply-item-left"
-                  onClick={() => goToProfile(reply.userId?._id)}
+                  onClick={() => goToProfile(reply.userId?.username)}
                 >
                   <Avatar
                     className="reply-avatar"
@@ -250,7 +250,7 @@ const CommentItem = ({
                 </div>
                 <div className="reply-item-mid">
                   <div className="user-and-time">
-                    <p onClick={() => goToProfile(reply.userId?._id)}>
+                    <p onClick={() => goToProfile(reply.userId?.username)}>
                       {reply.userId
                         ? reply.userId.username
                         : "Kullanıcı adı bulunamadı"}

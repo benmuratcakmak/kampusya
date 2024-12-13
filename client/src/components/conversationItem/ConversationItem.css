@@ -25,7 +25,6 @@
 .conversation-item.unread {
     color: #ffffff;
     /* Okunmamış mesaj için yazı rengi */
-    background-color: red;
 }
 
 /* .conversation-item.read {

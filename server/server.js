@@ -1,12 +1,13 @@
 import express from "express";
 import path from "path";
 import { app, server } from "./socket/socket.js"; // Socket.IO'dan app ve server import
-// import { createServer } from "http";
-// import { Server } from "socket.io";
-import conn from "./mongoDB.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import { fileURLToPath } from "url";
+import conn from "./mongoDB.js";
+
+// AuthMiddleware import et
+// import authMiddleware from "./middlewares/authMiddleware.js";
 
 dotenv.config();
 
@@ -25,26 +26,41 @@ import conversationsRoutes from "./routes/conversations.js";
 import messageRoutes from "./routes/messages.js";
 import reportRoutes from "./routes/report.js";
 
-// Middlewares
+const allowedOrigins = process.env.NODE_ENV === 'production'
+  ? ["https://kampusya.com"]
+  : ["http://localhost:3000"];
+
 app.use(cors({
-  origin: ["https://kampusya.com", "http://localhost:3000"],
+  origin: allowedOrigins,
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
-// Proxy'nin güvenilir olduğunu belirtir
-// app.set('trust proxy', 1);
-
-app.use(express.json()); // JSON veri gönderebilmek için
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Statik olarak "uploads" klasörünü sunuyoruz
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// React uygulamanızın build dizini
-app.use(express.static(path.join(__dirname, "client", "build")));  // React için static dosyalar
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build'), {
+    maxAge: '1d', // 1 gün önbellek
+    etag: true // Dosya değiştiğinde yeni ETag ile tarayıcıya bildirilir
+  }));
 
-const port = process.env.PORT;
+  // Eski cache'i devre dışı bırakmak için
+  app.use((req, res, next) => {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    next();
+  });
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
+const port = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
   res.send(`Server portundasin, port no ${port}`);
@@ -54,6 +70,16 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/search", searchRoute);
+
+// Kimlik doğrulama gerektiren rotalar
+// app.use("/api/follow", authMiddleware, followRoutes);
+// app.use("/api/posts", authMiddleware, postRoutes);
+// app.use("/api/postFeatures", authMiddleware, postFeaturesRoutes);
+// app.use("/api/notifications", authMiddleware, notificationsRoutes);
+// app.use("/api/conversations", authMiddleware, conversationsRoutes);
+// app.use("/api/messages", authMiddleware, messageRoutes);
+// app.use("/api/report", authMiddleware, reportRoutes);
+
 app.use("/api/follow", followRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/postFeatures", postFeaturesRoutes);
@@ -61,15 +87,6 @@ app.use("/api/notifications", notificationsRoutes);
 app.use("/api/conversations", conversationsRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/report", reportRoutes);
-
-
-// Üretim ortamında React build dosyasını sunmak
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client/build')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
-}
 
 server.listen(port, () => {
   conn();

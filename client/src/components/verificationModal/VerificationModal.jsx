@@ -7,7 +7,7 @@ const VerificationModal = ({ email, isOpen, onClose, onSuccess }) => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [isCodeExpired, setIsCodeExpired] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(100);
+  const [timeLeft, setTimeLeft] = useState(180);
 
   useEffect(() => {
     const handleBeforeUnload = async () => {

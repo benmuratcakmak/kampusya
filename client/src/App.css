@@ -82,6 +82,10 @@ button{
   z-index: 999;
 }
 
+.right-icons *{
+  font-size: 20px;
+}
+
 a{
   color: gray;
   text-decoration: none;
