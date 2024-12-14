@@ -40,9 +40,12 @@
   .home-posts-container .post .post-right .right-text {
     width: 100%;
     word-wrap: break-word; /* Uzun kelimelerin kutu içinde kırılmasını sağlar */
+    margin: 5rem;
+    background-color: #32cd32;
   }
   
   .home-posts-container .post .post-right .right-text p {
+    background-color: #32cd32;
     width: 100%;
     overflow-wrap: break-word;
     word-wrap: break-word;

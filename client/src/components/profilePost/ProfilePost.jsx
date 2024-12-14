@@ -3,7 +3,6 @@ import React, {
   useState,
   useContext,
   useCallback,
-  useRef,
 } from "react";
 import axios from "axios";
 import Avatar from "@mui/material/Avatar";
@@ -30,14 +29,6 @@ export const ProfilePost = ({ posts }) => {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [selectedPostForShare, setSelectedPostForShare] = useState(null);
   const navigate = useNavigate();
-
-  // Use useRef to store posts to avoid resetting on re-renders
-  // const postsRef = useRef(posts);
-
-  // Update postsRef whenever posts prop changes
-  // useEffect(() => {
-  //   postsRef.current = posts;
-  // }, [posts]);
 
   useEffect(() => {
     setPostsState(posts); // Update state when `posts` prop changes

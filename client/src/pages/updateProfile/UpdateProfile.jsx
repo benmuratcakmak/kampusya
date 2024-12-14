@@ -23,8 +23,12 @@ export const UpdateProfile = () => {
   );
 
   const [selectedFaculty, setSelectedFaculty] = useState(user.faculty || "");
-  const [departments, setDepartments] = useState(user.department ? [user.department] : []);
-  const [selectedDepartment, setSelectedDepartment] = useState(user.department || "");
+  const [departments, setDepartments] = useState(
+    user.department ? [user.department] : []
+  );
+  const [selectedDepartment, setSelectedDepartment] = useState(
+    user.department || ""
+  );
   const [isFacultyOpen, setIsFacultyOpen] = useState(false);
   const [isDepartmentOpen, setIsDepartmentOpen] = useState(false);
 
@@ -102,9 +106,7 @@ export const UpdateProfile = () => {
   return (
     <div className="update-profile-container">
       <div className="close-back-icon">
-        <Icons.Back
-          onClick={() => navigate(`/profile/${username}`)}
-        />
+        <Icons.Back onClick={() => navigate(`/profile/${username}`)} />
         <span
           onClick={handleUpdate}
           style={{
@@ -176,6 +178,7 @@ export const UpdateProfile = () => {
           value={bio}
           onChange={(e) => setBio(e.target.value)}
           placeholder="Kendinizi tanıtın"
+          maxLength={50} // Karakter sınırı
         />
 
         <div className="select-container">

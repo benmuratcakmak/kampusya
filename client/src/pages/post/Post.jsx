@@ -124,7 +124,7 @@ export const Post = () => {
               />
             )}
           </div>
-          {post.content && <p className="right-text">{post.content}</p>}
+          {post.content && <span className="right-text">{post.content}</span>}
           {post.mediaUrl && (
             <div className="right-media">
               {post.mediaUrl.includes("video") ? (

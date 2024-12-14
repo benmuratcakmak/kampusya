@@ -7,13 +7,15 @@ import { fileURLToPath } from "url";
 import conn from "./mongoDB.js";
 
 // AuthMiddleware import et
-// import authMiddleware from "./middlewares/authMiddleware.js";
+import authMiddleware from "./middlewares/authMiddleware.js";
 
 dotenv.config();
 
 // __filename ve __dirname tanımlama
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+import refreshTokenRoute from './routes/refresh_token.js';
 
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
@@ -67,18 +69,12 @@ app.get("/", (req, res) => {
 });
 
 // API Rotalarını ekliyoruz
+
+// app.use("/api/refresh-token", refreshTokenRoute);
+
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/search", searchRoute);
-
-// Kimlik doğrulama gerektiren rotalar
-// app.use("/api/follow", authMiddleware, followRoutes);
-// app.use("/api/posts", authMiddleware, postRoutes);
-// app.use("/api/postFeatures", authMiddleware, postFeaturesRoutes);
-// app.use("/api/notifications", authMiddleware, notificationsRoutes);
-// app.use("/api/conversations", authMiddleware, conversationsRoutes);
-// app.use("/api/messages", authMiddleware, messageRoutes);
-// app.use("/api/report", authMiddleware, reportRoutes);
 
 app.use("/api/follow", followRoutes);
 app.use("/api/posts", postRoutes);
@@ -88,7 +84,17 @@ app.use("/api/conversations", conversationsRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/report", reportRoutes);
 
+
+// app.use("/api/follow", authMiddleware, followRoutes);
+// app.use("/api/posts", authMiddleware, postRoutes);
+// app.use("/api/postFeatures", authMiddleware, postFeaturesRoutes);
+// app.use("/api/notifications", authMiddleware, notificationsRoutes);
+// app.use("/api/conversations", authMiddleware, conversationsRoutes);
+// app.use("/api/messages", authMiddleware, messageRoutes);
+// app.use("/api/report", authMiddleware, reportRoutes);
+
 server.listen(port, () => {
   conn();
   console.log("Server is running on port", port);
 });
+    

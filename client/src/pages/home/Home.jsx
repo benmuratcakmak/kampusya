@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import HomePost from "../../components/homePost/HomePost.jsx";
 import ShareModal from "../../components/shareModal/ShareModal";
 import CommentModal from "../../components/commentModal/CommentModal.jsx";
+// import axiosInstance from "../../api.js";
 // import "./Home.css";
 
 export const Home = () => {

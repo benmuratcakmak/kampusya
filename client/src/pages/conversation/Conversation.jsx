@@ -99,7 +99,7 @@ export const Conversation = () => {
         sender: userId,
         receiver: receiverId,
         text: newMessage,
-        createdAt: new Date(),
+        // createdAt: new Date(),
       };
 
       const response = await axios.post("/api/messages", messageData);

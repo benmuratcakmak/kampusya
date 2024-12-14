@@ -54,11 +54,13 @@ router.get("/forSocketNotification/:conversationId", async (req, res) => {
 
 // Mesaj kaydedildiğinde, konuşmayı güncelle
 router.post("/", async (req, res) => {
-  const { conversationId, sender, receiver, text, sharePostId, createdAt } = req.body;
+  // const { conversationId, sender, receiver, text, sharePostId, createdAt } = req.body;
+  const { conversationId, sender, receiver, text, sharePostId } = req.body;
 
   try {
     // Yeni mesajı kaydet
-    const message = new Message({ conversationId, sender, receiver, text, sharePostId, createdAt });
+    // const message = new Message({ conversationId, sender, receiver, text, sharePostId, createdAt });
+    const message = new Message({ conversationId, sender, receiver, text, sharePostId });
     await message.save();
 
     io.emit("newMessageNotification", {

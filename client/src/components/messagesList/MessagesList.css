@@ -163,3 +163,25 @@
   .messages .message-text p{
     text-align: start;
   }
+
+  /* Kendi mesajlarında saati balonun dışında, sol tarafa yerleştir */
+.my-message .message-text {
+  background-color: #5c9dff;
+  color: #fff;
+  border-radius: 16px 16px 0 16px;
+  position: relative;
+  /* padding-right: 35px; */
+}
+
+.my-message .message-list-formattime {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  font-size: 12px;
+  color: gray;
+}
+
+.message-list-formattime{
+  margin-left: 5px;
+}
+

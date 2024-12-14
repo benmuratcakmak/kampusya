@@ -95,10 +95,13 @@ const CommentModal = ({ postId, onCommentSubmit, onClose }) => {
 
   const handleReplySubmit = async (commentId) => {
     try {
-      await axios.post(`/api/postFeatures/${postId}/comment/${commentId}/reply`, {
-        userId: user._id,
-        content: replyContents[commentId],
-      });
+      await axios.post(
+        `/api/postFeatures/${postId}/comment/${commentId}/reply`,
+        {
+          userId: user._id,
+          content: replyContents[commentId],
+        }
+      );
       setReplyContents((prev) => ({ ...prev, [commentId]: "" }));
       refreshComments();
     } catch (err) {
@@ -199,7 +202,9 @@ const CommentItem = ({
             <p onClick={() => goToProfile(comment.userId?.username)}>
               {comment.userId?.username}
             </p>
-            <FormatTime timestamp={comment.createdAt} />
+            <div className="format-time">
+              <FormatTime timestamp={comment.createdAt} />
+            </div>
           </div>
           <p className="content">{comment.content}</p>
           <p
@@ -228,7 +233,10 @@ const CommentItem = ({
       </div>
       <div className="comment-item-bottom">
         {comment.replies.length > 0 && (
-          <p className="show-comment" onClick={() => toggleRepliesVisibility(comment._id)}>
+          <p
+            className="show-comment"
+            onClick={() => toggleRepliesVisibility(comment._id)}
+          >
             {visibleReplies[comment._id]
               ? "Yanıtları gizle"
               : `${comment.replies.length} diğer yanıtı gör`}
@@ -255,7 +263,9 @@ const CommentItem = ({
                         ? reply.userId.username
                         : "Kullanıcı adı bulunamadı"}
                     </p>
-                    <FormatTime timestamp={reply.createdAt} />
+                    <div className="format-time">
+                      <FormatTime timestamp={reply.createdAt} />
+                    </div>
                   </div>
                   <p className="content">{reply.content}</p>
                 </div>

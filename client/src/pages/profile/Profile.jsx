@@ -38,7 +38,7 @@ export const Profile = () => {
           axios.get(`/api/users?username=${username}`),
           axios.get(`/api/posts/profile/${username}`),
         ]);
-        
+
         // Kullanıcının followers verisini kontrol et
         const userFollowers = userRes.data.followers || []; // Eğer followers undefined ise boş dizi kullan
         setUser(userRes.data);
@@ -52,14 +52,16 @@ export const Profile = () => {
     };
     fetchUserData();
   }, [username, currentUser._id]);
-  
 
   const createConversation = async () => {
     try {
-      const res = await axios.post("/api/conversations/getOrCreateConversation", {
-        senderId: currentUser._id,
-        receiverId: user._id,
-      });
+      const res = await axios.post(
+        "/api/conversations/getOrCreateConversation",
+        {
+          senderId: currentUser._id,
+          receiverId: user._id,
+        }
+      );
       const conversationId = res.data._id;
       navigate(`/messages/${conversationId}`);
     } catch (err) {
@@ -191,13 +193,13 @@ export const Profile = () => {
                   to={`/follow/followers-following/${user?.username}?tab=followers`}
                   className="profile-link"
                 >
-                  {user?.followers.length} Takipçi
+                  <span>{user?.followers.length}</span> Takipçi
                 </Link>
                 <Link
                   to={`/follow/followers-following/${user?.username}?tab=following`}
                   className="profile-link"
                 >
-                  {user?.followings.length} Takip Edilen
+                  <span>{user?.followings.length}</span> Takip Edilen
                 </Link>
               </div>
               <div className="profile-left-bottom">
@@ -221,24 +223,33 @@ export const Profile = () => {
             </div>
             <div className="profile-right">
               <span className="username">@{user?.username}</span>
-              <span className="fullname">
+              <b className="fullname">
                 {user?.firstName} {user?.lastName}
-              </span>
-              <span className="faculty-and-department">
-                {user?.faculty && user?.department ? (
+              </b>
+              <div className="faculty-and-department">
+                {user?._id !== currentUser._id ? (
+                  <span className="profil-detail">
+                    Bu kullanıcının fakülte ve bölüm bilgisi henüz girilmemiş.
+                  </span>
+                ) : user?.faculty && user?.department ? (
                   `${user?.faculty} / ${user?.department}`
                 ) : (
-                  <span style={{ color: "red" }}>
+                  <span className="profil-detail">
                     Fakülte ve bölüm bilgisi henüz girilmemiş. Lütfen
                     bilgilerinizi güncelleyiniz.
                   </span>
                 )}
-              </span>
+              </div>
+
               <div className="bio-div">
-                {user?.bio ? (
+                {user?._id !== currentUser._id ? (
+                  <span className="profil-detail">
+                    Bu kullanıcı henüz biyografi eklememiş.
+                  </span>
+                ) : user?.bio ? (
                   <span className="bio">{user?.bio}</span>
                 ) : (
-                  <span style={{ color: "red" }}>
+                  <span className="profil-detail">
                     Biyografi bilgisi henüz girilmemiş. Kendinizi tanıtan bir
                     biyografi ekleyebilirsiniz.
                   </span>

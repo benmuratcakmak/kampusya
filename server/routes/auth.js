@@ -94,7 +94,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-
 // Kayıt rotası
 router.post("/register", async (req, res) => {
   try {

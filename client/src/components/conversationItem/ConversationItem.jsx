@@ -11,9 +11,6 @@ const ConversationItem = ({
   onDeleteConversation,
 }) => {
 
-  console.log(conversation.lastMessage?.createdAt);
-  console.log(new Date(conversation.lastMessage?.createdAt));
-  
   const handleDelete = (e) => {
     e.preventDefault(); // Link tıklamasını önle
     onDeleteConversation(conversation.conversationId);
@@ -52,11 +49,15 @@ const ConversationItem = ({
           </div>
 
           {/* <FormatTime
-            timestamp={
-              conversation?.lastMessage?.createdAt
+            timestamp={(() => {
+              console.log(
+                "Last Message CreatedAt:",
+                conversation.lastMessage?.createdAt
+              );
+              return conversation.lastMessage?.createdAt
                 ? new Date(conversation.lastMessage.createdAt)
-                : null
-            }
+                : null;
+            })()}
           /> */}
 
           <div className="options" onClick={handleDelete}>
