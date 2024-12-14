@@ -28,6 +28,12 @@ import conversationsRoutes from "./routes/conversations.js";
 import messageRoutes from "./routes/messages.js";
 import reportRoutes from "./routes/report.js";
 
+// app.use(cors({
+//   origin: ["https://kampusya.com", "http://localhost:3000"],
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+// }));
+
 const allowedOrigins = process.env.NODE_ENV === 'production'
   ? ["https://kampusya.com"]
   : ["http://localhost:3000"];
@@ -43,24 +49,26 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client/build'), {
-    maxAge: '1d', // 1 gün önbellek
-    etag: true // Dosya değiştiğinde yeni ETag ile tarayıcıya bildirilir
-  }));
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static(path.join(__dirname, 'client/build'), {
+//     maxAge: '1d', // 1 gün önbellek
+//     etag: true // Dosya değiştiğinde yeni ETag ile tarayıcıya bildirilir
+//   }));
 
-  // Eski cache'i devre dışı bırakmak için
-  app.use((req, res, next) => {
-    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
-    next();
-  });
+//   // Eski cache'i devre dışı bırakmak için
+//   app.use((req, res, next) => {
+//     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+//     res.setHeader('Pragma', 'no-cache');
+//     res.setHeader('Expires', '0');
+//     next();
+//   });
 
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
-}
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+//   });
+// }
+
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 const port = process.env.PORT;
 
