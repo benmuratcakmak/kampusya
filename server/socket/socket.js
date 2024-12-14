@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
 import http from "http";
 import express from "express";
-import helmet from "helmet";
+//import helmet from "helmet";
 // import rateLimit from "express-rate-limit";
 
 import Message from "../models/Message.js";
@@ -9,7 +9,7 @@ import Message from "../models/Message.js";
 const app = express();
 app.set('trust proxy', true);
 
-app.use(helmet());
+//app.use(helmet());
 
 // const limiter = rateLimit({
 //   windowMs: 15 * 60 * 1000, // 15 dakika
@@ -44,25 +44,6 @@ io.on("connection", (socket) => {
   socket.on("joinConversation", (conversationId) => {
     socket.join(conversationId);
   });
-
-  // Mesaj gönderme
-  // socket.on("sendMessage", async (message) => {
-  //   try {
-  //     // Mesajı sender bilgileriyle doldur
-  //     const populatedMessage = await Message.findById(message._id).populate(
-  //       "sender",
-  //       "username photo"
-  //     );
-
-  //     if (populatedMessage) {
-  //       io.to(message.conversationId).emit("receiveMessage", populatedMessage);
-  //     } else {
-  //       console.error("Mesaj bulunamadı veya sender bilgileri eksik.");
-  //     }
-  //   } catch (err) {
-  //     console.error("Mesaj gönderme hatası:", err);
-  //   }
-  // });
 
   socket.on("sendMessage", async (message) => {
     try {

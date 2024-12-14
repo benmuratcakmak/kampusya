@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 import conn from "./mongoDB.js";
 
 // AuthMiddleware import et
-import authMiddleware from "./middlewares/authMiddleware.js";
+// import authMiddleware from "./middlewares/authMiddleware.js";
 
 dotenv.config();
 
@@ -15,7 +15,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-import refreshTokenRoute from './routes/refresh_token.js';
+// import refreshTokenRoute from './routes/refresh_token.js';
 
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
@@ -62,7 +62,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 
 app.get("/", (req, res) => {
   res.send(`Server portundasin, port no ${port}`);
