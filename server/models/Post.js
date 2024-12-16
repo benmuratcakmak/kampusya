@@ -102,3 +102,24 @@ const PostSchema = new mongoose.Schema({
 
 const Post = mongoose.model("Post", PostSchema);
 export default Post;
+
+// userId: Gönderiyi oluşturan kullanıcıyı temsil eder. Bu alan User modeline referans verir.
+// content: Gönderinin içeriğini (metni) tutar. Bir kullanıcı metin paylaşırken burada saklanır.
+// sharePostId: Gönderinin başka bir gönderiyi paylaştığı (reshare) durumunu belirtir. Bu alanda, paylaşılan gönderinin ID'si saklanır.
+// mediaUrl: Gönderide bulunan medya içeriği (fotoğraf, video, vs.) için URL alanıdır. Bu, bir medya dosyasının bağlantısını tutar.
+// eventTitle, eventDate, eventDescription: Eğer gönderi bir etkinlik (event) ile ilgiliyse, bu alanlarda etkinlik başlığı, tarihi ve açıklaması saklanır. Bunlar isteğe bağlı (optional) alanlardır.
+// likes: Gönderiye yapılan beğenileri tutar. Bu, beğenen kullanıcıların ID'lerini içerir.
+// comments: Gönderiye yapılacak yorumları tutar. Her yorum:
+// userId: Yorum yapan kullanıcının ID'sini içerir.
+// content: Yorumun içeriği.
+// createdAt: Yorumun oluşturulma tarihi.
+// likes: Yorumun beğenileri.
+// replies: Yorumlara yapılan cevaplar (alt yorumlar). Bu da kullanıcı ID'si, içerik, oluşturulma tarihi ve beğeniler gibi özellikler içerir.
+// shareCount: Gönderinin ne kadar paylaşıldığını gösterir. Başlangıçta 0 olarak ayarlanır.
+// pollQuestion: Eğer gönderi bir anket içeriyorsa, anket sorusu burada tutulur.
+// pollOptions: Anketin seçeneklerini tutar. Her seçenek:
+// option: Seçeneğin metni.
+// votes: Seçeneğin aldığı oy sayısı.
+// pollVotes: Kullanıcıların hangi anket seçeneğine oy verdiklerini tutar. Her oy, kullanıcının ID'si ve seçtiği seçenek indeksini içerir.
+// createdAt: Gönderinin oluşturulma tarihini tutar.
+// Bu model, sosyal medya platformlarında bir gönderiye dair tüm bilgileri (metin, medya, yorumlar, anketler, beğeniler, paylaşımlar) saklamayı sağlar.
