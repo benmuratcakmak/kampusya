@@ -57,14 +57,13 @@ const UserSchema = new mongoose.Schema(
     // verificationCode: String,
     // verificationCodeExpiresAt: { type: Date },
     verificationCode: { type: String, default: null },
-    verificationCodeExpiresAt: { type: Date, default: null }, 
+    verificationCodeExpiresAt: { type: Date, default: null },
   },
   { timestamps: true }
 );
 
 UserSchema.index({ username: 1, email: 1 }, { unique: true });
 UserSchema.index({ firstName: 1, lastName: 1 });
-
 
 const User = mongoose.model("User", UserSchema);
 export default User;

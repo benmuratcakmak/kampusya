@@ -35,19 +35,6 @@ const UserRanking = () => {
             <div className="container">
               <div className="table-responsive">
                 <table className="table netflix-table">
-                  <thead>
-                    <tr>
-                      <th>Rank</th>
-                      <th>Profile</th>
-                      <th>Username</th>
-                      <th>Name </th>
-                      <th>Surname</th>
-                      <th>Fakülte</th>
-                      <th>Departman</th>
-                      <th>Like</th>
-                      <th>Yorum</th>
-                    </tr>
-                  </thead>
                   <tbody>
                     {userRanking.map((user, index) => (
                       <tr
@@ -69,10 +56,16 @@ const UserRanking = () => {
                         <td>{user.username}</td>
                         <td>{user.firstName || "Bilinmiyor"}</td>
                         <td>{user.lastName || "Bilinmiyor"}</td>
-                        <td>{user.faculty || "Bilinmiyor"}</td>
-                        <td>{user.department || "Bilinmiyor"}</td>
-                        <td>{user.likeCount}</td>
-                        <td>{user.commentCount}</td>
+                        <td>
+                          {user.faculty === null || user.faculty === ""
+                            ? "....."
+                            : user.faculty}
+                        </td>
+                        <td>
+                          {user.department === null || user.department === ""
+                            ? "....."
+                            : user.department}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
