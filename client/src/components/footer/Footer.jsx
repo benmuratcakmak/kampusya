@@ -49,18 +49,20 @@ export const Footer = () => {
   useEffect(() => {
     if (!user) return;
 
-    const SERVER_URL =
-      process.env.NODE_ENV === "production"
-        ? "https://kampusya.com"
-        : "http://localhost:5000";
+    // const SERVER_URL =
+    //   process.env.NODE_ENV === "production"
+    //     ? "https://kampusya.com"
+    //     : "http://localhost:5000";
 
-    console.log("Bağlanılan sunucu:", SERVER_URL);
+    // console.log("Bağlanılan sunucu:", SERVER_URL);
 
-    const socket = io(SERVER_URL, {
-      transports: ["websocket"], // WebSocket protokolünü kullan
+    // const socket = io(SERVER_URL, {
+    //   transports: ["websocket"], // WebSocket protokolünü kullan
+    // });
+
+    const socket = io("http://localhost:5000", {
+     transports: ["websocket"],
     });
-
-    // const socket = io("http://localhost:5000", {});
 
     // const socket = io("https://kampusya.com", {
     //   transports: ["websocket"],
