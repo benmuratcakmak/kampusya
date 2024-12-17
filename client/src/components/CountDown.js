@@ -32,9 +32,9 @@ const Countdown = ({ eventDate }) => {
         <div className="event-started">{countdown.time}</div>
       ) : (
         <div className="countdown-timer">
-          <span>{countdown.hours}h </span>
-          <span>{countdown.minutes}m </span>
-          <span>{countdown.seconds}s</span>
+          <span>{countdown.hours}saat </span>
+          <span>{countdown.minutes}dakika </span>
+          <span>{countdown.seconds}saniye</span>
         </div>
       )}
     </div>

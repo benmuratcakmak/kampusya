@@ -150,8 +150,7 @@ export const Register = ({ setOpenModal }) => {
           onChange={handleChange}
           placeholder="Şifre"
           required
-          minLength={6} // En az 6 karakter
-          maxLength={15}
+          minLength={8}
         />
         <input
           id="passwordAgain"

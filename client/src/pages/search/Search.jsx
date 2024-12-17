@@ -2,6 +2,7 @@
   import { Avatar, CircularProgress, Typography } from "@mui/material";
   import { Link } from "react-router-dom";
   import axios from "axios";
+  import UserRanking from "../../components/userRanking/UserRanking";
   import ClickAwayListener from "@mui/material/ClickAwayListener";
   import "./search.css";
 
@@ -101,6 +102,9 @@
               {search.length > 0 ? "Aradığın kullanıcı bulunamadı." : ""}
             </div>
           )}
+        </div>
+        <div className="popularity">
+          <UserRanking/>
         </div>
       </div>
     );

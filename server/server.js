@@ -6,8 +6,7 @@ import cors from "cors";
 import { fileURLToPath } from "url";
 import conn from "./mongoDB.js";
 
-// AuthMiddleware import et
-// import authMiddleware from "./middlewares/authMiddleware.js";
+app.set("trust proxy", 1); // Sadece bir proxy kullanıyorsanız
 
 dotenv.config();
 
@@ -15,11 +14,10 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// import refreshTokenRoute from './routes/refresh_token.js';
-
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import searchRoute from "./routes/search.js";
+import rankingRoute from "./routes/ranking.js";
 import followRoutes from "./routes/follow.js";
 import postRoutes from "./routes/posts.js";
 import postFeaturesRoutes from "./routes/postFeatures.js";
@@ -34,15 +32,18 @@ import reportRoutes from "./routes/report.js";
 //   allowedHeaders: ["Content-Type", "Authorization"],
 // }));
 
-const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? ["https://kampusya.com"]
-  : ["http://localhost:3000"];
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? ["https://kampusya.com"]
+    : ["http://localhost:3000"];
 
-app.use(cors({
-  origin: allowedOrigins,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -68,7 +69,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 //   });
 // }
 
-app.use(express.static(path.join(__dirname, 'client', 'build')));
+app.use(express.static(path.join(__dirname, "client", "build")));
 
 const port = process.env.PORT;
 
@@ -78,12 +79,10 @@ app.get("/", (req, res) => {
 
 // API Rotalarını ekliyoruz
 
-// app.use("/api/refresh-token", refreshTokenRoute);
-
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/search", searchRoute);
-
+app.use("/api/ranking", rankingRoute);
 app.use("/api/follow", followRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/postFeatures", postFeaturesRoutes);
@@ -92,17 +91,7 @@ app.use("/api/conversations", conversationsRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/report", reportRoutes);
 
-
-// app.use("/api/follow", authMiddleware, followRoutes);
-// app.use("/api/posts", authMiddleware, postRoutes);
-// app.use("/api/postFeatures", authMiddleware, postFeaturesRoutes);
-// app.use("/api/notifications", authMiddleware, notificationsRoutes);
-// app.use("/api/conversations", authMiddleware, conversationsRoutes);
-// app.use("/api/messages", authMiddleware, messageRoutes);
-// app.use("/api/report", authMiddleware, reportRoutes);
-
 server.listen(port, () => {
   conn();
   console.log("Server is running on port", port);
 });
-    

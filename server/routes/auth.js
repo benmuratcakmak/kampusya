@@ -45,7 +45,7 @@ const generateVerificationCode = () =>
 // Tum hasssas bilgiler icin rateLimiter ayarla middleware
 
 const verifyCodeLimiter = rateLimit({
-  windowMs: 3 * 60 * 1000, // 1 dakika
+  windowMs: 4 * 60 * 1000, // 4 dakika
   max: 5, // Maksimum 5 istek
   message: {
     message:
@@ -121,7 +121,7 @@ router.post("/register", async (req, res) => {
 
     // Doğrulama kodu oluşturma
     const verificationCode = generateVerificationCode();
-    const verificationCodeExpiresAt = new Date(Date.now() + 3 * 60 * 1000);
+    const verificationCodeExpiresAt = new Date(Date.now() + 4 * 60 * 1000);
 
     // Kullanıcı oluşturma
     const newUser = new User({
@@ -268,7 +268,7 @@ router.post("/resend-code", async (req, res) => {
     // Yeni doğrulama kodunu kullanıcıya kaydet
     user.verificationCode = newVerificationCode;
     user.verificationCodeExpiresAt = new Date(
-      currentTime.getTime() + 3 * 60 * 1000
+      currentTime.getTime() + 4 * 60 * 1000
     );
     await user.save();
 

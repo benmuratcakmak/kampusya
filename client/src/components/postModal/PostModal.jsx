@@ -163,6 +163,7 @@ export const PostModal = ({ isOpen, onClose, setPosts }) => {
       </div>
       <form onSubmit={handleSubmit}>
         <textarea
+        className="post-textarea"
           placeholder={
             showEventForm || showPollForm
               ? "Etkinlik ya da anket oluştururken bu alanı kullanamazsınız."

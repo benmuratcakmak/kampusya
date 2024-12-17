@@ -3,7 +3,7 @@ import io from "socket.io-client";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { useParams, useNavigate } from "react-router-dom";
-import MessagesList from '../../components/messagesList/MessagesList'
+import MessagesList from "../../components/messagesList/MessagesList";
 import { MessageInput } from "../../components/messageInput/MessageInput";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import "./Conversation.css";
@@ -17,7 +17,18 @@ import "./Conversation.css";
 //   transports: ["websocket"],
 // });
 
-const socket = io(process.env.NODE_ENV === "production" ? "https://kampusya.com" : "http://localhost:5000", {
+// const socket = io(process.env.NODE_ENV === "production" ? "https://kampusya.com" : "http://localhost:5000", {
+//   transports: ["websocket"], // WebSocket protokolünü kullan
+// });
+
+const SERVER_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://kampusya.com"
+    : "http://localhost:5000";
+
+console.log("Bağlanılan sunucu:", SERVER_URL);
+
+const socket = io(SERVER_URL, {
   transports: ["websocket"], // WebSocket protokolünü kullan
 });
 
@@ -49,7 +60,7 @@ export const Conversation = () => {
         setLoading(false);
       }
     };
-    
+
     fetchMessages();
 
     socket.emit("joinConversation", conversationId);

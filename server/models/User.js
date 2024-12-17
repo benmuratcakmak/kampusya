@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      minlength: [6, 'Şifre en az 6 karakter olmalıdır.'],
+      minlength: [8],
     },
     resetPasswordToken: String,
     resetPasswordExpires: Date,

@@ -7,7 +7,7 @@ const VerificationModal = ({ email, isOpen, onClose, onSuccess }) => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [isCodeExpired, setIsCodeExpired] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(180);
+  const [timeLeft, setTimeLeft] = useState(240);
 
   useEffect(() => {
     const handleBeforeUnload = async () => {
@@ -71,7 +71,7 @@ const VerificationModal = ({ email, isOpen, onClose, onSuccess }) => {
 
   const resendCode = async () => {
     setIsCodeExpired(false);
-    setTimeLeft(100); // Zamanlayıcıyı sıfırla
+    setTimeLeft(240); // Zamanlayıcıyı sıfırla
     setMessage(""); // Önceki mesajları temizle
 
     try {
@@ -107,7 +107,9 @@ const VerificationModal = ({ email, isOpen, onClose, onSuccess }) => {
 
   return (
     <div className="verification-modal-content">
-      <p>E-posta adresinize gönderilen doğrulama kodunu girin:</p>
+      <b className="disclaimer">
+      Üniversitenizin sağladığı e-posta adresinize gönderilen doğrulama kodunu girin:
+      </b>
       <form onSubmit={handleVerify}>
         <input
           type="text"
@@ -122,9 +124,9 @@ const VerificationModal = ({ email, isOpen, onClose, onSuccess }) => {
       {error && <p className="error-message">{error}</p>}
       {isCodeExpired && (
         <div>
-          <p className="expired-message">
+          {/* <p className="expired-message">
             Doğrulama kodu süresi dolmuş. Lütfen yeni bir kod bekleyin.
-          </p>
+          </p> */}
           <button onClick={resendCode}>Yeni Kod Gönder</button>
         </div>
       )}

@@ -15,6 +15,9 @@
 .post-modal-container textarea {
   margin: 1rem;
 }
+.post-textarea{
+  height: 10rem;
+}
 
 .modal-icons-left {
   display: flex;
