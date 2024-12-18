@@ -89,7 +89,7 @@ export const Profile = () => {
 
       if (res.data.success) {
         // Eski şifre doğrulandıysa yeni şifreyi değiştir
-        await axios.put("/users/change-password", {
+        await axios.put("/api/users/change-password", {
           userId: currentUser._id,
           newPassword,
         });

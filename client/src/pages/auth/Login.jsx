@@ -29,17 +29,23 @@ export const Login = ({ setOpenModal }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value.trim(), // Boşlukları kaldırıyoruz
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!formData.emailOrUsername || !formData.password) {
-      setError("Lütfen tüm alanları doldurun.");
+  
+    const { emailOrUsername, password } = formData;
+  
+    // Boşluk kontrolü yapıyoruz
+    if (!emailOrUsername || !password) {
+      setError("Lütfen tüm alanları boşluklardan arındırarak doldurun.");
       return;
     }
-
+  
     setError("");
     try {
       const token = await loginCall(formData, dispatch);

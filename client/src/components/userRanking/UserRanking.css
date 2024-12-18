@@ -1,0 +1,43 @@
+
+table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important;
+  }
+  
+  th,
+  td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  td img {
+    border-radius: 50%;
+  }
+  
+  th {
+    font-weight: bold;
+  }
+  .ranking-title {
+    text-align: center;
+    font-size: 24px !important;
+    font-weight: bold !important;
+  }
+  .ranking-container {
+    margin-top: 50px;
+  }
+  th,
+  td {
+    font-size: 14px;
+    text-align: center !important;
+  }
+  
+  td:nth-child(3),
+  td:nth-child(4) {
+    color: #555;
+  }
+  

@@ -27,29 +27,31 @@ export const Register = ({ setOpenModal }) => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const { name, value } = e.target;
+  setFormData((prevData) => ({
+    ...prevData,
+    [name]: value.trim(), // Boşlukları kaldırıyoruz
+  }));
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { firstName, lastName, username, email, password, passwordAgain } =
       formData;
 
-    if (
-      !firstName ||
-      !lastName ||
-      !username ||
-      !email ||
-      !password ||
-      !passwordAgain
-    ) {
-      setError("Lütfen tüm alanları doldurun.");
-      return;
-    }
+    // Boşlukları kontrol et ve hata mesajı göster
+  if (
+    !firstName.trim() ||
+    !lastName.trim() ||
+    !username.trim() ||
+    !email.trim() ||
+    !password.trim() ||
+    !passwordAgain.trim()
+  ) {
+    setError("Lütfen tüm alanları boşluklardan arındırarak doldurun.");
+    return;
+  }
 
     if (password !== passwordAgain) {
       setError("Şifreler uyuşmuyor!");

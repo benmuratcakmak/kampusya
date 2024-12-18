@@ -20,9 +20,53 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
   const [followers, setFollowers] = useState([]);
   const [status, setStatus] = useState({ loading: true, error: null });
   const [selectedFollowers, setSelectedFollowers] = useState([]);
-  const [content, setContent] = useState(""); // Kullanıcı yazısı için state
+  const [content, setContent] = useState("");
 
   const modalContentRef = useRef(null);
+
+  const handleShareToWhatsApp = () => {
+    const message = encodeURIComponent(selectedPost.content);
+    const postUrl = encodeURIComponent(
+      `http://kampusya.com/posts/post/${selectedPost._id}`
+    );
+    window.open(`https://wa.me/?text=${message} ${postUrl}`, "_blank");
+    incrementShareCount();
+  };
+  
+  const handleShareToInstagram = () => {
+    const message = encodeURIComponent(selectedPost.content);
+    const postUrl = encodeURIComponent(
+      `http://kampusya.com/posts/${selectedPost._id}`
+    );
+    window.open(`https://www.instagram.com/?url=${postUrl}`, "_blank");
+    incrementShareCount();
+  };
+  
+  const handleShareToTwitter = () => {
+    const message = encodeURIComponent(selectedPost.content);
+    const postUrl = encodeURIComponent(
+      `http://kampusya.com/posts/${selectedPost._id}`
+    );
+    window.open(
+      `https://twitter.com/intent/tweet?text=${message} ${postUrl}`,
+      "_blank"
+    );
+    incrementShareCount();
+  };
+  
+
+  const incrementShareCount = async () => {
+    try {
+      const response = await axios.put(
+        `/api/postFeatures/${selectedPost._id}/incrementShareCount`
+      );
+      if (response.status === 200) {
+        console.log("Paylaşma sayısı başarıyla güncellendi.");
+      }
+    } catch (err) {
+      console.error("Paylaşma sayısı artırılamadı:", err);
+    }
+  };
 
   // Takip edilen kullanıcıları alma
   useEffect(() => {
@@ -49,10 +93,9 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
   }, [user?.username]);
 
   const handleContentChange = (e) => {
-    setContent(e.target.value); // debounce kaldırıldı
+    setContent(e.target.value);
   };
 
-  // Kullanıcı seçimini toggle etme
   const toggleFollowerSelection = useCallback((followerId) => {
     setSelectedFollowers((prev) =>
       prev.includes(followerId)
@@ -61,7 +104,6 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
     );
   }, []);
 
-  // Bildirim gösterme
   const showNotification = useCallback((message, type = "success") => {
     const notification = document.createElement("div");
     notification.className = `notification ${type}`;
@@ -79,11 +121,10 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
     }, 3000);
   }, []);
 
-  // Gönderi paylaşma
   const handleSend = async () => {
     if (!selectedPost?._id || !selectedFollowers.length || !content) {
       showNotification("Gönderi ID'si geçersiz veya eksik!", "error");
-      return; // Eğer geçerli bir ID yoksa işlemi sonlandır
+      return;
     }
 
     try {
@@ -108,15 +149,13 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
 
       showNotification("Gönderi başarıyla iletildi!", "success");
       setSelectedFollowers([]);
-      setContent(""); // Gönderim sonrası input'u temizle
+      setContent("");
       onClose();
     } catch (err) {
       showNotification("Bir hata oluştu: " + err.message, "error");
     }
   };
 
-  // Evinize paylaşma
-  // Evinize paylaşma
   const handleSendforHome = async () => {
     if (
       !selectedPost?.content &&
@@ -133,15 +172,14 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
         content,
         sharePostId: selectedPost._id,
         userId: userId,
-        pollQuestion: selectedPost.pollQuestion, // Anket sorusu ekleniyor
-        pollOptions: selectedPost.pollOptions, // Anket seçenekleri ekleniyor
-        eventTitle: selectedPost.eventTitle, // Etkinlik başlığı ekleniyor
-        eventDescription: selectedPost.eventDescription, // Etkinlik açıklaması ekleniyor
-        eventDate: selectedPost.eventDate, // Etkinlik tarihi ekleniyor
+        pollQuestion: selectedPost.pollQuestion,
+        pollOptions: selectedPost.pollOptions,
+        eventTitle: selectedPost.eventTitle,
+        eventDescription: selectedPost.eventDescription,
+        eventDate: selectedPost.eventDate,
       });
 
       if (response.status === 201) {
-        // Paylaşım sayısını arttırma
         await axios.put(
           `/api/postFeatures/${selectedPost._id}/incrementShareCount`
         );
@@ -153,7 +191,6 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
     }
   };
 
-  // Modal dışına tıklanırsa kapatma
   useEffect(() => {
     if (isOpen) {
       const handleClickOutside = (event) => {
@@ -181,7 +218,7 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
           <Icons.Draw />
         </button>
         <h4>ya da</h4>
-        <h4>Takip ettiklerine gonder</h4>
+        <h4>Takip ettiklerine gönder</h4>
 
         <main className="modal-content">
           {status.loading ? (
@@ -213,7 +250,7 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
           <Icons.FaPaperPlane
             className="share-modal-send-button"
             onClick={handleSend}
-            disabled={!selectedFollowers.length || !content} // Eğer içerik yoksa butonu devre dışı bırak
+            disabled={!selectedFollowers.length || !content}
           ></Icons.FaPaperPlane>
         </main>
         <input
@@ -222,6 +259,17 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
           onChange={handleContentChange}
           placeholder="Buraya yazın..."
         />
+        <div className="social-icons-container">
+          <Icons.WhatsApp
+            className="social-icon"
+            onClick={handleShareToWhatsApp}
+          />
+          <Icons.Instagram
+            className="social-icon"
+            onClick={handleShareToInstagram}
+          />
+          <Icons.X className="social-icon" onClick={handleShareToTwitter} />
+        </div>
       </div>
     </div>
   );

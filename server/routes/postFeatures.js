@@ -179,7 +179,7 @@ router.post("/:postId/comment/:commentId/reply", async (req, res) => {
   }
 });
 
-// Youmr begenme
+// Yorum begenme
 router.post("/:postId/comment/:commentId/like", async (req, res) => {
   const { postId, commentId } = req.params;
   const { userId } = req.body;

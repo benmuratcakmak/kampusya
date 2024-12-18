@@ -36,18 +36,19 @@ import MessageIcon from "@mui/icons-material/Message";
 import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 
 // Profile
-
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import SettingsIcon from "@mui/icons-material/Settings";
 
-//Update Profile
-
+// Update Profile
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+
+// Social Media Icons
+import { FaInstagram, FaWhatsapp, FaTwitter } from "react-icons/fa";
 
 const Icons = {
 
-  //Report
+  // Report
   FaRegImages,
 
   // Header
@@ -69,8 +70,13 @@ const Icons = {
   SettingsIcon,
   MessageIcon,
 
-  //Update Profile
+  // Update Profile
   AddPhotoAlternateIcon,
+
+  // Social Media
+  Instagram: FaInstagram,
+  WhatsApp: FaWhatsapp,
+  X: FaTwitter,
 
   // Other
   Back: ArrowBackIcon,
