@@ -24,7 +24,6 @@ import { Post } from "./pages/post/Post";
 import { ReportModal } from "./components/reportModal/ReportModal";
 import "./App.css";
 
-
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -94,8 +93,14 @@ function App() {
               setOpenModal={setOpenModal}
             />
             <Routes>
-              <Route path="/login" element={<Login setOpenModal={setOpenModal}/>} />
-              <Route path="/register" element={<Register setOpenModal={setOpenModal}/>} />
+              <Route
+                path="/login"
+                element={<Login setOpenModal={setOpenModal} />}
+              />
+              <Route
+                path="/register"
+                element={<Register setOpenModal={setOpenModal} />}
+              />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route
                 path="/"
