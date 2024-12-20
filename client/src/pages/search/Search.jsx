@@ -5,7 +5,6 @@ import axios from "axios";
 import UserRanking from "../../components/userRanking/UserRanking";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import "./search.css";
-import { getAvatarUrl } from "../../utils/avatarHelper";
 
 export const Search = () => {
   const [search, setSearch] = useState("");
@@ -87,7 +86,7 @@ export const Search = () => {
                 <div className="search-result-info">
                   <div className="left">
                     <Avatar
-                      src={user.photo || getAvatarUrl(user.username)}
+                      src={user.photo}
                       alt={user.username}
                       className="search-user-avatar"
                     />

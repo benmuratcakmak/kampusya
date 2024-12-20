@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Row } from "react-bootstrap";
+import { Avatar } from "@mui/material";
 import "./UserRanking.css";
 import { useNavigate } from "react-router-dom";
 
@@ -25,16 +26,17 @@ const UserRanking = () => {
   useEffect(() => {
     // Kar tanelerini oluştur
     const createSnowflakes = () => {
-      const container = document.querySelector('.ranking-container');
+      const container = document.querySelector(".ranking-container");
       const snowflakeCount = 100;
 
       for (let i = 0; i < snowflakeCount; i++) {
-        const snowflake = document.createElement('div');
-        snowflake.className = 'snowflake';
+        const snowflake = document.createElement("div");
+        snowflake.className = "snowflake";
         snowflake.style.left = `${Math.random() * 100}%`;
         snowflake.style.animationDelay = `${Math.random() * 15}s`;
-        const snowflakes = ['❄', '❅', '❆'];
-        snowflake.innerHTML = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+        const snowflakes = ["❄", "❅", "❆"];
+        snowflake.innerHTML =
+          snowflakes[Math.floor(Math.random() * snowflakes.length)];
         container.appendChild(snowflake);
       }
     };
@@ -42,17 +44,15 @@ const UserRanking = () => {
     createSnowflakes();
 
     return () => {
-      const snowflakes = document.querySelectorAll('.snowflake');
-      snowflakes.forEach(snowflake => snowflake.remove());
+      const snowflakes = document.querySelectorAll(".snowflake");
+      snowflakes.forEach((snowflake) => snowflake.remove());
     };
   }, []);
 
   return (
     <div className="container-fluid ranking-container">
       <div>
-        <h1 className="ranking-title">
-          HAFTALIK ETKİLEŞİM LİDERLERİ
-        </h1>
+        <h1 className="ranking-title">HAFTALIK ETKİLEŞİM LİDERLERİ</h1>
       </div>
       <Container className="my-3">
         <Row className="d-flex justify-content-center">
@@ -68,22 +68,26 @@ const UserRanking = () => {
                       >
                         <td>{index + 1}</td>
                         <td>
-                          <img
-                            src={user.photo || "/default-avatar.png"}
+                          <Avatar
+                            src={user.photo}
                             alt={`${user.username} Profil Fotoğrafı`}
                             style={{
                               width: "45px",
                               height: "45px",
-                              borderRadius: "50%",
                               border: "3px solid transparent",
-                              background: "linear-gradient(45deg, #ff3333, #ff6666) padding-box, linear-gradient(45deg, #ff3333, #ff6666) border-box",
+                              background:
+                                "linear-gradient(45deg, #ff3333, #ff6666) padding-box, linear-gradient(45deg, #ff3333, #ff6666) border-box",
                               transition: "all 0.3s ease",
-                              boxShadow: "0 0 15px rgba(255, 51, 51, 0.2)"
+                              boxShadow: "0 0 15px rgba(255, 51, 51, 0.2)",
                             }}
                           />
                         </td>
                         <td>{user.username}</td>
-                        <td>{(user.firstName || "Bilinmiyor") + " " + (user.lastName || "")}</td>
+                        <td>
+                          {(user.firstName || "Bilinmiyor") +
+                            " " +
+                            (user.lastName || "")}
+                        </td>
                       </tr>
                     ))}
                   </tbody>

@@ -363,7 +363,7 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
                   onClick={() => toggleFollowerSelection(follower._id)}
                 >
                   <Avatar
-                    src={follower.photo || getAvatarUrl(follower.username)}
+                    src={follower.photo}
                     alt={follower.username}
                     className="share-modal-avatar"
                   />

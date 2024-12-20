@@ -2,7 +2,7 @@ import React from "react";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
 import FormatTime from "../../components/FormatTime";
-import { getAvatarUrl } from '../../utils/avatarHelper';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 // import "./NotificationItem.css";
 
 const NotificationItem = ({
@@ -56,7 +56,7 @@ const NotificationItem = ({
       }
     >
       <Avatar
-        src={notification.sender?.photo || getAvatarUrl(notification.sender?.username)}
+        src={notification.sender?.photo}
         alt={`${notification.sender?.username} profil fotoğrafı`}
         className="notification-photo"
         onClick={(e) => {
@@ -70,7 +70,7 @@ const NotificationItem = ({
       </p>
       <FormatTime timestamp={notification.createdAt} />
       <div className="options" onClick={handleDeleteClick}>
-        ...
+        <MoreVertIcon style={{ fontSize: '1rem' }} />
       </div>
     </div>
   );

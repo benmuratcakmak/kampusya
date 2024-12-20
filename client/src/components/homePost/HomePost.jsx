@@ -9,7 +9,6 @@ import DeletePost from "../deletePost/DeletePost";
 import "./HomePost.css";
 import LikesModal from '../likesModal/LikesModal';
 import axios from 'axios';
-import { getAvatarUrl } from '../../utils/avatarHelper';
 
 const HomePost = ({
   post,
@@ -65,7 +64,7 @@ const HomePost = ({
       <div className="post">
         <div className="post-left">
           <Avatar
-            src={post.userId?.photo || getAvatarUrl(post.userId?.username)}
+            src={post.userId?.photo}
             alt={post.userId?.username}
             className="user-photo"
             onClick={() => handleProfileClick(post.userId.username)}

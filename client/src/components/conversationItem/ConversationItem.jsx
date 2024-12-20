@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import "./ConversationItem.css";
-import { getAvatarUrl } from '../../utils/avatarHelper';
 
 const ConversationItem = ({
   conversation,
@@ -26,8 +26,10 @@ const ConversationItem = ({
       >
         <div className="conversation-real-item">
           <Avatar
-            src={conversation.otherUser?.photo || getAvatarUrl(conversation.otherUser?.username)}
-            alt={`${conversation.otherUser?.username || "Kullanıcı"} profil fotoğrafı`}
+            src={conversation.otherUser?.photo}
+            alt={`${
+              conversation.otherUser?.username || "Kullanıcı"
+            } profil fotoğrafı`}
             className="user-photo"
           />
           <div className="conversation-fullname-and-lastMessage">
@@ -46,7 +48,7 @@ const ConversationItem = ({
           </div>
 
           <div className="options" onClick={handleDelete}>
-            ...
+            <MoreVertIcon style={{ fontSize: '1rem' }} />
           </div>
         </div>
       </Link>

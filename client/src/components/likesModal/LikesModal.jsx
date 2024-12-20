@@ -3,7 +3,6 @@ import { Avatar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import './LikesModal.css';
 import Icons from '../../icons';
-import { getAvatarUrl } from "../../utils/avatarHelper";
 
 const LikesModal = ({ isOpen, onClose, likes }) => {
   const navigate = useNavigate();
@@ -26,7 +25,7 @@ const LikesModal = ({ isOpen, onClose, likes }) => {
           {likes.map(like => (
             <div key={like._id} className="like-item" onClick={() => handleProfileClick(like.username)}>
               <Avatar
-                src={like.photo || getAvatarUrl(like.username)}
+                src={like.photo}
                 alt={like.username}
                 className="likes-modal-avatar"
               />

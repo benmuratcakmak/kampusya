@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from "react";
 import { Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
 import "./MessagesList.css";
-import { getAvatarUrl } from '../../utils/avatarHelper';
 
 const MessagesList = ({
   messages,
@@ -36,7 +35,7 @@ const MessagesList = ({
             {message.sender._id !== userId && (
               <Link to={`/profile/${message.sender?.username}`}>
                 <Avatar
-                  src={message.sender?.photo || getAvatarUrl(message.sender?.username)}
+                  src={message.sender?.photo}
                   alt={message.sender?.username || "Kullanıcı"}
                   className="message-photo"
                 />

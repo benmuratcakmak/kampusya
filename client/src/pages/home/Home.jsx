@@ -206,18 +206,18 @@ export const Home = () => {
 
   return (
     <div className="home-posts-container">
-      <div className="home-tabs">
+      <div className="home-tabs" style={{ zIndex: 1 }}>
         <div 
           className={`tab ${activeTab === 'campus' ? 'active' : ''}`}
           onClick={() => handleTabChange('campus')}
         >
-          Kampüs
+          Kampüste olan biten
         </div>
         <div 
           className={`tab ${activeTab === 'following' ? 'active' : ''}`}
           onClick={() => handleTabChange('following')}
         >
-          Takip Edilenler
+          Takip edilenler
         </div>
       </div>
 

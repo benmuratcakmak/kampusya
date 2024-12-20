@@ -7,7 +7,6 @@ import FormatTime from "../../components/FormatTime";
 import SendIcon from "@mui/icons-material/Send";
 import "./CommentModal.css";
 import { Avatar } from "@mui/material";
-import { getAvatarUrl } from '../../utils/avatarHelper';
 
 const CommentModal = ({ postId, onCommentSubmit, onClose }) => {
   const [commentContent, setCommentContent] = useState("");

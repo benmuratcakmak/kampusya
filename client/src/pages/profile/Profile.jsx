@@ -14,7 +14,6 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ProfilePost } from "../../components/profilePost/ProfilePost";
 import "./Profile.css";
-import { getAvatarUrl } from "../../utils/avatarHelper";
 
 export const Profile = () => {
   const [oldPassword, setOldPassword] = useState("");
@@ -186,7 +185,7 @@ export const Profile = () => {
             <div className="profile-left">
               <div className="profile-left-top">
                 <Avatar
-                  src={user?.photo || getAvatarUrl(user?.username)}
+                  src={user?.photo}
                   alt={user?.username}
                   className="profile-avatar"
                   sx={{ width: 56, height: 56 }}

@@ -110,20 +110,20 @@
 }
 
 /* Profile image styling */
-.netflix-table td img {
-  width: 45px;
-  height: 45px;
-  border-radius: 12px;
+/* .netflix-table td img {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
   border: 3px solid transparent;
   background: linear-gradient(45deg, #ff3333, #ff6666) padding-box,
               linear-gradient(45deg, #ff3333, #ff6666) border-box;
   transition: all 0.3s ease;
   box-shadow: 0 0 15px rgba(255, 51, 51, 0.2);
-}
+} */
 
-.netflix-table tr:hover td img {
+/* .netflix-table tr:hover td img {
   transform: scale(1.1) rotate(5deg);
-}
+} */
 
 /* Username styling */
 .netflix-table td:nth-child(3) {
@@ -159,10 +159,10 @@
     padding: 10px 6px;
   }
 
-  .netflix-table td img {
+  /* .netflix-table td img {
     width: 35px;
     height: 35px;
-  }
+  } */
 
   .netflix-table tr:nth-child(1) td:first-child { font-size: 24px; }
   .netflix-table tr:nth-child(2) td:first-child { font-size: 22px; }

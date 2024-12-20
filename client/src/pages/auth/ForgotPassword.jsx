@@ -40,7 +40,7 @@ export const ForgotPassword = () => {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="E-posta adresinizi girin"
+          placeholder="Edu uzantılı e-posta adresinizi girin"
           required
         />
         {message && <div className="success-message">{message}</div>}
