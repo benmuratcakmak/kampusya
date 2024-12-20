@@ -14,16 +14,12 @@ const MessageSchema = new mongoose.Schema(
     },
     text: {
       type: String,
-      required: true,
+      default: "",
     },
     sharePostId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Post",
     },
-    // createdAt: {
-    //   type: Date,
-    //   default: Date.now,
-    // },
   },
   { timestamps: true }
 );

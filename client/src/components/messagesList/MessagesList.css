@@ -19,7 +19,7 @@
   }
   
   .user-details {
-    color: white;
+    color: #E4E6EB;
   }
   
   /* .username {
@@ -29,26 +29,24 @@
   
   .full-name {
     font-size: 14px;
-    color: #bbb;
+    color: #B0B3B8;
   }
   
   /* Konuşma container'ı ve mesajlar */
   .messages {
-    /* padding: 1rem; */
     overflow-y: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
     margin-top: 40px;
-    /* Header'dan dolayı üstte boşluk */
     margin-bottom: 40px;
-    /* Input alanı için alt boşluk */
+    padding: 0 1rem;
   }
   
   /* Mesaj stilleri */
   .message {
     display: flex;
     align-items: center;
-    margin: 8px 0;
+    margin: 12px 0;
   }
   
   .my-message {
@@ -70,12 +68,13 @@
   
   .message-text {
     max-width: 60%;
-    padding: 12px;
+    padding: 12px 16px;
     border-radius: 16px;
     font-size: 14px;
-    line-height: 1.4;
+    line-height: 1.5;
     word-wrap: break-word;
-    color: white;
+    color: #E4E6EB;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
   
   .message-text p {
@@ -83,17 +82,14 @@
   }
   
   .my-message .message-text {
-    background-color: #5c9dff;
-    /* Kendi mesajının rengi */
-    color: #fff;
+    background-color: #4477CE;
+    color: #FFFFFF;
     border-radius: 16px 16px 0 16px;
   }
   
   .their-message .message-text {
-    background-color: #1D1F24;
-    /* Diğer mesajın koyu arka plan rengi */
-    color: #fff;
-    /* Diğer mesajın beyaz metin rengi */
+    background-color: #242526;
+    color: #E4E6EB;
     border-radius: 16px 16px 16px 0;
   }
   
@@ -101,18 +97,14 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Görseli kırpabilir ancak divi tam doldurur */
     display: block;
-    /* Varsayılan inline davranışını kaldırır */
     border-radius: 1rem
   }
 
   .conversation-container .messages .conversation-post video {
-    /* width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block; */
-    border-radius: 1rem
+    border-radius: 12px;
+    margin-top: 8px;
+    background-color: #18191A;
   }
 
   .conversation-post .top-right{
@@ -138,10 +130,16 @@
   
   /* //////// */
   .conversation-post{
-    border: 1px solid rgb(50, 50, 50);
-    border-radius: 10px;
+    border: 1px solid #3A3B3C;
+    border-radius: 12px;
+    padding: 12px;
+    background-color: #242526;
+    margin-top: 8px;
+    transition: background-color 0.2s ease;
+  }
   
-    padding: 10px;
+  .conversation-post:hover {
+    background-color: #2D2E2F;
   }
   
   .conversation-post .post-top{
@@ -151,7 +149,9 @@
   }
 
   .message-list-formattime{
-    color: gray;
+    color: #8A8D91;
+    font-size: 12px;
+    margin-left: 8px;
   }
 
   /* .messages .message-text{
@@ -166,8 +166,8 @@
 
   /* Kendi mesajlarında saati balonun dışında, sol tarafa yerleştir */
 .my-message .message-text {
-  background-color: #5c9dff;
-  color: #fff;
+  background-color: #4477CE;
+  color: #FFFFFF;
   border-radius: 16px 16px 0 16px;
   position: relative;
   /* padding-right: 35px; */
@@ -183,5 +183,19 @@
 
 .message-list-formattime{
   margin-left: 5px;
+}
+
+.message-media {
+    max-width: 240px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 4px 0;
+}
+
+.message-media img,
+.message-media video {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 

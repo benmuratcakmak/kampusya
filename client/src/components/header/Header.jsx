@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import "./Header.css";
+import { getAvatarUrl } from "../../utils/avatarHelper";
 
 export const Header = ({ setOpenModal }) => {
   const { user } = useContext(AuthContext);
@@ -53,7 +54,11 @@ export const Header = ({ setOpenModal }) => {
       <div className="header">
         <div className="header-links">
           <Link to={`/profile/${user.username}`}>
-            <Avatar className="header-avatar" src={userPhoto} />
+            <Avatar
+              src={userPhoto || getAvatarUrl(user?.username)}
+              alt={user?.username}
+              className="header-avatar"
+            />
           </Link>
           <div className="report-container">
             <small>

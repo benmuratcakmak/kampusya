@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
 import "./MessagesList.css";
+import { getAvatarUrl } from '../../utils/avatarHelper';
 
 const MessagesList = ({
   messages,
@@ -16,7 +17,7 @@ const MessagesList = ({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  if (loading) return <div className="loading">Yükleniyor...</div>;
+  if (loading) return <div className="loading">Mesajlarınız yükleniyor...</div>;
   if (error) return <div className="error">{error}</div>;
 
   return (
@@ -35,7 +36,7 @@ const MessagesList = ({
             {message.sender._id !== userId && (
               <Link to={`/profile/${message.sender?.username}`}>
                 <Avatar
-                  src={message.sender?.photo || ""}
+                  src={message.sender?.photo || getAvatarUrl(message.sender?.username)}
                   alt={message.sender?.username || "Kullanıcı"}
                   className="message-photo"
                 />
@@ -55,7 +56,7 @@ const MessagesList = ({
                   <div className="post-top">
                     <div className="top-left">
                       <Avatar
-                        src={message.sharePostId?.userId?.photo || ""}
+                        src={message.sharePostId?.userId?.photo || getAvatarUrl(message.sharePostId?.userId?.username)}
                         alt={message.sharePostId?.userId?.username || ""}
                       />
                     </div>

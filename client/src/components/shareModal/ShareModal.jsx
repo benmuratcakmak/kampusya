@@ -6,11 +6,11 @@ import React, {
   useCallback,
 } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { FaCheck } from "react-icons/fa";
 import Icons from "../../icons";
 import { Avatar } from "@mui/material";
 import axios from "axios";
 import "./ShareModal.css";
+import baseUrl from '../../utils/baseUrl';
 
 const ShareModal = ({ isOpen, onClose, selectedPost }) => {
   const { user } = useContext(AuthContext);
@@ -21,36 +21,103 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
   const [status, setStatus] = useState({ loading: true, error: null });
   const [selectedFollowers, setSelectedFollowers] = useState([]);
   const [content, setContent] = useState("");
+  const [showInput, setShowInput] = useState(false);
+  const [shareMode, setShareMode] = useState(null); // 'quote' veya 'follower' için
 
   const modalContentRef = useRef(null);
 
   const handleShareToWhatsApp = () => {
-    const message = encodeURIComponent(selectedPost.content);
-    const postUrl = encodeURIComponent(
-      `http://kampusya.com/posts/post/${selectedPost._id}`
+    const title = "Kampusya'da Paylaşılan Gönderi";
+    const username = selectedPost.userId?.username ? `@${selectedPost.userId.username}` : '';
+    const content = selectedPost.content || '';
+    const postUrl = `${baseUrl}/posts/post/${selectedPost._id}`;
+    
+    // Medya önizleme metni
+    let mediaPreview = '';
+    if (selectedPost.mediaUrl) {
+      if (selectedPost.mediaUrl.match(/\.(jpeg|jpg|gif|png)$/)) {
+        mediaPreview = '📷 Fotoğraf';
+      } else if (selectedPost.mediaUrl.match(/\.(mp4|webm)$/)) {
+        mediaPreview = '🎥 Video';
+      }
+    }
+
+    // Mesajı oluştur
+    const message = [
+      `${title}`,
+      username && `${username} tarafından paylaşıldı`,
+      '',
+      content.length > 100 ? content.substring(0, 100) + '...' : content,
+      mediaPreview && `\n${mediaPreview}`,
+      '',
+      '🔗 Gönderiyi görüntüle:',
+      postUrl
+    ].filter(Boolean).join('\n');
+
+    window.open(
+      `https://wa.me/?text=${encodeURIComponent(message)}`,
+      "_blank"
     );
-    window.open(`https://wa.me/?text=${message} ${postUrl}`, "_blank");
     incrementShareCount();
   };
   
   const handleShareToInstagram = () => {
-    const message = encodeURIComponent(selectedPost.content);
-    const postUrl = encodeURIComponent(
-      `http://kampusya.com/posts/${selectedPost._id}`
-    );
-    window.open(`https://www.instagram.com/?url=${postUrl}`, "_blank");
+    const postUrl = `${baseUrl}/posts/post/${selectedPost._id}`;
+    const username = selectedPost.userId?.username ? `@${selectedPost.userId.username}` : '';
+    const content = selectedPost.content || '';
+    
+    // Instagram için caption oluştur
+    const caption = [
+      content.length > 80 ? content.substring(0, 80) + '...' : content,
+      '',
+      `Posted by ${username} on @kampusya`,
+      '',
+      '🔗 Link in bio',
+      '#kampusya #socialmedia'
+    ].filter(Boolean).join('\n');
+
+    if (selectedPost.mediaUrl) {
+      // Instagram story için deep link
+      const storyUrl = new URL('instagram-stories://share');
+      storyUrl.searchParams.append('source_application', 'kampusya');
+      storyUrl.searchParams.append('media', selectedPost.mediaUrl);
+      storyUrl.searchParams.append('caption', caption);
+      
+      window.location.href = storyUrl.toString();
+    } else {
+      // Feed paylaşımı için
+      const feedUrl = new URL('instagram://share');
+      feedUrl.searchParams.append('caption', `${caption}\n\n${postUrl}`);
+      
+      window.location.href = feedUrl.toString();
+    }
+
+    // Fallback olarak web versiyonuna yönlendir
+    setTimeout(() => {
+      window.open(`https://instagram.com`, "_blank");
+    }, 500);
+    
     incrementShareCount();
   };
   
   const handleShareToTwitter = () => {
-    const message = encodeURIComponent(selectedPost.content);
-    const postUrl = encodeURIComponent(
-      `http://kampusya.com/posts/${selectedPost._id}`
-    );
-    window.open(
-      `https://twitter.com/intent/tweet?text=${message} ${postUrl}`,
-      "_blank"
-    );
+    const username = selectedPost.userId?.username ? `@${selectedPost.userId.username}` : '';
+    const content = selectedPost.content || '';
+    const postUrl = `${baseUrl}/posts/post/${selectedPost._id}`;
+    
+    const message = [
+      content.length > 80 ? content.substring(0, 80) + '...' : content,
+      username && `via ${username}`,
+      '👉 #Kampusya'
+    ].filter(Boolean).join(' ');
+
+    // Twitter Web Intent URL'sini oluştur
+    const twitterUrl = new URL('https://twitter.com/intent/tweet');
+    twitterUrl.searchParams.append('text', message);
+    twitterUrl.searchParams.append('url', postUrl);
+    twitterUrl.searchParams.append('via', 'kampusya');
+    
+    window.open(twitterUrl.toString(), "_blank");
     incrementShareCount();
   };
   
@@ -97,33 +164,70 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
   };
 
   const toggleFollowerSelection = useCallback((followerId) => {
-    setSelectedFollowers((prev) =>
-      prev.includes(followerId)
+    if (shareMode === 'quote') return; // Alıntı modundaysa takipçi seçimine izin verme
+    
+    setSelectedFollowers((prev) => {
+      const newSelection = prev.includes(followerId)
         ? prev.filter((id) => id !== followerId)
-        : [...prev, followerId]
-    );
-  }, []);
+        : [...prev, followerId];
+      
+      // Eğer hiç seçili kullanıcı kalmadıysa share mode'u ve input'u sıfırla
+      if (newSelection.length === 0) {
+        setShareMode(null);
+        setShowInput(false);
+        setContent("");
+      } else {
+        setShareMode('follower');
+        setShowInput(true);
+      }
+      
+      return newSelection;
+    });
+  }, [shareMode]);
 
   const showNotification = useCallback((message, type = "success") => {
     const notification = document.createElement("div");
     notification.className = `notification ${type}`;
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: ${type === "success" ? "#4CAF50" : "#f44336"};
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    `;
+    
     notification.innerHTML = `
-        <span class="notification-icon">${
-          type === "success" ? "✔️" : "❌"
-        }</span>
-        <span>${message}</span>
-      `;
+      <span>${message}</span>
+    `;
+    
     document.body.appendChild(notification);
+    
+    // Fade in
+    requestAnimationFrame(() => {
+      notification.style.opacity = "1";
+    });
 
     setTimeout(() => {
-      notification.classList.add("fade-out");
+      notification.style.opacity = "0";
       setTimeout(() => notification.remove(), 300);
     }, 3000);
   }, []);
 
   const handleSend = async () => {
-    if (!selectedPost?._id || !selectedFollowers.length || !content) {
-      showNotification("Gönderi ID'si geçersiz veya eksik!", "error");
+    if (!selectedPost?._id || !selectedFollowers.length) {
+      showNotification("Lütfen en az bir kişi seçin!", "error");
       return;
     }
 
@@ -135,41 +239,50 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
         );
         const conversationId = data._id;
 
-        await axios.post("/api/messages", {
+        // Mesaj gönderme isteği
+        const messageData = {
           conversationId,
           sharePostId: selectedPost._id,
           sender: userId,
-          text: content,
-        });
+          text: content ? content.trim() : "" // content varsa trim yap, yoksa boş string gönder
+        };
 
-        await axios.put(
-          `/api/postFeatures/${selectedPost._id}/incrementShareCount`
-        );
+        await axios.post("/api/messages", messageData);
+        await axios.put(`/api/postFeatures/${selectedPost._id}/incrementShareCount`);
       }
 
-      showNotification("Gönderi başarıyla iletildi!", "success");
+      showNotification("Gönderi iletildi", "success");
       setSelectedFollowers([]);
       setContent("");
       onClose();
     } catch (err) {
-      showNotification("Bir hata oluştu: " + err.message, "error");
+      console.error("Hata detayı:", err.response?.data);
+      showNotification("Bir hata oluştu: " + (err.response?.data?.message || err.message), "error");
     }
   };
 
   const handleSendforHome = async () => {
-    if (
-      !selectedPost?.content &&
-      !selectedPost?.mediaUrl &&
-      !selectedPost?.pollQuestion &&
-      !selectedPost?.eventTitle
-    ) {
-      showNotification("Geçerli bir gönderi yok.", "error");
+    // Eğer follower modu aktifse ve kullanıcılar seçiliyse, işlemi engelle
+    if (shareMode === 'follower' && selectedFollowers.length > 0) return;
+    
+    // İptal butonuna tıklandıysa sadece state'leri sıfırla
+    if (shareMode === 'quote') {
+      setShareMode(null);
+      setShowInput(false);
+      setContent("");
       return;
     }
+    
+    // İlk tıklamada sadece input'u göster
+    setShareMode('quote');
+    setShowInput(true);
+  };
 
+  // Yeni bir fonksiyon ekleyelim
+  const handleQuoteSubmit = async () => {
     try {
       const response = await axios.post("/api/posts", {
-        content,
+        content: content.trim(),
         sharePostId: selectedPost._id,
         userId: userId,
         pollQuestion: selectedPost.pollQuestion,
@@ -183,7 +296,7 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
         await axios.put(
           `/api/postFeatures/${selectedPost._id}/incrementShareCount`
         );
-        showNotification("Gönderiniz başarıyla paylaşıldı!", "success");
+        showNotification("Gönderi paylaşıldı", "success");
         onClose();
       }
     } catch (err) {
@@ -208,19 +321,33 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
     }
   }, [isOpen, onClose]);
 
+  // Reset states when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setShowInput(false);
+      setShareMode(null);
+      setContent("");
+      setSelectedFollowers([]);
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
     <div className="share-modal-container">
-      <div className="share-modal-content" ref={modalContentRef}>
-        <button onClick={handleSendforHome}>
-          Alıntı olarak Paylaş
+      <div className={`share-modal-content ${showInput ? 'has-input' : ''}`} ref={modalContentRef}>
+        <button 
+          onClick={handleSendforHome}
+          className={shareMode === 'follower' ? 'disabled' : ''}
+        >
+          {shareMode === 'quote' ? "İptal" : "Alıntı olarak Paylaş"}
           <Icons.Draw />
         </button>
-        <h4>ya da</h4>
-        <h4>Takip ettiklerine gönder</h4>
 
-        <main className="modal-content">
+        <h4 className={shareMode === 'quote' ? 'disabled' : ''}>ya da</h4>
+        <h4 className={shareMode === 'quote' ? 'disabled' : ''}>Takip ettiklerine gönder</h4>
+
+        <main className={`modal-content ${shareMode === 'quote' ? 'disabled' : ''}`}>
           {status.loading ? (
             <p>Yükleniyor...</p>
           ) : status.error ? (
@@ -236,40 +363,51 @@ const ShareModal = ({ isOpen, onClose, selectedPost }) => {
                   onClick={() => toggleFollowerSelection(follower._id)}
                 >
                   <Avatar
-                    src={follower.photo || "/default-avatar.png"}
+                    src={follower.photo || getAvatarUrl(follower.username)}
                     alt={follower.username}
+                    className="share-modal-avatar"
                   />
                   <span>{follower.username}</span>
-                  {selectedFollowers.includes(follower._id) && <FaCheck />}
                 </li>
               ))}
             </ul>
           ) : (
             <p>Takip ettiğiniz kimse yok.</p>
           )}
-          <Icons.FaPaperPlane
-            className="share-modal-send-button"
-            onClick={handleSend}
-            disabled={!selectedFollowers.length || !content}
-          ></Icons.FaPaperPlane>
         </main>
-        <input
-          className="share-modal-input"
-          value={content}
-          onChange={handleContentChange}
-          placeholder="Buraya yazın..."
-        />
-        <div className="social-icons-container">
-          <Icons.WhatsApp
-            className="social-icon"
-            onClick={handleShareToWhatsApp}
-          />
-          <Icons.Instagram
-            className="social-icon"
-            onClick={handleShareToInstagram}
-          />
-          <Icons.X className="social-icon" onClick={handleShareToTwitter} />
-        </div>
+
+        {!shareMode && (
+          <div className="social-icons-container">
+            <Icons.WhatsApp
+              className="social-icon whatsapp"
+              onClick={handleShareToWhatsApp}
+            />
+            <Icons.Instagram
+              className="social-icon instagram"
+              onClick={handleShareToInstagram}
+            />
+            <Icons.X
+              className="social-icon twitter"
+              onClick={handleShareToTwitter}
+            />
+          </div>
+        )}
+
+        {showInput && (
+          <div className="input-container">
+            <input
+              className="share-modal-input"
+              value={content}
+              onChange={handleContentChange}
+              placeholder="Buraya yazın... (opsiyonel)"
+            />
+            <Icons.FaPaperPlane
+              className="share-modal-send-button"
+              onClick={shareMode === 'quote' ? handleQuoteSubmit : handleSend}
+              disabled={shareMode === 'follower' && !selectedFollowers.length}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

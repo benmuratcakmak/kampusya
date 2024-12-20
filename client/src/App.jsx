@@ -52,7 +52,7 @@ const ProtectedRoute = ({ children }) => {
   const { user, isLoading } = useContext(AuthContext);
 
   if (isLoading) {
-    return <div>Yükleniyor...</div>;
+    return <div className="loading">Sayfa hazırlanıyor...</div>;
   }
 
   return user ? children : <Navigate to="/login" replace />;

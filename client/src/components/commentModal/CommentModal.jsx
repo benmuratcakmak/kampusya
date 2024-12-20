@@ -7,6 +7,7 @@ import FormatTime from "../../components/FormatTime";
 import SendIcon from "@mui/icons-material/Send";
 import "./CommentModal.css";
 import { Avatar } from "@mui/material";
+import { getAvatarUrl } from '../../utils/avatarHelper';
 
 const CommentModal = ({ postId, onCommentSubmit, onClose }) => {
   const [commentContent, setCommentContent] = useState("");
@@ -195,7 +196,11 @@ const CommentItem = ({
           className="item-left"
           onClick={() => goToProfile(comment.userId.username)}
         >
-          <Avatar src={comment.userId?.photo} alt={comment.userId?.username} />
+          <Avatar
+            src={comment.userId?.photo || getAvatarUrl(comment.userId?.username)}
+            alt={comment.userId?.username}
+            className="comment-avatar"
+          />
         </div>
         <div className="item-mid">
           <div className="user-and-time">
@@ -251,9 +256,9 @@ const CommentItem = ({
                   onClick={() => goToProfile(reply.userId?.username)}
                 >
                   <Avatar
-                    className="reply-avatar"
-                    src={reply.userId?.photo}
+                    src={reply.userId?.photo || getAvatarUrl(reply.userId?.username)}
                     alt={reply.userId?.username}
+                    className="reply-avatar"
                   />
                 </div>
                 <div className="reply-item-mid">

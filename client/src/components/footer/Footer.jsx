@@ -9,12 +9,19 @@ import "./Footer.css";
 export const Footer = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
+    // User
     user,
+
+    // Message notifications
     newMessageNotification,
     setMessageNotification,
+
+    // Like notifications  
     newLikeNotification,
     setLikeNotification,
-    newCommentNotification,
+
+    // Comment notifications
+    newCommentNotification, 
     setCommentNotification,
     newCommentLikeNotification,
     setCommentLikeNotification,
@@ -22,6 +29,8 @@ export const Footer = () => {
     setCommentReplyNotification,
     newCommentReplyLikeNotification,
     setCommentReplyLikeNotification,
+
+    // Follow notifications
     newFollowNotification,
     setFollowNotification,
   } = useContext(AuthContext);

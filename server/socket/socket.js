@@ -66,22 +66,26 @@ io.on("connection", (socket) => {
 
   socket.on("sendMessage", async (message) => {
     try {
-      // Mesajı sender bilgileriyle doldur
       const populatedMessage = await Message.findById(message._id).populate(
         "sender",
         "username photo"
       );
       
-      // Sender bilgisi kontrolü ekliyoruz
       if (!populatedMessage || !populatedMessage.sender) {
-        console.error("Sender bilgileri eksik.");
+        console.error("[Socket Error] Mesaj gönderme hatası: Sender bilgileri eksik", {
+          messageId: message._id,
+          populatedMessage
+        });
         return;
       }
-  
-      // Eğer mesaj ve sender bilgileri varsa, mesajı odada paylaş
+
       io.to(message.conversationId).emit("receiveMessage", populatedMessage);
     } catch (err) {
-      console.error("Mesaj gönderme hatası:", err);
+      console.error("[Socket Error] Mesaj gönderme hatası:", {
+        error: err.message,
+        stack: err.stack,
+        messageData: message
+      });
     }
   });
   

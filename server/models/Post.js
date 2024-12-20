@@ -29,10 +29,12 @@ const PostSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  likes: {
-    type: [mongoose.Schema.Types.ObjectId], // Post beğenileri
-    default: [], // Başlangıçta boş
-  },
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ],
   comments: [
     {
       userId: {

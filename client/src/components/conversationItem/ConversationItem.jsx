@@ -1,16 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
-import FormatTime from "../../components/FormatTime";
 
 import "./ConversationItem.css";
+import { getAvatarUrl } from '../../utils/avatarHelper';
 
 const ConversationItem = ({
   conversation,
   onMarkAsRead,
   onDeleteConversation,
 }) => {
-
   const handleDelete = (e) => {
     e.preventDefault(); // Link tıklamasını önle
     onDeleteConversation(conversation.conversationId);
@@ -27,10 +26,8 @@ const ConversationItem = ({
       >
         <div className="conversation-real-item">
           <Avatar
-            src={conversation.otherUser?.photo}
-            alt={`${
-              conversation.otherUser?.username || "Kullanıcı"
-            } profil fotoğrafı`}
+            src={conversation.otherUser?.photo || getAvatarUrl(conversation.otherUser?.username)}
+            alt={`${conversation.otherUser?.username || "Kullanıcı"} profil fotoğrafı`}
             className="user-photo"
           />
           <div className="conversation-fullname-and-lastMessage">
@@ -47,18 +44,6 @@ const ConversationItem = ({
                   "Bu konuşmada henüz mesaj yok."}
             </p>
           </div>
-
-          {/* <FormatTime
-            timestamp={(() => {
-              console.log(
-                "Last Message CreatedAt:",
-                conversation.lastMessage?.createdAt
-              );
-              return conversation.lastMessage?.createdAt
-                ? new Date(conversation.lastMessage.createdAt)
-                : null;
-            })()}
-          /> */}
 
           <div className="options" onClick={handleDelete}>
             ...

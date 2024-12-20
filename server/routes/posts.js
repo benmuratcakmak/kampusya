@@ -241,4 +241,28 @@ router.get("/post/:postId", async (req, res) => {
   }
 });
 
+// Takip edilen kullanıcıların gönderilerini getir
+router.get("/following/:userId", async (req, res) => {
+  try {
+    // Önce kullanıcının takip ettiği kişileri bul
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(404).json({ message: "Kullanıcı bulunamadı" });
+    }
+
+    // Takip edilen kullanıcıların gönderilerini getir
+    const posts = await Post.find({
+      userId: { $in: user.followings }
+    })
+    .populate("userId", "username firstName lastName photo")
+    .populate("comments.userId", "username firstName lastName photo")
+    .sort({ createdAt: -1 });
+
+    res.status(200).json(posts);
+  } catch (err) {
+    console.error("Takip edilen gönderiler alınırken hata:", err);
+    res.status(500).json({ message: "Sunucu hatası" });
+  }
+});
+
 export default router;

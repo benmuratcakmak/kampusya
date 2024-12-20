@@ -11,6 +11,7 @@ import {
   Button,
 } from "@mui/material";
 import "./PostModal.css";
+import Avatar from "@mui/material/Avatar";
 
 export const PostModal = ({ isOpen, onClose, setPosts }) => {
   const [content, setContent] = useState("");

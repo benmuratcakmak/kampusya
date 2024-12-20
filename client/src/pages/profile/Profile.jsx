@@ -14,6 +14,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ProfilePost } from "../../components/profilePost/ProfilePost";
 import "./Profile.css";
+import { getAvatarUrl } from "../../utils/avatarHelper";
 
 export const Profile = () => {
   const [oldPassword, setOldPassword] = useState("");
@@ -30,6 +31,7 @@ export const Profile = () => {
   const username = useParams().username;
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [fullscreenImage, setFullscreenImage] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -122,40 +124,75 @@ export const Profile = () => {
 
   const handleFollow = async () => {
     try {
+      // Önce UI'ı ve yerel state'i güncelle
+      setIsFollowing(true);
+      setUser(prev => ({
+        ...prev,
+        followers: [...prev.followers, currentUser._id]
+      }));
+
+      // Sonra API çağrısını yap
       await axios.put(`/api/follow/follow/${user._id}`, {
         followerId: currentUser._id,
       });
-      setIsFollowing(true);
-      const updatedUser = await axios.get(`/api/users?username=${username}`);
-      setUser(updatedUser.data);
     } catch (err) {
+      // Hata durumunda UI'ı geri al
+      setIsFollowing(false);
+      setUser(prev => ({
+        ...prev,
+        followers: prev.followers.filter(id => id !== currentUser._id)
+      }));
       console.error("Takip etme hatası:", err);
     }
   };
 
   const handleUnfollow = async () => {
     try {
+      // Önce UI'ı ve yerel state'i güncelle
+      setIsFollowing(false);
+      setUser(prev => ({
+        ...prev,
+        followers: prev.followers.filter(id => id !== currentUser._id)
+      }));
+
+      // Sonra API çağrısını yap
       await axios.put(`/api/follow/unfollow/${user._id}`, {
         followerId: currentUser._id,
       });
-      setIsFollowing(false);
-      const updatedUser = await axios.get(`/api/users?username=${username}`);
-      setUser(updatedUser.data);
     } catch (err) {
+      // Hata durumunda UI'ı geri al
+      setIsFollowing(true);
+      setUser(prev => ({
+        ...prev,
+        followers: [...prev.followers, currentUser._id]
+      }));
       console.error("Takipten çıkarma hatası:", err);
+    }
+  };
+
+  const handleImageClick = (imageUrl) => {
+    if (imageUrl) {
+      setFullscreenImage(imageUrl);
     }
   };
 
   return (
     <div className="profile-and-posts-container">
       {loading ? (
-        <div>Loading...</div>
+        <div className="loading">Profil bilgileri yükleniyor...</div>
       ) : (
         <>
           <div className="profile-container">
             <div className="profile-left">
               <div className="profile-left-top">
-                <Avatar src={user?.photo} className="profile-photo" />
+                <Avatar
+                  src={user?.photo || getAvatarUrl(user?.username)}
+                  alt={user?.username}
+                  className="profile-avatar"
+                  sx={{ width: 56, height: 56 }}
+                  onClick={() => handleImageClick(user?.photo)}
+                  style={{ cursor: 'pointer' }}
+                />
                 <div className="profile-left-top-icon">
                   {currentUser._id !== user?._id && (
                     <Icons.MessageIcon
@@ -205,10 +242,8 @@ export const Profile = () => {
               <div className="profile-left-bottom">
                 {currentUser._id !== user?._id && (
                   <button
-                    variant="contained"
-                    color={isFollowing ? "secondary" : "primary"}
                     onClick={isFollowing ? handleUnfollow : handleFollow}
-                    className="follow-button"
+                    className={`follow-button ${isFollowing ? 'unfollow' : ''}`}
                   >
                     {isFollowing ? "Takipten Çık" : "Takip Et"}
                   </button>
@@ -228,30 +263,36 @@ export const Profile = () => {
               </b>
               <div className="faculty-and-department">
                 {user?._id !== currentUser._id ? (
-                  <span className="profil-detail">
-                    Bu kullanıcının fakülte ve bölüm bilgisi henüz girilmemiş.
-                  </span>
+                  user?.faculty && user?.department ? (
+                    `${user?.faculty} / ${user?.department}`
+                  ) : (
+                    <span className="profil-detail">
+                      Kullanıcı henüz eğitim bilgilerini eklememiş
+                    </span>
+                  )
                 ) : user?.faculty && user?.department ? (
                   `${user?.faculty} / ${user?.department}`
                 ) : (
                   <span className="profil-detail">
-                    Fakülte ve bölüm bilgisi henüz girilmemiş. Lütfen
-                    bilgilerinizi güncelleyiniz.
+                    Eğitim bilgilerinizi profilinize ekleyebilirsiniz
                   </span>
                 )}
               </div>
 
               <div className="bio-div">
                 {user?._id !== currentUser._id ? (
-                  <span className="profil-detail">
-                    Bu kullanıcı henüz biyografi eklememiş.
-                  </span>
+                  user?.bio ? (
+                    <span className="bio">{user?.bio}</span>
+                  ) : (
+                    <span className="profil-detail">
+                      Kullanıcı henüz kendini tanıtmamış
+                    </span>
+                  )
                 ) : user?.bio ? (
                   <span className="bio">{user?.bio}</span>
                 ) : (
                   <span className="profil-detail">
-                    Biyografi bilgisi henüz girilmemiş. Kendinizi tanıtan bir
-                    biyografi ekleyebilirsiniz.
+                    Kendinizi tanıtan bir biyografi ekleyebilirsiniz
                   </span>
                 )}
               </div>
@@ -298,6 +339,20 @@ export const Profile = () => {
               </Button>
             </DialogActions>
           </Dialog>
+
+          {/* Add fullscreen modal */}
+          {fullscreenImage && (
+            <div className="fullscreen-image-modal" onClick={() => setFullscreenImage(null)}>
+              <div className="close-button" onClick={() => setFullscreenImage(null)}>
+                <Icons.Times />
+              </div>
+              <img 
+                src={fullscreenImage} 
+                alt="Full screen" 
+                onClick={(e) => e.stopPropagation()} 
+              />
+            </div>
+          )}
         </>
       )}
     </div>

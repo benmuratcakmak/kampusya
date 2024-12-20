@@ -9,10 +9,14 @@ const conn = () => {
   mongoose
     .connect(uri)
     .then(() => {
-      console.log("MongoDB bağlantısı başarılı...");
+      console.log("[MongoDB] Bağlantı başarılı");
     })
     .catch((err) => {
-      console.log("Bağlantı başarısız... Hata: " + err);
+      console.error("[MongoDB Error] Bağlantı hatası:", {
+        error: err.message,
+        stack: err.stack,
+        uri: uri.replace(/mongodb\+srv:\/\/[^:]+:[^@]+@/, 'mongodb+srv://[hidden]:[hidden]@') // Credentials'ları gizle
+      });
     });
 };
 

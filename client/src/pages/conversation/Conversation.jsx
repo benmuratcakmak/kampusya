@@ -92,10 +92,11 @@ export const Conversation = () => {
       );
       const conversation = conversationResponse.data;
 
-      if (
-        !conversation.participants ||
-        conversation.participants.length === 0
-      ) {
+      if (!conversation.participants || conversation.participants.length === 0) {
+        console.error("[Conversation Error] Katılımcı bilgisi alınamadı:", {
+          conversationId,
+          conversation
+        });
         setError("Konuşma katılımcıları yüklenemedi.");
         return;
       }
@@ -126,7 +127,13 @@ export const Conversation = () => {
       ]);
       setNewMessage("");
     } catch (error) {
-      console.error("Mesaj gönderilirken hata:", error);
+      console.error("[Message Error] Mesaj gönderme hatası:", {
+        error: error.message,
+        stack: error.stack,
+        conversationId,
+        userId,
+        messageText: newMessage
+      });
       setError("Mesaj gönderilemedi.");
     }
   };

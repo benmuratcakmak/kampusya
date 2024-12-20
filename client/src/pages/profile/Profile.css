@@ -16,8 +16,8 @@
   row-gap: 10px;
 }
 
-.profile-left-top{
-position: relative;
+.profile-left-top {
+  position: relative;
 }
 
 .profile-left-top .profile-left-top-icon {
@@ -56,8 +56,9 @@ position: relative;
   align-items: center;
   justify-content: center;
   padding: 0;
-  border-radius: 0;
-  border-color: rgb(50, 50, 50);
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .profile-right {
@@ -69,7 +70,8 @@ position: relative;
   border-left: 1px solid rgb(50, 50, 50);
   row-gap: 10px;
 }
-.profile-right .fullname{
+
+.profile-right .fullname {
   font-size: 20px;
 }
 
@@ -79,7 +81,60 @@ position: relative;
   border-top: 1px solid rgb(50, 50, 50);
 }
 
-.profil-detail{
-  font-size: 12px;
-  color: orange;
+.profil-detail {
+  font-size: 13px;
+  color: #808080;
+  font-style: italic;
+  padding: 8px 12px;
+  background-color: rgba(128, 128, 128, 0.1);
+  border-radius: 6px;
+  display: inline-block;
+  line-height: 1.4;
+}
+
+.profile-photo {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.profile-photo:hover {
+  transform: scale(1.05);
+}
+
+/* Takip ve düzenleme butonları için ortak stiller */
+.profile-left-bottom button {
+  width: 9rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* Takip et ve Düzenle butonları için ana stil */
+.follow-button,
+.edit-profile-button {
+  background-color: #5c9dff;
+  border: none;
+  color: white;
+}
+
+/* Takipten çık butonu için stil */
+.follow-button.unfollow {
+  background-color: transparent;
+  border: 1px solid #5c9dff;
+  color: #5c9dff;
+}
+
+/* Hover efektleri */
+.follow-button:hover,
+.edit-profile-button:hover {
+  opacity: 0.9;
+}
+
+.follow-button.unfollow:hover {
+  background-color: rgba(92, 157, 255, 0.1);
 }

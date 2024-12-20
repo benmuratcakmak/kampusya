@@ -5,14 +5,16 @@ import axios from "axios";
 import UserRanking from "../../components/userRanking/UserRanking";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import "./search.css";
+import { getAvatarUrl } from "../../utils/avatarHelper";
 
 export const Search = () => {
   const [search, setSearch] = useState("");
   const [userFilter, setUserFilter] = useState([]);
   const [loading, setLoading] = useState(false);
-  const timeoutRef = useRef(null); // Timeout ID'yi saklamak için ref kullanıyoruz
+  const timeoutRef = useRef(null);
 
-  // Debounce fonksiyonu (useRef ile timeout ID'si korunuyor)
+  const shouldHideRanking = loading || userFilter.length > 0;
+
   const debounceSearch = useCallback((value, page = 1, limit = 5) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
@@ -23,7 +25,7 @@ export const Search = () => {
           const res = await axios.get(
             `/api/search/list?search=${value}&page=${page}&limit=${limit}`
           );
-          const { users, totalResults, totalPages } = res.data;
+          const { users } = res.data;
 
           if (Array.isArray(users)) {
             setUserFilter(users);
@@ -43,16 +45,15 @@ export const Search = () => {
     }, 500);
   }, []);
 
-  // Search input değiştikçe debounceSearch fonksiyonunu tetikle
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearch(value);
-    debounceSearch(value); // Arama yazıldıkça debounce fonksiyonunu çağırıyoruz
+    debounceSearch(value);
   };
 
   useEffect(() => {
     if (search.length === 0) {
-      setUserFilter([]); // Eğer arama kutusu boşsa sonuçları temizle
+      setUserFilter([]);
     }
   }, [search]);
 
@@ -64,25 +65,20 @@ export const Search = () => {
             type="text"
             placeholder="Kullanıcı Ara..."
             onChange={handleSearch}
-            className="search-input"
             value={search}
           />
         </ClickAwayListener>
       </div>
-      <div className="search-bottom">
-        <div
-          className="dropdown"
-          style={{
-            display: loading || userFilter.length > 0 ? "block" : "none",
-          }}
-        >
+      
+      <div className="search-content">
+        <div className="search-bottom">
           {loading ? (
             <div className="loading">
               <CircularProgress size={24} />
-              <Typography variant="body2">Arama yapılıyor...</Typography>
+              <Typography variant="body2">Kullanıcılar aranıyor...</Typography>
             </div>
           ) : userFilter.length > 0 ? (
-            userFilter.slice(0, 5).map((user) => (
+            userFilter.map((user) => (
               <Link
                 to={`/profile/${user.username}`}
                 className="search-result-link"
@@ -90,7 +86,11 @@ export const Search = () => {
               >
                 <div className="search-result-info">
                   <div className="left">
-                    <Avatar src={user.photo} sx={{ width: 40, height: 40 }} />
+                    <Avatar
+                      src={user.photo || getAvatarUrl(user.username)}
+                      alt={user.username}
+                      className="search-user-avatar"
+                    />
                   </div>
                   <div className="right">
                     <div className="top">
@@ -104,15 +104,12 @@ export const Search = () => {
                 </div>
               </Link>
             ))
-          ) : (
-            <div className="loading">
-              <Typography variant="body2">Arama bulunamadı.</Typography>
-            </div>
-          )}
+          ) : null}
         </div>
-      </div>
-      <div className="popularity">
-        <UserRanking />
+
+        <div className="popularity" style={{ display: shouldHideRanking ? 'none' : 'block' }}>
+          <UserRanking />
+        </div>
       </div>
     </div>
   );

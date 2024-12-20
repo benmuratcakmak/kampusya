@@ -9,14 +9,15 @@
   color: #f1f1f1;
   display: flex;
   flex-direction: column;
-  z-index: 999;
+  z-index: 10000;
 }
 
 
 .post-modal-container textarea {
   margin: 1rem;
 }
-.post-textarea{
+
+.post-textarea {
   height: 10rem;
 }
 
@@ -56,7 +57,8 @@
   flex-direction: column;
   align-items: center;
 }
-.event-form textarea{
+
+.event-form textarea {
   width: 50%;
 }
 
@@ -68,7 +70,7 @@
   align-items: center;
 }
 
-.poll-form .poll-option-select{
+.poll-form .poll-option-select {
   column-gap: 1rem;
   width: 55%;
   gap: 3rem;
@@ -91,10 +93,14 @@ textarea:disabled {
   cursor: not-allowed;
   /* Fareyi 'not-allowed' yapar */
 }
+
 .icon.disabled {
-  opacity: 0.5; /* Soluk renk */
-  pointer-events: none; /* Tıklamayı engelle */
+  opacity: 0.5;
+  /* Soluk renk */
+  pointer-events: none;
+  /* Tıklamayı engelle */
 }
-.post-modal-container .icon{
+
+.post-modal-container .icon {
   height: 20px;
 }

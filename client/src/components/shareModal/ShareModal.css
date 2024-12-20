@@ -5,35 +5,37 @@ body.no-scroll {
 /* Dark Tema Ayarları */
 .share-modal-container {
   position: fixed;
-  top: 20%;
+  top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.6);
-  /* Arkaplan bulanıklığı */
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: flex-end;
   z-index: 1000;
 }
-/* .share-modal-container .followers-list{
-  display: flex;
-  flex-direction: column;
-} */
 
 .share-modal-content {
-  /* background-color: #141416; */
   background-color: #373737;
-  /* max-width: 500px; */
-  /* padding-top: 1rem; */
   width: 100%;
-  height: 80%;
-  /* padding: 20px; */
+  height: 50vh;
   overflow: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 20px 20px 0 0;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 .share-modal-content button{
@@ -57,10 +59,9 @@ body.no-scroll {
 }
 
 .modal-content {
-  max-height: 60vh;
+  max-height: calc(50vh - 180px);
   overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #555 #1f1f1f;
+  margin-bottom: 70px;
 }
 
 .follower-item {
@@ -73,7 +74,8 @@ body.no-scroll {
 }
 
 .follower-item.selected {
-  border-color: #4caf50;
+  background-color: rgba(92, 157, 255, 0.2);
+  border: 1px solid #5c9dff;
 }
 
 .notification-icon {
@@ -82,7 +84,7 @@ body.no-scroll {
 
 .share-modal-send-button{
   position: absolute;
-  bottom: 1rem;
+  bottom: 5rem;
   right: 1rem;
   font-size: 20px;
 }
@@ -93,4 +95,332 @@ body.no-scroll {
 
 .social-icons-container{
   font-size: 2rem;
+  margin-bottom: 70px;
+  margin-top: auto;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.social-icon {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.social-icon:hover {
+  transform: scale(1.1);
+}
+
+/* WhatsApp için orijinal renk */
+.social-icon.whatsapp {
+  color: #25D366;
+}
+
+/* Instagram için gradient renk */
+.social-icon.instagram {
+  background: -webkit-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Twitter/X için renk */
+.social-icon.twitter {
+  color: #000000;
+  width: 28px;
+  height: 28px;
+}
+
+/* Karanlık tema için X rengi */
+@media (prefers-color-scheme: dark) {
+  .social-icon.twitter {
+    color: #ffffff;
+  }
+}
+
+/* Mevcut CSS'e ekleyin */
+.share-modal-content h4.disabled,
+.share-modal-content .modal-content.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.share-modal-content button.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* Takipçi listesi seçilemez olduğunda stil */
+.modal-content.disabled .follower-item {
+  cursor: not-allowed;
+}
+
+/* Seçili mod için stil */
+.share-mode-active {
+  opacity: 1;
+}
+
+.share-mode-inactive {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.input-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background-color: #373737;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid #1D1F24;
+}
+
+.share-modal-input {
+  flex: 1;
+  background-color: #1D1F24;
+  border: none;
+  padding: 0.8rem;
+  color: white;
+  border-radius: 20px;
+  outline: none;
+}
+
+.share-modal-send-button {
+  color: #5c9dff;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.share-modal-send-button:hover {
+  color: #4a7ecc;
+}
+
+.share-modal-send-button[disabled] {
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* Modal içeriğinin input container'ı ile çakışmaması için */
+.modal-content {
+  margin-bottom: 70px; /* input-container yüksekliği + padding */
+}
+
+.social-icons-container {
+  margin-bottom: 70px; /* input-container yüksekliği + padding */
+}
+
+/* Takipçi listesi için grid düzeni */
+.followers-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding: 10px;
+  width: 100%;
+  max-height: calc(50vh - 200px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.follower-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  border-radius: 8px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  gap: 0;
+}
+
+.follower-item .MuiAvatar-root {
+  width: 36px;
+  height: 36px;
+  margin-bottom: 5px;
+  flex-shrink: 0;
+}
+
+.follower-item span {
+  margin-top: 5px;
+  font-size: 11px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 2px;
+  box-sizing: border-box;
+}
+
+.follower-item.selected {
+  background-color: rgba(92, 157, 255, 0.2);
+  border: 1px solid #5c9dff;
+}
+
+/* Input container düzeni */
+.input-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background-color: #373737;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid #1D1F24;
+}
+
+.share-modal-input {
+  flex: 1;
+  background-color: #1D1F24;
+  border: none;
+  padding: 0.8rem;
+  color: white;
+  border-radius: 20px;
+  outline: none;
+}
+
+.share-modal-send-button {
+  color: #5c9dff;
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: color 0.3s ease;
+  position: static; /* position: absolute kaldırıldı */
+}
+
+/* Scroll bar stilleri */
+.followers-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.followers-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.followers-list::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.followers-list::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Modal içeriğinin input container'ı ile çakışmaması için margin ayarı */
+.modal-content {
+  margin-bottom: 70px;
+}
+
+.social-icons-container {
+  margin-bottom: 70px;
+}
+
+/* Grid container'ın genişliğini sınırla */
+.modal-content {
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
+  margin-bottom: 70px;
+}
+
+/* Sosyal medya ikonları container'ı */
+.social-icons-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background-color: #373737;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  align-items: center;
+  border-top: 1px solid #1D1F24;
+  margin: 0; /* Önceki margin'leri kaldır */
+}
+
+/* Input container'ı sosyal medya ikonlarının üzerine yerleştir */
+.input-container {
+  position: absolute;
+  bottom: 60px; /* Sosyal medya ikonları için yer bırak */
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background-color: #373737;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid #1D1F24;
+}
+
+/* Modal içeriğinin yeni alt boşluğunu ayarla */
+.modal-content {
+  margin-bottom: 130px; /* input-container + social-icons-container yüksekliği */
+}
+
+/* Followers list'in yüksekliğini güncelle */
+.followers-list {
+  max-height: calc(50vh - 260px); /* Sosyal medya ikonları için ek alan bırak */
+}
+
+/* Input aktif olduğunda sosyal medya ikonlarını yukarı kaydır */
+.share-modal-content.has-input .social-icons-container {
+  bottom: 60px;
+}
+
+/* Modal içeriğinin yeni alt boşluğunu ayarla */
+.modal-content {
+  margin-bottom: 70px;
+}
+
+/* Followers list'in yüksekliğini güncelle */
+.followers-list {
+  max-height: calc(50vh - 200px);
+}
+
+/* Input container ve sosyal medya ikonları için ortak pozisyon */
+.input-container,
+.social-icons-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background-color: #373737;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #1D1F24;
+  height: 60px; /* Sabit yükseklik ekledik */
+  box-sizing: border-box; /* Border'ın yüksekliğe dahil olması için */
+}
+
+/* Input container özellikleri */
+.input-container {
+  gap: 10px;
+}
+
+/* Sosyal medya ikonları özellikleri */
+.social-icons-container {
+  justify-content: center;
+  gap: 2rem;
+}
+
+/* Modal içeriğinin alt boşluğunu ayarla */
+.modal-content {
+  margin-bottom: 60px; /* Container yüksekliği kadar */
+}
+
+/* Followers list'in yüksekliğini güncelle */
+.followers-list {
+  max-height: calc(50vh - 180px); /* Modal yüksekliği - (üst boşluk + container yüksekliği) */
 }

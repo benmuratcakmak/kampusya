@@ -54,13 +54,34 @@ router.get("/forSocketNotification/:conversationId", async (req, res) => {
 
 // Mesaj kaydedildiğinde, konuşmayı güncelle
 router.post("/", async (req, res) => {
-  // const { conversationId, sender, receiver, text, sharePostId, createdAt } = req.body;
   const { conversationId, sender, receiver, text, sharePostId } = req.body;
 
   try {
-    // Yeni mesajı kaydet
-    // const message = new Message({ conversationId, sender, receiver, text, sharePostId, createdAt });
-    const message = new Message({ conversationId, sender, receiver, text, sharePostId });
+    // Zorunlu alanları kontrol et
+    if (!conversationId || !sender) {
+      return res.status(400).json({ 
+        message: "Gerekli alanlar eksik",
+        details: "conversationId ve sender alanları zorunludur" 
+      });
+    }
+
+    // En az bir içerik olmalı: ya text ya da sharePostId
+    if (!text && !sharePostId) {
+      return res.status(400).json({ 
+        message: "Geçersiz mesaj",
+        details: "Mesaj içeriği veya paylaşılan gönderi gereklidir" 
+      });
+    }
+
+    const messageData = {
+      conversationId,
+      sender,
+      text: text || "", // text yoksa boş string kullan
+      ...(sharePostId && { sharePostId }), // sharePostId varsa ekle
+      ...(receiver && { receiver }) // receiver varsa ekle
+    };
+
+    const message = new Message(messageData);
     await message.save();
 
     io.emit("newMessageNotification", {
@@ -68,7 +89,6 @@ router.post("/", async (req, res) => {
       senderId: sender,
     });
 
-    // Konuşmayı güncelle, son mesajı yeni mesajla değiştir
     const conversation = await Conversation.findByIdAndUpdate(
       conversationId,
       { lastMessage: message },
@@ -79,10 +99,15 @@ router.post("/", async (req, res) => {
       return res.status(404).json({ message: "Konuşma bulunamadı." });
     }
 
-    res.status(201).json(message); // Mesajı döndür
+    res.status(201).json(message);
   } catch (error) {
-    console.error("Mesaj kaydedilemedi:", error); // Hata detaylarını yazdır
-    res.status(500).json({ message: "Mesaj kaydedilemedi", error: error.message });
+    console.error("Mesaj kaydedilemedi:", error);
+    res.status(500).json({ 
+      message: "Mesaj kaydedilemedi", 
+      error: error.message,
+      details: error.stack,
+      requestBody: req.body // Hata ayıklama için request body'i de ekle
+    });
   }
 });
 

@@ -2,6 +2,7 @@ import React from "react";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
 import FormatTime from "../../components/FormatTime";
+import { getAvatarUrl } from '../../utils/avatarHelper';
 // import "./NotificationItem.css";
 
 const NotificationItem = ({
@@ -33,7 +34,9 @@ const NotificationItem = ({
 
   const handleDeleteClick = (e) => {
     e.stopPropagation(); // Avatar veya bildirim metnine tıklanması durumunda delete butonuna tıklanması engellenir
-    const confirmed = window.confirm("Bu bildirimi silmek istediğinize emin misiniz?");
+    const confirmed = window.confirm(
+      "Bu bildirimi silmek istediğinize emin misiniz?"
+    );
     if (confirmed) {
       handleDeleteNotification(notification._id);
     }
@@ -53,7 +56,7 @@ const NotificationItem = ({
       }
     >
       <Avatar
-        src={notification.sender?.photo}
+        src={notification.sender?.photo || getAvatarUrl(notification.sender?.username)}
         alt={`${notification.sender?.username} profil fotoğrafı`}
         className="notification-photo"
         onClick={(e) => {

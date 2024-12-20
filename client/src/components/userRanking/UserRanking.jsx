@@ -22,11 +22,36 @@ const UserRanking = () => {
     fetchRanking();
   }, []);
 
+  useEffect(() => {
+    // Kar tanelerini oluştur
+    const createSnowflakes = () => {
+      const container = document.querySelector('.ranking-container');
+      const snowflakeCount = 100;
+
+      for (let i = 0; i < snowflakeCount; i++) {
+        const snowflake = document.createElement('div');
+        snowflake.className = 'snowflake';
+        snowflake.style.left = `${Math.random() * 100}%`;
+        snowflake.style.animationDelay = `${Math.random() * 15}s`;
+        const snowflakes = ['❄', '❅', '❆'];
+        snowflake.innerHTML = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+        container.appendChild(snowflake);
+      }
+    };
+
+    createSnowflakes();
+
+    return () => {
+      const snowflakes = document.querySelectorAll('.snowflake');
+      snowflakes.forEach(snowflake => snowflake.remove());
+    };
+  }, []);
+
   return (
     <div className="container-fluid ranking-container">
       <div>
         <h1 className="ranking-title">
-          HAFTANIN EN ÇOK ETKİLEŞİM ALAN ÖĞRENCİLERİ
+          HAFTALIK ETKİLEŞİM LİDERLERİ
         </h1>
       </div>
       <Container className="my-3">
@@ -47,25 +72,18 @@ const UserRanking = () => {
                             src={user.photo || "/default-avatar.png"}
                             alt={`${user.username} Profil Fotoğrafı`}
                             style={{
-                              width: "40px",
-                              height: "40px",
+                              width: "45px",
+                              height: "45px",
                               borderRadius: "50%",
+                              border: "3px solid transparent",
+                              background: "linear-gradient(45deg, #ff3333, #ff6666) padding-box, linear-gradient(45deg, #ff3333, #ff6666) border-box",
+                              transition: "all 0.3s ease",
+                              boxShadow: "0 0 15px rgba(255, 51, 51, 0.2)"
                             }}
                           />
                         </td>
                         <td>{user.username}</td>
-                        <td>{user.firstName || "Bilinmiyor"}</td>
-                        <td>{user.lastName || "Bilinmiyor"}</td>
-                        <td>
-                          {user.faculty === null || user.faculty === ""
-                            ? "....."
-                            : user.faculty}
-                        </td>
-                        <td>
-                          {user.department === null || user.department === ""
-                            ? "....."
-                            : user.department}
-                        </td>
+                        <td>{(user.firstName || "Bilinmiyor") + " " + (user.lastName || "")}</td>
                       </tr>
                     ))}
                   </tbody>

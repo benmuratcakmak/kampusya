@@ -10,41 +10,42 @@ router.post("/:postId/like", async (req, res) => {
   const { userId } = req.body;
 
   try {
-    const post = await Post.findById(req.params.postId).populate("userId");
+    // Atomic update işlemi kullan
+    const post = await Post.findOneAndUpdate(
+      { _id: req.params.postId },
+      {
+        $set: {
+          likes: await Post.findById(req.params.postId).then(post =>
+            post.likes.includes(userId)
+              ? post.likes.filter(id => id.toString() !== userId)
+              : [...post.likes, userId]
+          )
+        }
+      },
+      { new: true }
+    ).populate("userId");
+
     if (!post) return res.status(404).json({ error: "Post bulunamadı" });
 
-    const isLiked = post.likes.includes(userId);
-    if (isLiked) {
-      post.likes = post.likes.filter((id) => id.toString() !== userId);
-    } else {
-      post.likes.push(userId);
+    // Bildirim işlemini async olarak yap
+    if (!post.likes.includes(userId) && userId.toString() !== post.userId._id.toString()) {
+      const notification = new Notification({
+        recipient: post.userId._id,
+        sender: userId,
+        type: "like",
+        postId: post._id,
+      });
+      notification.save().catch(err => console.error("Bildirim kaydedilemedi:", err));
 
-      // Bildirim oluştur
-      if (userId.toString() !== post.userId._id.toString()) {
-        const notification = new Notification({
-          recipient: post.userId._id,
-          sender: userId,
-          type: "like",
-          postId: post._id,
-        });
-        await notification.save();
-
-        // Emit notification to the recipient using Socket.IO
-        io.to(post.userId._id.toString()).emit("newLikeNotification", {
-          type: "like",
-          senderId: userId,
-          postId: post._id,
-        });
-      }
+      // Socket bildirimi async olarak gönder
+      io.to(post.userId._id.toString()).emit("newLikeNotification", {
+        type: "like",
+        senderId: userId,
+        postId: post._id,
+      });
     }
 
-    await post.save();
-
-    const updatedPost = await Post.findById(post._id)
-      .populate("userId", "username firstName lastName photo")
-      .populate("likes");
-
-    res.status(200).json(updatedPost);
+    res.status(200).json(post);
   } catch (err) {
     console.error("Beğeni işlemi hatası:", err);
     res.status(500).json({ error: "Beğeni işlemi başarısız" });
@@ -301,6 +302,27 @@ router.put("/:postId/incrementShareCount", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Bir hata oluştu" });
+  }
+});
+
+// Beğenenlerin listesini getir
+router.get("/:postId/likes", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId)
+      .populate({
+        path: 'likes',
+        select: 'username firstName lastName photo', // Sadece ihtiyacımız olan alanları seçiyoruz
+      });
+    
+    if (!post) {
+      return res.status(404).json({ error: "Post bulunamadı" });
+    }
+
+    // Populate edilmiş likes array'ini döndür
+    res.status(200).json(post.likes);
+  } catch (err) {
+    console.error("Beğenenler listelenirken hata:", err);
+    res.status(500).json({ error: "Beğenenler listelenemedi" });
   }
 });
 
